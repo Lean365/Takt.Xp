@@ -1,0 +1,52 @@
+name: Generate Changelog
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - '.github/**'
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate Changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          output: CHANGELOG.md
+          issues: false
+          excludeLabels: duplicate,question,invalid,wontfix,discussion
+          breakingLabels: breaking
+          enhancementLabels: enhancement,feature,feat
+          bugLabels: bug,fix
+          deprecatedLabels: deprecated
+          removedLabels: removed
+          securityLabels: security
+          
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git config --local i18n.commitencoding utf-8
+          git config --local i18n.logoutputencoding utf-8
+          git config --local core.quotepath false
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git add -f CHANGELOG.md
+          git commit -m "docs(changelog): Update CHANGELOG.md" || exit 0
+          git push origin HEAD:master
+        if: github.event_name != 'pull_request' 

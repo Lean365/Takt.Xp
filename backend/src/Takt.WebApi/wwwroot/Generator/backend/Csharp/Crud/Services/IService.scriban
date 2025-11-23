@@ -1,0 +1,123 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : {{ table.service_namespace }}
+// 文件名 : {{ table.iservice_class_name }}.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}服务接口
+//===================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Takt.Common.Models;
+using {{ table.dto_namespace }};
+using {{ table.entity_namespace }};
+
+namespace {{ table.service_namespace }};
+
+/// <summary>
+/// {{ table.comment }}服务接口
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public interface {{ table.iservice_class_name }}
+{
+    /// <summary>
+    /// 获取{{ table.comment }}列表
+    /// </summary>
+    /// <param name="query">查询参数</param>
+    /// <returns>分页数据</returns>
+    Task<TaktPagedResult<{{ table.dto_class_name }}>> GetListAsync({{ table.dto_class_name | string.replace "Dto" "" }}QueryDto query);
+
+    /// <summary>
+    /// 获取{{ table.comment }}详情
+    /// </summary>
+    /// <param name="id">主键</param>
+    /// <returns>详情数据</returns>
+    Task<{{ table.dto_class_name }}> GetInfoAsync(long id);
+
+    {{~ if table.is_create == 1 ~}}
+    /// <summary>
+    /// 创建{{ table.comment }}
+    /// </summary>
+    /// <param name="input">创建参数</param>
+    /// <returns>主键</returns>
+    Task<long> CreateAsync({{ table.dto_class_name | string.replace "Dto" "" }}CreateDto input);
+    {{~ end ~}}
+
+    {{~ if table.is_edit == 1 ~}}
+    /// <summary>
+    /// 更新{{ table.comment }}
+    /// </summary>
+    /// <param name="input">更新参数</param>
+    /// <returns>是否成功</returns>
+    Task<bool> UpdateAsync({{ table.dto_class_name | string.replace "Dto" "" }}UpdateDto input);
+    {{~ end ~}}
+
+    {{~ if table.is_remove == 1 ~}}
+    /// <summary>
+    /// 删除{{ table.comment }}
+    /// </summary>
+    /// <param name="input">删除参数</param>
+    /// <returns>是否成功</returns>
+    Task<bool> DeleteAsync({{ table.dto_class_name | string.replace "Dto" "" }}DeleteDto input);
+    {{~ end ~}}
+
+    {{~ if table.is_import == 1 ~}}
+    /// <summary>
+    /// 导入{{ table.comment }}
+    /// </summary>
+    /// <param name="input">导入参数</param>
+    /// <returns>是否成功</returns>
+    Task<bool> ImportAsync(List<{{ table.dto_class_name | string.replace "Dto" "" }}ImportDto> input);
+    {{~ end ~}}
+
+    {{~ if table.is_export == 1 ~}}
+    /// <summary>
+    /// 导出{{ table.comment }}
+    /// </summary>
+    /// <param name="query">查询参数</param>
+    /// <returns>导出数据</returns>
+    Task<List<{{ table.dto_class_name | string.replace "Dto" "" }}ExportDto>> ExportAsync({{ table.dto_class_name | string.replace "Dto" "" }}QueryDto query);
+    {{~ end ~}}
+
+    {{~ if table.is_template == 1 ~}}
+    /// <summary>
+    /// 获取{{ table.comment }}模板
+    /// </summary>
+    /// <returns>模板数据</returns>
+    Task<List<{{ table.dto_class_name | string.replace "Dto" "" }}TemplateDto>> GetTemplateAsync();
+    {{~ end ~}}
+
+    {{~ if table.is_status == 1 ~}}
+    /// <summary>
+    /// 更新{{ table.comment }}状态
+    /// </summary>
+    /// <param name="input">状态参数</param>
+    /// <returns>是否成功</returns>
+    Task<bool> UpdateStatusAsync({{ table.dto_class_name | string.replace "Dto" "" }}StatusDto input);
+    {{~ end ~}}
+
+    {{~ if table.is_sort == 1 ~}}
+    /// <summary>
+    /// 更新{{ table.comment }}排序
+    /// </summary>
+    /// <param name="input">排序参数</param>
+    /// <returns>是否成功</returns>
+    Task<bool> UpdateSortAsync({{ table.dto_class_name | string.replace "Dto" "" }}SortDto input);
+    {{~ end ~}}
+
+    {{~ if table.is_audit == 1 ~}}
+    /// <summary>
+    /// 审核{{ table.comment }}
+    /// </summary>
+    /// <param name="input">审核参数</param>
+    /// <returns>是否成功</returns>
+    Task<bool> AuditAsync({{ table.dto_class_name | string.replace "Dto" "" }}AuditDto input);
+    {{~ end ~}}
+} 

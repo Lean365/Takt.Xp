@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Sms.CodeSentSuccessfully" xml:space="preserve">
+    <value>验证码发送成功</value>
+  </data>
+  <data name="Sms.SendFailed" xml:space="preserve">
+    <value>验证码发送失败</value>
+  </data>
+  <data name="Sms.SendLimitExceeded" xml:space="preserve">
+    <value>发送频率超限，请稍后再试</value>
+  </data>
+  <data name="Sms.InvalidCode" xml:space="preserve">
+    <value>验证码无效或已过期</value>
+  </data>
+  <data name="Sms.LoginFailed" xml:space="preserve">
+    <value>短信登录失败</value>
+  </data>
+  <data name="QrCode.GenerateFailed" xml:space="preserve">
+    <value>二维码生成失败</value>
+  </data>
+  <data name="QrCode.Expired" xml:space="preserve">
+    <value>二维码已过期</value>
+  </data>
+  <data name="QrCode.InvalidStatus" xml:space="preserve">
+    <value>二维码状态无效</value>
+  </data>
+  <data name="QrCode.UserMismatch" xml:space="preserve">
+    <value>用户不匹配</value>
+  </data>
+  <data name="QrCode.ConfirmSuccess" xml:space="preserve">
+    <value>二维码登录确认成功</value>
+  </data>
+  <data name="QrCode.ConfirmFailed" xml:space="preserve">
+    <value>二维码登录确认失败</value>
+  </data>
+  <data name="QrCode.Waiting" xml:space="preserve">
+    <value>等待扫描</value>
+  </data>
+  <data name="QrCode.Scanned" xml:space="preserve">
+    <value>已扫描</value>
+  </data>
+  <data name="QrCode.Confirmed" xml:space="preserve">
+    <value>已确认</value>
+  </data>
+  <data name="QrCode.Rejected" xml:space="preserve">
+    <value>已拒绝</value>
+  </data>
+  <data name="QrCode.Cancelled" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="QrCode.Unknown" xml:space="preserve">
+    <value>未知状态</value>
+  </data>
+  <data name="Captcha.ValidationFailed" xml:space="preserve">
+    <value>图形验证码验证失败</value>
+  </data>
+</root> 

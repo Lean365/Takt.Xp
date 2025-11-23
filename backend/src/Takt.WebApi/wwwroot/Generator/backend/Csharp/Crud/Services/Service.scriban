@@ -1,0 +1,318 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : {{ table.service_namespace }}
+// 文件名 : {{ table.service_class_name }}.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}服务实现
+//===================================================================
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Takt.Common.Models;
+using Takt.Common.Services;
+using Takt.Common.Exceptions;
+using Takt.Common.Helpers;
+using Takt.Domain.Repositories;
+using SqlSugar;
+using Mapster;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using {{ table.dto_namespace }};
+using {{ table.entity_namespace }};
+using {{ table.irepository_namespace }};
+
+namespace {{ table.service_namespace }};
+
+/// <summary>
+/// {{ table.comment }}服务实现
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.service_class_name }} : TaktBaseService, {{ table.iservice_class_name }}
+{
+    protected readonly ITaktRepositoryFactory _repositoryFactory;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="logger">日志记录器</param>
+    /// <param name="repositoryFactory">仓储工厂</param>
+    /// <param name="httpContextAccessor">HTTP上下文访问器</param>
+    /// <param name="currentUser">当前用户服务</param>
+    /// <param name="localization">本地化服务</param>
+    public {{ table.service_class_name }}(
+        ITaktLogger logger,
+        ITaktRepositoryFactory repositoryFactory,
+        IHttpContextAccessor httpContextAccessor,
+        ITaktCurrentUser currentUser,
+        ITaktLocalizationService localization) : base(logger, httpContextAccessor, currentUser, localization)
+    {
+        _repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
+    }
+
+    /// <summary>
+    /// 获取{{ table.comment }}仓储
+    /// </summary>
+    private ITaktRepository<{{ table.entity_class_name }}> {{ table.entity_class_name }}Repository => _repositoryFactory.GetRepository<{{ table.entity_class_name }}>();
+
+    /// <summary>
+    /// 获取{{ table.comment }}列表
+    /// </summary>
+    /// <param name="query">查询参数</param>
+    /// <returns>分页数据</returns>
+    public async Task<TaktPagedResult<{{ table.dto_class_name }}>> GetListAsync({{ table.dto_class_name | string.replace "Dto" "" }}QueryDto query)
+    {
+        var exp = QueryExpression(query);
+
+        var result = await {{ table.entity_class_name }}Repository.GetPagedListAsync(
+            exp,
+            query.PageIndex,
+            query.PageSize,
+            x => x.Id,
+            OrderByType.Asc);
+
+        return new TaktPagedResult<{{ table.dto_class_name }}>
+        {
+            Rows = result.Rows.Adapt<List<{{ table.dto_class_name }}>>(),
+            TotalNum = result.TotalNum,
+            PageIndex = query.PageIndex,
+            PageSize = query.PageSize
+        };
+    }
+
+    /// <summary>
+    /// 获取{{ table.comment }}详情
+    /// </summary>
+    /// <param name="id">主键</param>
+    /// <returns>详情数据</returns>
+    public async Task<{{ table.dto_class_name }}> GetInfoAsync(long id)
+    {
+        var entity = await {{ table.entity_class_name }}Repository.GetByIdAsync(id);
+        if (entity == null)
+            throw new TaktException(L("{{ table.entity_class_name }}.NotFound", id));
+
+        return entity.Adapt<{{ table.dto_class_name }}>();
+    }
+
+    {{~ if table.is_create == 1 ~}}
+    /// <summary>
+    /// 创建{{ table.comment }}
+    /// </summary>
+    /// <param name="input">创建参数</param>
+    /// <returns>主键</returns>
+    public async Task<long> CreateAsync({{ table.dto_class_name | string.replace "Dto" "" }}CreateDto input)
+    {
+        var entity = input.Adapt<{{ table.entity_class_name }}>();
+        entity.CreateBy = _currentUser.UserName;
+        entity.CreateTime = DateTime.Now;
+        
+        var result = await {{ table.entity_class_name }}Repository.CreateAsync(entity);
+        if (result <= 0)
+            throw new TaktException(L("Common.AddFailed"));
+
+        return entity.Id;
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_edit == 1 ~}}
+    /// <summary>
+    /// 更新{{ table.comment }}
+    /// </summary>
+    /// <param name="input">更新参数</param>
+    /// <returns>是否成功</returns>
+    public async Task<bool> UpdateAsync({{ table.dto_class_name | string.replace "Dto" "" }}UpdateDto input)
+    {
+        var entity = await {{ table.entity_class_name }}Repository.GetByIdAsync(input.{{ table.entity_class_name | string.replace "Takt" "" }}Id);
+        if (entity == null)
+            throw new TaktException(L("{{ table.entity_class_name }}.NotFound", input.{{ table.entity_class_name | string.replace "Takt" "" }}Id));
+
+        input.Adapt(entity);
+        entity.UpdateBy = _currentUser.UserName;
+        entity.UpdateTime = DateTime.Now;
+        
+        var result = await {{ table.entity_class_name }}Repository.UpdateAsync(entity);
+        if (result <= 0)
+            throw new TaktException(L("Common.UpdateFailed"));
+
+        return true;
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_remove == 1 ~}}
+    /// <summary>
+    /// 删除{{ table.comment }}
+    /// </summary>
+    /// <param name="input">删除参数</param>
+    /// <returns>是否成功</returns>
+    public async Task<bool> DeleteAsync({{ table.dto_class_name | string.replace "Dto" "" }}DeleteDto input)
+    {
+        var entity = await {{ table.entity_class_name }}Repository.GetByIdAsync(input.{{ table.entity_class_name | string.replace "Takt" "" }}Id);
+        if (entity == null)
+            throw new TaktException(L("{{ table.entity_class_name }}.NotFound", input.{{ table.entity_class_name | string.replace "Takt" "" }}Id));
+
+        var result = await {{ table.entity_class_name }}Repository.DeleteAsync(entity);
+        if (result <= 0)
+            throw new TaktException(L("Common.DeleteFailed"));
+
+        return true;
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_import == 1 ~}}
+    /// <summary>
+    /// 导入{{ table.comment }}
+    /// </summary>
+    /// <param name="input">导入参数</param>
+    /// <returns>是否成功</returns>
+    public async Task<bool> ImportAsync(List<{{ table.dto_class_name | string.replace "Dto" "" }}ImportDto> input)
+    {
+        var entities = input.Adapt<List<{{ table.entity_class_name }}>>();
+        foreach (var entity in entities)
+        {
+            entity.CreateBy = _currentUser.UserName;
+            entity.CreateTime = DateTime.Now;
+        }
+        
+        var result = await {{ table.entity_class_name }}Repository.InsertRangeAsync(entities);
+        return result > 0;
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_export == 1 ~}}
+    /// <summary>
+    /// 导出{{ table.comment }}
+    /// </summary>
+    /// <param name="query">查询参数</param>
+    /// <returns>导出数据</returns>
+    public async Task<List<{{ table.dto_class_name | string.replace "Dto" "" }}ExportDto>> ExportAsync({{ table.dto_class_name | string.replace "Dto" "" }}QueryDto query)
+    {
+        var predicate = QueryExpression(query);
+        var list = await {{ table.entity_class_name }}Repository.AsQueryable()
+            .Where(predicate)
+            .OrderByDescending(x => x.CreateTime)
+            .ToListAsync();
+
+        return list.Adapt<List<{{ table.dto_class_name | string.replace "Dto" "" }}ExportDto>>();
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_template == 1 ~}}
+    /// <summary>
+    /// 获取{{ table.comment }}模板
+    /// </summary>
+    /// <returns>模板数据</returns>
+    public async Task<List<{{ table.dto_class_name | string.replace "Dto" "" }}TemplateDto>> GetTemplateAsync()
+    {
+        var list = await {{ table.entity_class_name }}Repository.GetListAsync();
+        return list.Adapt<List<{{ table.dto_class_name | string.replace "Dto" "" }}TemplateDto>>();
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_status == 1 ~}}
+    /// <summary>
+    /// 更新{{ table.comment }}状态
+    /// </summary>
+    /// <param name="input">状态参数</param>
+    /// <returns>是否成功</returns>
+    public async Task<bool> UpdateStatusAsync({{ table.dto_class_name | string.replace "Dto" "" }}StatusDto input)
+    {
+        var entity = await {{ table.entity_class_name }}Repository.GetByIdAsync(input.{{ table.entity_class_name | string.replace "Takt" "" }}Id);
+        if (entity == null)
+            throw new TaktException(L("{{ table.entity_class_name }}.NotFound", input.{{ table.entity_class_name | string.replace "Takt" "" }}Id));
+
+        entity.Status = input.Status;
+        entity.UpdateBy = _currentUser.UserName;
+        entity.UpdateTime = DateTime.Now;
+        
+        var result = await {{ table.entity_class_name }}Repository.UpdateAsync(entity);
+        if (result <= 0)
+            throw new TaktException(L("Common.UpdateFailed"));
+
+        return true;
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_sort == 1 ~}}
+    /// <summary>
+    /// 更新{{ table.comment }}排序
+    /// </summary>
+    /// <param name="input">排序参数</param>
+    /// <returns>是否成功</returns>
+    public async Task<bool> UpdateSortAsync({{ table.dto_class_name | string.replace "Dto" "" }}SortDto input)
+    {
+        var entity = await {{ table.entity_class_name }}Repository.GetByIdAsync(input.{{ table.entity_class_name | string.replace "Takt" "" }}Id);
+        if (entity == null)
+            throw new TaktException(L("{{ table.entity_class_name }}.NotFound", input.{{ table.entity_class_name | string.replace "Takt" "" }}Id));
+
+        entity.Sort = input.Sort;
+        entity.UpdateBy = _currentUser.UserName;
+        entity.UpdateTime = DateTime.Now;
+        
+        var result = await {{ table.entity_class_name }}Repository.UpdateAsync(entity);
+        if (result <= 0)
+            throw new TaktException(L("Common.UpdateFailed"));
+
+        return true;
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_audit == 1 ~}}
+    /// <summary>
+    /// 审核{{ table.comment }}
+    /// </summary>
+    /// <param name="input">审核参数</param>
+    /// <returns>是否成功</returns>
+    public async Task<bool> AuditAsync({{ table.dto_class_name | string.replace "Dto" "" }}AuditDto input)
+    {
+        var entity = await {{ table.entity_class_name }}Repository.GetByIdAsync(input.{{ table.entity_class_name | string.replace "Takt" "" }}Id);
+        if (entity == null)
+            throw new TaktException(L("{{ table.entity_class_name }}.NotFound", input.{{ table.entity_class_name | string.replace "Takt" "" }}Id));
+
+        entity.AuditStatus = input.AuditStatus;
+        entity.AuditComments = input.AuditComments;
+        entity.UpdateBy = _currentUser.UserName;
+        entity.UpdateTime = DateTime.Now;
+        
+        var result = await {{ table.entity_class_name }}Repository.UpdateAsync(entity);
+        if (result <= 0)
+            throw new TaktException(L("Common.UpdateFailed"));
+
+        return true;
+    }
+    {{~ end ~}}
+
+    /// <summary>
+    /// 构建查询表达式
+    /// </summary>
+    /// <param name="query">查询条件</param>
+    /// <returns>查询表达式</returns>
+    private static Expression<Func<{{ table.entity_class_name }}, bool>> QueryExpression({{ table.dto_class_name | string.replace "Dto" "" }}QueryDto query)
+    {
+        var exp = Expressionable.Create<{{ table.entity_class_name }}>();
+
+        {{~ for column in table.columns ~}}
+        {{~ if column.is_query ~}}
+        {{~ if column.csharp_type == "string" ~}}
+        if (!string.IsNullOrEmpty(query?.{{ column.property_name }}))
+            exp.And(x => x.{{ column.property_name }}.Contains(query.{{ column.property_name }}));
+        {{~ else if column.csharp_type == "int" || column.csharp_type == "long" || column.csharp_type == "decimal" || column.csharp_type == "double" || column.csharp_type == "float" ~}}
+        if (query?.{{ column.property_name }}.HasValue == true && query.{{ column.property_name }}.Value != -1)
+            exp.And(x => x.{{ column.property_name }} == query.{{ column.property_name }}.Value);
+        {{~ else if column.csharp_type == "DateTime" ~}}
+        if (query?.{{ column.property_name }}.HasValue == true)
+            exp.And(x => x.{{ column.property_name }} == query.{{ column.property_name }}.Value);
+        {{~ end ~}}
+        {{~ end ~}}
+        {{~ end ~}}
+
+        return exp.ToExpression();
+    }
+} 

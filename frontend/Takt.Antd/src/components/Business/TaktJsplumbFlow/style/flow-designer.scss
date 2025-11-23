@@ -1,0 +1,96 @@
+/*
+ * @Author: TaktXp Team
+ * @Date: 2024-12-01
+ * @Description: 流程设计器样式（基于 OpenAuth.Net CreatedFlow，适配 Ant Design Vue）
+ * Copyright (c) 2024 by TaktXp Team, All Rights Reserved.
+ */
+$primary-color: #1890ff;
+
+.container {
+    border: 2px solid #e4e7ed;
+    height: 100%;
+    
+    -moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+.select-area {
+    border-right: 1px solid #e4e7ed;
+}
+
+.header-option {
+    background: white;
+    height: 36px;
+    line-height: 36px;
+    border-bottom: 2px solid #e4e7ed;
+    text-align: right;
+}
+
+.header-option-button {
+    border: 0;
+    font-size: 20px;
+    padding: 10px 5px;
+}
+
+.content {
+    background: #fafafa;
+    height: 100%;
+    border: 2px dashed rgba(170,170,170,0.7);
+}
+
+.attr-area {
+    border-left: 1px solid #e4e7ed;
+}
+
+.tag {
+    margin: 6px;
+}
+
+.tool-item {
+    background: #f4f6fc;
+    height: 32px;
+    line-height: 32px;
+    margin: 5px;
+    padding-left: 8px;
+    text-align: center;
+    cursor: pointer;
+    
+    &:hover{
+        background: #d2d3d6;
+    }
+    
+    &.active {
+        background: black;
+    }
+}
+
+.node-item {
+    background: #f4f6fc;
+    height: 32px;
+    line-height: 32px;
+    margin: 5px;
+    padding-left: 8px;
+    text-align: left;
+    cursor: move;
+    min-width: 120px;
+    
+    &:hover{
+        color: $primary-color;
+        outline: 1px dashed $primary-color;
+    }
+}
+
+.linkLabel {
+    background-color: white;
+    padding: 1px;
+    border: 1px solid #346789;
+    border-radius: 5px;
+    opacity: 0.8;
+    z-index: 3;
+}
+

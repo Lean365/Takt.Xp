@@ -1,0 +1,371 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : {{ table.dto_namespace }}
+// 文件名 : {{ table.dto_class_name }}.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}数据传输对象
+//===================================================================
+
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+using Takt.Common.Enums;
+using Takt.Common.Models;
+using System.Collections.Generic;
+using Mapster;
+
+namespace {{ table.dto_namespace }};
+
+{{~ for type in table.dto_type ~}}
+{{~ if type == "Dto" ~}}
+/// <summary>
+/// {{ table.comment }}基础DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name }}
+{
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public {{ table.dto_class_name }}()
+    {
+        {{~ for column in table.columns ~}}
+        {{~ if column.csharp_type == "string" ~}}
+        {{~ if column.is_required == 0 ~}}
+        {{ pascal_case column.column_name }} = "";
+        {{~ end ~}}
+        {{~ end ~}}
+        {{~ end ~}}
+    }
+
+    /// <summary>
+    /// ID
+    /// </summary>
+    [AdaptMember("Id")]
+    public long {{ table.entity_class_name | string.replace "Takt" "" }}Id { get; set; }
+
+    {{~ for column in table.columns ~}}
+    {{~ if column.column_name != "id" ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    public {{ column.csharp_type }}{{~ if column.is_required == 0 ~}}{{~ if column.csharp_type == "string" ~}} ?{{~ end ~}}{{~ end ~}}{{~ ' ' ~}}  {{ column.property_name }} { get; set; }
+    {{~ end ~}}
+    {{~ end ~}}
+
+    /// <summary>
+    /// 创建人
+    /// </summary>
+    public string? CreateBy { get; set; }
+
+    /// <summary>
+    /// 创建时间
+    /// </summary>
+    public DateTime? CreateTime { get; set; }
+
+    /// <summary>
+    /// 更新人
+    /// </summary>
+    public string? UpdateBy { get; set; }
+
+    /// <summary>
+    /// 更新时间
+    /// </summary>
+    public DateTime? UpdateTime { get; set; }
+
+    /// <summary>
+    /// 是否删除
+    /// </summary>
+    public bool IsDeleted { get; set; }
+
+    /// <summary>
+    /// 删除人
+    /// </summary>
+    public string? DeleteBy { get; set; }
+
+    /// <summary>
+    /// 删除时间
+    /// </summary>
+    public DateTime? DeleteTime { get; set; }
+
+    /// <summary>
+    /// 备注
+    /// </summary>
+    public string? Remark { get; set; }
+}
+{{~ end ~}}
+{{~ if type == "QueryDto" ~}}
+/// <summary>
+/// {{ table.comment }}查询DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}QueryDto : TaktPagedQuery
+{
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public {{ table.dto_class_name | string.replace "Dto" "" }}QueryDto()
+    {
+        {{~ for column in table.columns ~}}
+        {{~ if column.csharp_type == "string" ~}}
+        {{~ if column.is_required == 0 ~}}
+        {{ pascal_case column.column_name }} = "";
+        {{~ end ~}}
+        {{~ end ~}}
+        {{~ end ~}}
+    }
+
+    {{~ for column in table.columns ~}}
+    {{~ if column.is_query ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    public {{ column.csharp_type }}{{~ if column.is_required == 0 ~}}{{~ if column.csharp_type == "string" ~}} ?{{~ end ~}}{{~ end ~}}{{~ ' ' ~}}  {{ column.property_name }} { get; set; }
+    {{~ end ~}}
+    {{~ end ~}}
+}
+{{~ end ~}}
+{{~ if type == "CreateDto" ~}}
+/// <summary>
+/// {{ table.comment }}创建DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}CreateDto
+{
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public {{ table.dto_class_name | string.replace "Dto" "" }}CreateDto()
+    {
+        {{~ for column in table.columns ~}}
+        {{~ if column.csharp_type == "string" ~}}
+        {{~ if column.is_required == 0 ~}}
+        {{ pascal_case column.column_name }} = "";
+        {{~ end ~}}
+        {{~ end ~}}
+        {{~ end ~}}
+    }
+
+    {{~ for column in table.columns ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    public {{ column.csharp_type }}{{~ if column.is_required == 0 ~}}{{~ if column.csharp_type == "string" ~}} ?{{~ end ~}}{{~ end ~}}{{~ ' ' ~}}  {{ column.property_name }} { get; set; }
+    {{~ end ~}}
+
+    /// <summary>
+    /// 备注
+    /// </summary>
+    public string? Remark { get; set; }
+}
+{{~ end ~}}
+{{~ if type == "UpdateDto" ~}}
+/// <summary>
+/// {{ table.comment }}更新DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}UpdateDto : {{ table.dto_class_name | string.replace "Dto" "" }}CreateDto
+{
+    /// <summary>
+    /// ID
+    /// </summary>
+    [AdaptMember("Id")]
+    public long {{ table.entity_class_name | string.replace "Takt" "" }}Id { get; set; }
+}
+{{~ end ~}}
+{{~ if type == "DeleteDto" ~}}
+/// <summary>
+/// {{ table.comment }}删除DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}DeleteDto
+{
+    /// <summary>
+    /// ID
+    /// </summary>
+    [AdaptMember("Id")]
+    public long {{ table.entity_class_name | string.replace "Takt" "" }}Id { get; set; }
+}
+{{~ end ~}}
+{{~ if type == "TemplateDto" ~}}
+/// <summary>
+/// {{ table.comment }}模板DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}TemplateDto
+{
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public {{ table.dto_class_name | string.replace "Dto" "" }}TemplateDto()
+    {
+        {{~ for column in table.columns ~}}
+        {{~ if column.csharp_type == "string" ~}}
+        {{~ if column.is_required == 0 ~}}
+        {{ pascal_case column.column_name }} = "";
+        {{~ end ~}}
+        {{~ end ~}}
+        {{~ end ~}}
+    }
+
+    {{~ for column in table.columns ~}}
+    {{~ if column.is_export == 1 ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    [Description("{{ column.column_comment }}")]
+    public {{ column.csharp_type }}{{~ if column.is_required == 0 ~}}{{~ if column.csharp_type == "string" ~}} ?{{~ end ~}}{{~ end ~}}{{~ ' ' ~}}  {{ column.property_name }} { get; set; }
+    {{~ end ~}}
+    {{~ end ~}}
+}
+{{~ end ~}}
+{{~ if type == "ImportDto" ~}}
+/// <summary>
+/// {{ table.comment }}导入DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}ImportDto
+{
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public {{ table.dto_class_name | string.replace "Dto" "" }}ImportDto()
+    {
+        {{~ for column in table.columns ~}}
+        {{~ if column.csharp_type == "string" ~}}
+        {{~ if column.is_required == 0 ~}}
+        {{ pascal_case column.column_name }} = "";
+        {{~ end ~}}
+        {{~ end ~}}
+        {{~ end ~}}
+    }
+
+    {{~ for column in table.columns ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    public {{ column.csharp_type }}{{~ if column.is_required == 0 ~}}{{~ if column.csharp_type == "string" ~}} ?{{~ end ~}}{{~ end ~}}{{~ ' ' ~}}  {{ column.property_name }} { get; set; }
+    {{~ end ~}}
+
+    /// <summary>
+    /// 备注
+    /// </summary>
+    public string? Remark { get; set; }
+}
+{{~ end ~}}
+{{~ if type == "ExportDto" ~}}
+/// <summary>
+/// {{ table.comment }}导出DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}ExportDto
+{
+    {{~ for column in table.columns ~}}
+    {{~ if column.is_export == 1 ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    public {{ column.csharp_type }}{{~ if column.is_required == 0 ~}}{{~ if column.csharp_type == "string" ~}} ?{{~ end ~}}{{~ end ~}}{{~ ' ' ~}}  {{ column.property_name }} { get; set; }
+    {{~ end ~}}
+    {{~ end ~}}
+}
+{{~ end ~}}
+{{~ if type == "StatusDto" ~}}
+/// <summary>
+/// {{ table.comment }}状态更新DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}StatusDto
+{
+    /// <summary>
+    /// ID
+    /// </summary>
+    [AdaptMember("Id")]
+    public long {{ table.entity_class_name | string.replace "Takt" "" }}Id { get; set; }
+
+    /// <summary>
+    /// 状态（0正常 1停用）
+    /// </summary>
+    public int Status { get; set; }
+}
+{{~ end ~}}
+{{~ if type == "SortDto" ~}}
+/// <summary>
+/// {{ table.comment }}排序DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}SortDto
+{
+    /// <summary>
+    /// ID
+    /// </summary>
+    [AdaptMember("Id")]
+    public long {{ table.entity_class_name | string.replace "Takt" "" }}Id { get; set; }
+
+    /// <summary>
+    /// 排序号
+    /// </summary>
+    public int Sort { get; set; }
+}
+{{~ end ~}}
+{{~ if type == "AuditDto" ~}}
+/// <summary>
+/// {{ table.comment }}审核DTO
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ table.dto_class_name | string.replace "Dto" "" }}AuditDto
+{
+    /// <summary>
+    /// ID
+    /// </summary>
+    [AdaptMember("Id")]
+    public long {{ table.entity_class_name | string.replace "Takt" "" }}Id { get; set; }
+
+    /// <summary>
+    /// 审核状态（0待审核 1通过 2拒绝）
+    /// </summary>
+    public int AuditStatus { get; set; }
+
+    /// <summary>
+    /// 审核意见
+    /// </summary>
+    public string? AuditComments { get; set; }
+}
+{{~ end ~}}
+{{~ end ~}} 

@@ -1,0 +1,86 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : I{{ pascal_case table.table_name }}Service.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}服务接口
+//===================================================================
+
+using Takt.Application.Dtos.{{ table.module_name }};
+
+namespace Takt.Application.Services.{{ table.module_name }};
+
+/// <summary>
+/// {{ table.comment }}服务接口
+/// </summary>
+public interface I{{ pascal_case table.table_name }}Service
+{
+    #region 基础操作
+
+    /// <summary>
+    /// 获取{{ table.comment }}主子表列表
+    /// </summary>
+    /// <param name="input">查询参数</param>
+    /// <returns>分页结果</returns>
+    Task<(List<{{ pascal_case table.table_name }}MasterDetailDto> list, long total)> GetListAsync({{ pascal_case table.table_name }}QueryDto input);
+
+    /// <summary>
+    /// 获取{{ table.comment }}主子表详情
+    /// </summary>
+    /// <param name="id">主键ID</param>
+    /// <returns>详情信息</returns>
+    Task<{{ pascal_case table.table_name }}MasterDetailDto?> GetByIdAsync(long id);
+
+    /// <summary>
+    /// 创建{{ table.comment }}主子表
+    /// </summary>
+    /// <param name="input">创建参数</param>
+    /// <returns>创建结果</returns>
+    Task<TaktResult> CreateAsync({{ pascal_case table.table_name }}MasterDetailDto input);
+
+    /// <summary>
+    /// 更新{{ table.comment }}主子表
+    /// </summary>
+    /// <param name="input">更新参数</param>
+    /// <returns>更新结果</returns>
+    Task<TaktResult> UpdateAsync({{ pascal_case table.table_name }}MasterDetailDto input);
+
+    /// <summary>
+    /// 删除{{ table.comment }}主子表
+    /// </summary>
+    /// <param name="ids">主键数组</param>
+    /// <returns>删除结果</returns>
+    Task<TaktResult> DeleteAsync(long[] ids);
+
+    #endregion
+
+    #region 扩展操作
+
+    /// <summary>
+    /// 获取{{ table.comment }}子表列表
+    /// </summary>
+    /// <param name="masterId">主表ID</param>
+    /// <returns>子表列表</returns>
+    Task<List<{{ pascal_case table.table_name }}DetailDto>> GetDetailsAsync(long masterId);
+
+    /// <summary>
+    /// 更新{{ table.comment }}子表
+    /// </summary>
+    /// <param name="masterId">主表ID</param>
+    /// <param name="details">子表列表</param>
+    /// <returns>更新结果</returns>
+    Task<TaktResult> UpdateDetailsAsync(long masterId, List<{{ pascal_case table.table_name }}DetailDto> details);
+
+    /// <summary>
+    /// 删除{{ table.comment }}子表
+    /// </summary>
+    /// <param name="masterId">主表ID</param>
+    /// <returns>删除结果</returns>
+    Task<TaktResult> DeleteDetailsAsync(long masterId);
+
+    #endregion
+} 
+

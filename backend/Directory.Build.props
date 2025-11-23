@@ -1,0 +1,25 @@
+﻿<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- 版本号规范: V主版本号.次版本号.修订号 (V0.0.1~V9.99.999) -->
+    <!-- 主版本号(0-9): 重大功能变更或架构调整时增加 -->
+    <!-- 次版本号(0-99): 新功能添加但向下兼容时增加 -->
+    <!-- 修订号(0-999): bug修复和小改动时增加 -->
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+    <InformationalVersion>0.0.1</InformationalVersion>
+    
+    <Company>极限节拍(Takt)</Company>
+    <Authors>Takt(Claude AI)</Authors>
+    <Product>极限节拍平台</Product>
+    <Description>极限节拍平台是一个基于 .NET 8 的现代化平台，集成了权限管理、代码生成、工作流等核心功能模块。</Description>
+    <Copyright>Copyright © 2025 Takt All Rights Reserved</Copyright>
+  </PropertyGroup>
+</Project> 

@@ -1,0 +1,211 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : {{ table.controller_namespace }}
+// 文件名 : {{ table.controller_class_name }}.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}控制器
+//===================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Takt.Common.Models;
+using {{ table.dto_namespace }};
+using {{ table.service_namespace }};
+
+namespace {{ table.controller_namespace }};
+
+/// <summary>
+/// {{ table.comment }}控制器
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+[Route("api/[controller]", Name = "{{ table.comment }}")]
+[ApiController]
+[ApiModule("{{ table.module_name }}", "{{ table.module_comment }}")]
+public class {{ table.controller_class_name }} : TaktBaseController
+{
+    private readonly {{ table.iservice_class_name }} _service;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="service">{{ table.comment }}服务</param>
+    /// <param name="logger">日志服务</param>
+    /// <param name="currentUser">当前用户服务</param>
+    /// <param name="localization">本地化服务</param>
+    public {{ table.controller_class_name }}(
+        {{ table.iservice_class_name }} service,
+        ITaktLogger logger,
+        ITaktCurrentUser currentUser,
+        ITaktLocalizationService localization) : base(logger, currentUser, localization)
+    {
+        _service = service;
+    }
+
+    /// <summary>
+    /// 获取{{ table.comment }}列表
+    /// </summary>
+    /// <param name="query">查询参数</param>
+    /// <returns>分页数据</returns>
+    [HttpGet("list")]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:list")]
+    public async Task<IActionResult> GetListAsync([FromQuery] {{ table.dto_class_name | string.replace "Dto" "" }}QueryDto query)
+    {
+        var result = await _service.GetListAsync(query);
+        return Success(result);
+    }
+
+    /// <summary>
+    /// 获取{{ table.comment }}详情
+    /// </summary>
+    /// <param name="id">主键</param>
+    /// <returns>详情数据</returns>
+    [HttpGet("{id}")]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:query")]
+    public async Task<IActionResult> GetInfoAsync(long id)
+    {
+        var result = await _service.GetInfoAsync(id);
+        return Success(result);
+    }
+
+    {{~ if table.is_create == 1 ~}}
+    /// <summary>
+    /// 创建{{ table.comment }}
+    /// </summary>
+    /// <param name="input">创建参数</param>
+    /// <returns>主键</returns>
+    [HttpPost]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:add")]
+    public async Task<IActionResult> CreateAsync([FromBody] {{ table.dto_class_name | string.replace "Dto" "" }}CreateDto input)
+    {
+        var result = await _service.CreateAsync(input);
+        return Success(result);
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_edit == 1 ~}}
+    /// <summary>
+    /// 更新{{ table.comment }}
+    /// </summary>
+    /// <param name="input">更新参数</param>
+    /// <returns>是否成功</returns>
+    [HttpPut]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:edit")]
+    public async Task<IActionResult> UpdateAsync([FromBody] {{ table.dto_class_name | string.replace "Dto" "" }}UpdateDto input)
+    {
+        var result = await _service.UpdateAsync(input);
+        return Success(result);
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_remove == 1 ~}}
+    /// <summary>
+    /// 删除{{ table.comment }}
+    /// </summary>
+    /// <param name="input">删除参数</param>
+    /// <returns>是否成功</returns>
+    [HttpDelete]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:remove")]
+    public async Task<IActionResult> DeleteAsync([FromBody] {{ table.dto_class_name | string.replace "Dto" "" }}DeleteDto input)
+    {
+        var result = await _service.DeleteAsync(input);
+        return Success(result);
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_import == 1 ~}}
+    /// <summary>
+    /// 导入{{ table.comment }}
+    /// </summary>
+    /// <param name="input">导入参数</param>
+    /// <returns>是否成功</returns>
+    [HttpPost("import")]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:import")]
+    public async Task<IActionResult> ImportAsync([FromBody] List<{{ table.dto_class_name | string.replace "Dto" "" }}ImportDto> input)
+    {
+        var result = await _service.ImportAsync(input);
+        return Success(result);
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_export == 1 ~}}
+    /// <summary>
+    /// 导出{{ table.comment }}
+    /// </summary>
+    /// <param name="query">查询条件</param>
+    /// <returns>导出数据</returns>
+    [HttpGet("export")]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:export")]
+    public async Task<IActionResult> ExportAsync([FromQuery] {{ table.dto_class_name | string.replace "Dto" "" }}QueryDto query)
+    {
+        var result = await _service.ExportAsync(query);
+        return Success(result);
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_template == 1 ~}}
+    /// <summary>
+    /// 获取{{ table.comment }}模板
+    /// </summary>
+    /// <returns>模板数据</returns>
+    [HttpGet("template")]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:template")]
+    public async Task<IActionResult> GetTemplateAsync()
+    {
+        var result = await _service.GetTemplateAsync();
+        return Success(result);
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_status == 1 ~}}
+    /// <summary>
+    /// 更新{{ table.comment }}状态
+    /// </summary>
+    /// <param name="input">状态参数</param>
+    /// <returns>是否成功</returns>
+    [HttpPut("status")]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:edit")]
+    public async Task<IActionResult> UpdateStatusAsync([FromBody] {{ table.dto_class_name | string.replace "Dto" "" }}StatusDto input)
+    {
+        var result = await _service.UpdateStatusAsync(input);
+        return Success(result);
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_sort == 1 ~}}
+    /// <summary>
+    /// 更新{{ table.comment }}排序
+    /// </summary>
+    /// <param name="input">排序参数</param>
+    /// <returns>是否成功</returns>
+    [HttpPut("sort")]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:edit")]
+    public async Task<IActionResult> UpdateSortAsync([FromBody] {{ table.dto_class_name | string.replace "Dto" "" }}SortDto input)
+    {
+        var result = await _service.UpdateSortAsync(input);
+        return Success(result);
+    }
+    {{~ end ~}}
+
+    {{~ if table.is_audit == 1 ~}}
+    /// <summary>
+    /// 审核{{ table.comment }}
+    /// </summary>
+    /// <param name="input">审核参数</param>
+    /// <returns>是否成功</returns>
+    [HttpPut("audit")]
+    [TaktPerm("{{ table.module_name }}:{{ table.table_name }}:audit")]
+    public async Task<IActionResult> AuditAsync([FromBody] {{ table.dto_class_name | string.replace "Dto" "" }}AuditDto input)
+    {
+        var result = await _service.AuditAsync(input);
+        return Success(result);
+    }
+    {{~ end ~}}
+} 

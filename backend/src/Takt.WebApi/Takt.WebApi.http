@@ -1,0 +1,7 @@
+﻿@Takt.WebApi_HostAddress = http://localhost:50080
+
+GET {{Takt.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+

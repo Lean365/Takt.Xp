@@ -1,0 +1,230 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : {{ pascal_case table.table_name }}Controller.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}控制器
+//===================================================================
+
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Mapster;
+using Takt.Application.Dtos.{{ table.module_name }};
+using Takt.Application.Services.{{ table.module_name }};
+using Takt.Domain.IServices.Extensions;
+using Takt.Infrastructure.Security.Attributes;
+
+namespace Takt.WebApi.Controllers.{{ table.module_name }};
+
+/// <summary>
+/// {{ table.comment }}控制器
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+[Route("api/[controller]", Name = "{{ table.comment }}")]
+[ApiController]
+[ApiModule("{{ table.module_name }}", "{{ table.module_comment }}")]
+public class {{ pascal_case table.table_name }}Controller : TaktBaseController
+{
+    private readonly I{{ pascal_case table.table_name }}Service _service;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="service">{{ table.comment }}服务</param>
+    /// <param name="localization">本地化服务</param>
+    public {{ pascal_case table.table_name }}Controller(
+        I{{ pascal_case table.table_name }}Service service,
+        ITaktLocalizationService localization)
+        : base(localization)
+    {
+        _service = service;
+    }
+
+    /// <summary>
+    /// 获取树形列表
+    /// </summary>
+    /// <param name="query">查询条件</param>
+    /// <returns>树形列表</returns>
+    [HttpGet("tree")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:list")]
+    public async Task<IActionResult> GetTreeListAsync([FromQuery] {{ pascal_case table.table_name }}QueryDto query)
+    {
+        var result = await _service.GetTreeListAsync(query);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.List.Success"));
+    }
+
+    /// <summary>
+    /// 获取详情
+    /// </summary>
+    /// <param name="id">主键ID</param>
+    /// <returns>详情信息</returns>
+    [HttpGet("{id}")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:query")]
+    public async Task<IActionResult> GetByIdAsync(long id)
+    {
+        var result = await _service.GetByIdAsync(id);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Get.Success"));
+    }
+
+    /// <summary>
+    /// 创建数据
+    /// </summary>
+    /// <param name="input">创建参数</param>
+    /// <returns>创建结果</returns>
+    [HttpPost]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:create")]
+    public async Task<IActionResult> CreateAsync([FromBody] {{ pascal_case table.table_name }}CreateDto input)
+    {
+        var result = await _service.CreateAsync(input);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Create.Success"));
+    }
+
+    /// <summary>
+    /// 更新数据
+    /// </summary>
+    /// <param name="input">更新参数</param>
+    /// <returns>更新结果</returns>
+    [HttpPut]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:update")]
+    public async Task<IActionResult> UpdateAsync([FromBody] {{ pascal_case table.table_name }}UpdateDto input)
+    {
+        var result = await _service.UpdateAsync(input);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Update.Success"));
+    }
+
+    /// <summary>
+    /// 删除数据
+    /// </summary>
+    /// <param name="ids">主键ID数组</param>
+    /// <returns>删除结果</returns>
+    [HttpDelete("batch")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:delete")]
+    public async Task<IActionResult> DeleteAsync([FromBody] long[] ids)
+    {
+        var result = await _service.DeleteAsync(ids);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Delete.Success"));
+    }
+
+    #region 扩展操作
+
+    /// <summary>
+    /// 获取子节点
+    /// </summary>
+    /// <param name="parentId">父节点ID</param>
+    /// <returns>子节点列表</returns>
+    [HttpGet("children/{parentId}")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:query")]
+    public async Task<IActionResult> GetChildrenAsync(long parentId)
+    {
+        var result = await _service.GetChildrenAsync(parentId);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Children.Success"));
+    }
+
+    /// <summary>
+    /// 获取所有子节点ID
+    /// </summary>
+    /// <param name="parentId">父节点ID</param>
+    /// <returns>子节点ID列表</returns>
+    [HttpGet("children/ids/{parentId}")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:query")]
+    public async Task<IActionResult> GetAllChildrenIdsAsync(long parentId)
+    {
+        var result = await _service.GetAllChildrenIdsAsync(parentId);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.ChildrenIds.Success"));
+    }
+
+    /// <summary>
+    /// 获取所有父节点ID
+    /// </summary>
+    /// <param name="id">节点ID</param>
+    /// <returns>父节点ID列表</returns>
+    [HttpGet("parents/ids/{id}")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:query")]
+    public async Task<IActionResult> GetAllParentIdsAsync(long id)
+    {
+        var result = await _service.GetAllParentIdsAsync(id);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.ParentIds.Success"));
+    }
+
+    /// <summary>
+    /// 移动节点
+    /// </summary>
+    /// <param name="input">移动参数</param>
+    /// <returns>移动结果</returns>
+    [HttpPut("move")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:update")]
+    public async Task<IActionResult> MoveAsync([FromBody] {{ pascal_case table.table_name }}MoveDto input)
+    {
+        var result = await _service.MoveAsync(input);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Move.Success"));
+    }
+
+    /// <summary>
+    /// 导入数据
+    /// </summary>
+    /// <param name="file">Excel文件</param>
+    /// <returns>导入结果</returns>
+    [HttpPost("import")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:import")]
+    public async Task<IActionResult> ImportAsync(IFormFile file)
+    {
+        using var stream = file.OpenReadStream();
+        var result = await _service.ImportAsync(stream, "{{ pascal_case table.table_name }}");
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Import.Success"));
+    }
+
+    /// <summary>
+    /// 导出数据
+    /// </summary>
+    /// <param name="query">查询条件</param>
+    /// <returns>Excel文件</returns>
+    [HttpGet("export")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:export")]
+    public async Task<IActionResult> ExportAsync([FromQuery] {{ pascal_case table.table_name }}QueryDto query)
+    {
+        var result = await _service.ExportAsync(query, "{{ pascal_case table.table_name }}");
+        return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "{{ table.comment }}数据.xlsx");
+    }
+
+    /// <summary>
+    /// 获取导入模板
+    /// </summary>
+    /// <returns>Excel模板文件</returns>
+    [HttpGet("template")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:import")]
+    public async Task<IActionResult> GetTemplateAsync()
+    {
+        var result = await _service.GetTemplateAsync("{{ pascal_case table.table_name }}");
+        return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "{{ table.comment }}导入模板.xlsx");
+    }
+
+    /// <summary>
+    /// 更新状态
+    /// </summary>
+    /// <param name="input">状态更新参数</param>
+    /// <returns>更新结果</returns>
+    [HttpPut("{id}/status")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:update")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateStatusAsync([FromBody] {{ pascal_case table.table_name }}StatusDto input)
+    {
+        var result = await _service.UpdateStatusAsync(input);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Status.Success"));
+    }
+
+    #endregion
+} 
+

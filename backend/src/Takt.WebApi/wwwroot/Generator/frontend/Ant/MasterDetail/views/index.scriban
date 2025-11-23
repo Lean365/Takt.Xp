@@ -1,0 +1,679 @@
+﻿<template>
+  <div class="app-container">
+    <!-- 主表搜索区域 -->
+    <Takt-query
+      :model="queryParams"
+      @query="handleQuery"
+      @reset="resetQuery"
+    >
+      {{~ for column in table.columns ~}}
+      {{~ if column.is_query == 1 ~}}
+      <Takt-select
+        v-model:value="queryParams.{{ column.column_name }}"
+        :label="$t('{{ table.table_name }}.fields.{{ column.column_name }}')"
+        :placeholder="$t('{{ table.table_name }}.search.title')"
+        {{~ if column.display_type == 'SELECT' || column.display_type == 'RADIO' || column.display_type == 'CHECKBOX' ~}}
+        dict-type="{{ column.dict_type }}"
+        type="{{ column.select_type }}"
+        {{~ end ~}}
+        {{~ if column.query_type == 'BETWEEN' ~}}
+        type="daterange"
+        {{~ end ~}}
+      />
+      {{~ end ~}}
+      {{~ end ~}}
+    </Takt-query>
+
+    <!-- 主表操作按钮区域 -->
+    <Takt-toolbar>
+      <a-button type="primary" @click="handleAdd">
+        <template #icon><PlusOutlined /></template>
+        {{ $t('{{ table.table_name }}.table.add') }}
+      </a-button>
+      <a-button type="primary" danger :disabled="selectedRowKeys.length === 0" @click="handleBatchDelete">
+        <template #icon><DeleteOutlined /></template>
+        {{ $t('{{ table.table_name }}.table.batchDelete') }}
+      </a-button>
+      <a-button type="primary" @click="handleExport">
+        <template #icon><DownloadOutlined /></template>
+        {{ $t('{{ table.table_name }}.table.export') }}
+      </a-button>
+      <a-button type="primary" @click="handleImport">
+        <template #icon><UploadOutlined /></template>
+        {{ $t('{{ table.table_name }}.table.import') }}
+      </a-button>
+    </Takt-toolbar>
+
+    <!-- 主表数据区域 -->
+    <Takt-table
+      :columns="columns"
+      :data-source="dataList"
+      :loading="loading"
+      :pagination="pagination"
+      :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
+      @change="handleTableChange"
+    >
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'operation'">
+          <Takt-operation
+            :record="record"
+            @edit="handleUpdate"
+            @delete="handleDelete"
+            @detail="handleDetail"
+          />
+        </template>
+        {{~ for column in table.columns ~}}
+        {{~ if column.display_type == 'DICT' ~}}
+        <template v-else-if="column.key === '{{ column.column_name }}'">
+          <dict-tag :options="dict.type.{{ column.dict_type }}" :value="record.{{ column.column_name }}" />
+        </template>
+        {{~ end ~}}
+        {{~ end ~}}
+      </template>
+    </Takt-table>
+
+    <!-- 子表数据区域 -->
+    <Takt-table
+      v-if="selectedRecord"
+      :columns="subColumns"
+      :data-source="subDataList"
+      :loading="subLoading"
+      :pagination="subPagination"
+      @change="handleSubTableChange"
+    >
+      <template #title>
+        <span>{{ $t('{{ table.sub_table_name }}.title') }}</span>
+        <a-button type="primary" class="ml-4" @click="handleAddSub">
+          <template #icon><PlusOutlined /></template>
+          {{ $t('{{ table.sub_table_name }}.table.add') }}
+        </a-button>
+      </template>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'operation'">
+          <Takt-operation
+            :record="record"
+            @edit="handleUpdateSub"
+            @delete="handleDeleteSub"
+          />
+        </template>
+        {{~ for column in table.sub_columns ~}}
+        {{~ if column.display_type == 'DICT' ~}}
+        <template v-else-if="column.key === '{{ column.column_name }}'">
+          <dict-tag :options="dict.type.{{ column.dict_type }}" :value="record.{{ column.column_name }}" />
+        </template>
+        {{~ end ~}}
+        {{~ end ~}}
+      </template>
+    </Takt-table>
+
+    <!-- 主表表单对话框 -->
+    <Takt-modal
+      :title="title"
+      :visible="open"
+      :confirm-loading="submitLoading"
+      @ok="submitForm"
+      @cancel="cancel"
+    >
+      <a-form
+        ref="formRef"
+        :model="form"
+        :rules="rules"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 16 }"
+      >
+        {{~ for column in table.columns ~}}
+        {{~ if column.is_insert == 1 || column.is_edit == 1 ~}}
+        <a-form-item :label="$t('{{ table.table_name }}.fields.{{ column.column_name }}')" name="{{ column.column_name }}">
+          {{~ if column.display_type == 'INPUT' ~}}
+          <a-input v-model:value="form.{{ column.column_name }}" :placeholder="$t('{{ table.table_name }}.fields.{{ column.column_name }}')" />
+          {{~ else if column.display_type == 'TEXTAREA' ~}}
+          <a-textarea v-model:value="form.{{ column.column_name }}" :placeholder="$t('{{ table.table_name }}.fields.{{ column.column_name }}')" :rows="4" />
+          {{~ else if column.display_type == 'SELECT' || column.display_type == 'RADIO' || column.display_type == 'CHECKBOX' ~}}
+          <Takt-select
+            v-model:value="form.{{ column.column_name }}"
+            :placeholder="$t('{{ table.table_name }}.fields.{{ column.column_name }}')"
+            dict-type="{{ column.dict_type }}"
+            type="{{ column.select_type }}"
+          />
+          {{~ else if column.display_type == 'DATETIME' ~}}
+          <a-date-picker
+            v-model:value="form.{{ column.column_name }}"
+            :placeholder="$t('{{ table.table_name }}.fields.{{ column.column_name }}')"
+            style="width: 100%"
+            show-time
+          />
+          {{~ else if column.display_type == 'DATE' ~}}
+          <a-date-picker
+            v-model:value="form.{{ column.column_name }}"
+            :placeholder="$t('{{ table.table_name }}.fields.{{ column.column_name }}')"
+            style="width: 100%"
+          />
+          {{~ else if column.display_type == 'TIME' ~}}
+          <a-time-picker
+            v-model:value="form.{{ column.column_name }}"
+            :placeholder="$t('{{ table.table_name }}.fields.{{ column.column_name }}')"
+            style="width: 100%"
+          />
+          {{~ else if column.display_type == 'UPLOAD' ~}}
+          <a-upload
+            v-model:file-list="form.{{ column.column_name }}"
+            :action="upload.url"
+            :headers="upload.headers"
+            :before-upload="beforeUpload"
+            @change="handleUploadChange"
+          >
+            <a-button>
+              <upload-outlined />
+              {{ $t('{{ table.table_name }}.fields.{{ column.column_name }}') }}
+            </a-button>
+          </a-upload>
+          {{~ end ~}}
+        </a-form-item>
+        {{~ end ~}}
+        {{~ end ~}}
+      </a-form>
+    </Takt-modal>
+
+    <!-- 子表表单对话框 -->
+    <Takt-modal
+      :title="subTitle"
+      :visible="subOpen"
+      :confirm-loading="subSubmitLoading"
+      @ok="submitSubForm"
+      @cancel="cancelSub"
+    >
+      <a-form
+        ref="subFormRef"
+        :model="subForm"
+        :rules="subRules"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 16 }"
+      >
+        {{~ for column in table.sub_columns ~}}
+        {{~ if column.is_insert == 1 || column.is_edit == 1 ~}}
+        <a-form-item :label="$t('{{ table.sub_table_name }}.fields.{{ column.column_name }}')" name="{{ column.column_name }}">
+          {{~ if column.display_type == 'INPUT' ~}}
+          <a-input v-model:value="subForm.{{ column.column_name }}" :placeholder="$t('{{ table.sub_table_name }}.fields.{{ column.column_name }}')" />
+          {{~ else if column.display_type == 'TEXTAREA' ~}}
+          <a-textarea v-model:value="subForm.{{ column.column_name }}" :placeholder="$t('{{ table.sub_table_name }}.fields.{{ column.column_name }}')" :rows="4" />
+          {{~ else if column.display_type == 'SELECT' || column.display_type == 'RADIO' || column.display_type == 'CHECKBOX' ~}}
+          <Takt-select
+            v-model:value="subForm.{{ column.column_name }}"
+            :placeholder="$t('{{ table.sub_table_name }}.fields.{{ column.column_name }}')"
+            dict-type="{{ column.dict_type }}"
+            type="{{ column.select_type }}"
+          />
+          {{~ else if column.display_type == 'DATETIME' ~}}
+          <a-date-picker
+            v-model:value="subForm.{{ column.column_name }}"
+            :placeholder="$t('{{ table.sub_table_name }}.fields.{{ column.column_name }}')"
+            style="width: 100%"
+            show-time
+          />
+          {{~ else if column.display_type == 'DATE' ~}}
+          <a-date-picker
+            v-model:value="subForm.{{ column.column_name }}"
+            :placeholder="$t('{{ table.sub_table_name }}.fields.{{ column.column_name }}')"
+            style="width: 100%"
+          />
+          {{~ else if column.display_type == 'TIME' ~}}
+          <a-time-picker
+            v-model:value="subForm.{{ column.column_name }}"
+            :placeholder="$t('{{ table.sub_table_name }}.fields.{{ column.column_name }}')"
+            style="width: 100%"
+          />
+          {{~ else if column.display_type == 'UPLOAD' ~}}
+          <a-upload
+            v-model:file-list="subForm.{{ column.column_name }}"
+            :action="upload.url"
+            :headers="upload.headers"
+            :before-upload="beforeUpload"
+            @change="handleUploadChange"
+          >
+            <a-button>
+              <upload-outlined />
+              {{ $t('{{ table.sub_table_name }}.fields.{{ column.column_name }}') }}
+            </a-button>
+          </a-upload>
+          {{~ end ~}}
+        </a-form-item>
+        {{~ end ~}}
+        {{~ end ~}}
+      </a-form>
+    </Takt-modal>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref, reactive, onMounted, computed } from 'vue'
+import { message } from 'ant-design-vue'
+import {
+  SearchOutlined,
+  ReloadOutlined,
+  PlusOutlined,
+  DeleteOutlined,
+  DownloadOutlined,
+  UploadOutlined
+} from '@ant-design/icons-vue'
+import { useI18n } from 'vue-i18n'
+import { getToken } from '@/utils/auth'
+import { list{{ table.class_name }}, get{{ table.class_name }}, del{{ table.class_name }}, add{{ table.class_name }}, update{{ table.class_name }}, export{{ table.class_name }} } from '@/api/{{ table.module_name }}/{{ table.business_name }}'
+import { list{{ table.sub_class_name }}, get{{ table.sub_class_name }}, del{{ table.sub_class_name }}, add{{ table.sub_class_name }}, update{{ table.sub_class_name }} } from '@/api/{{ table.module_name }}/{{ table.sub_business_name }}'
+
+const { t } = useI18n()
+
+// 遮罩层
+const loading = ref(false)
+const subLoading = ref(false)
+const submitLoading = ref(false)
+const subSubmitLoading = ref(false)
+
+// 选中数组
+const selectedRowKeys = ref<number[]>([])
+const selectedRecord = ref<any>(null)
+
+// 显示搜索条件
+const showSearch = ref(true)
+
+// 总条数
+const total = ref(0)
+const subTotal = ref(0)
+
+// 主表表格数据
+const dataList = ref<any[]>([])
+// 子表表格数据
+const subDataList = ref<any[]>([])
+
+// 弹出层标题
+const title = ref('')
+const subTitle = ref('')
+
+// 是否显示弹出层
+const open = ref(false)
+const subOpen = ref(false)
+
+// 查询参数
+const queryParams = reactive({
+  pageNum: 1,
+  pageSize: 10,
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_query == 1 ~}}
+  {{ column.column_name }}: undefined,
+  {{~ end ~}}
+  {{~ end ~}}
+})
+
+// 子表查询参数
+const subQueryParams = reactive({
+  pageNum: 1,
+  pageSize: 10,
+  {{ table.sub_table_fk_name }}: undefined,
+})
+
+// 表单参数
+const form = reactive({
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_insert == 1 || column.is_edit == 1 ~}}
+  {{ column.column_name }}: undefined,
+  {{~ end ~}}
+  {{~ end ~}}
+})
+
+// 子表表单参数
+const subForm = reactive({
+  {{~ for column in table.sub_columns ~}}
+  {{~ if column.is_insert == 1 || column.is_edit == 1 ~}}
+  {{ column.column_name }}: undefined,
+  {{~ end ~}}
+  {{~ end ~}}
+})
+
+// 表单校验
+const rules = {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_required == 1 && (column.is_insert == 1 || column.is_edit == 1) ~}}
+  {{ column.column_name }}: [
+    { required: true, message: t('{{ table.table_name }}.validation.required'), trigger: 'blur' }
+  ],
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+// 子表表单校验
+const subRules = {
+  {{~ for column in table.sub_columns ~}}
+  {{~ if column.is_required == 1 && (column.is_insert == 1 || column.is_edit == 1) ~}}
+  {{ column.column_name }}: [
+    { required: true, message: t('{{ table.sub_table_name }}.validation.required'), trigger: 'blur' }
+  ],
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+// 分页参数
+const pagination = reactive({
+  total: 0,
+  current: 1,
+  pageSize: 10,
+  showSizeChanger: true,
+  showQuickJumper: true,
+  showTotal: (total: number) => `共 ${total} 条`
+})
+
+// 子表分页参数
+const subPagination = reactive({
+  total: 0,
+  current: 1,
+  pageSize: 10,
+  showSizeChanger: true,
+  showQuickJumper: true,
+  showTotal: (total: number) => `共 ${total} 条`
+})
+
+// 主表列定义
+const columns = [
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_list == 1 ~}}
+  {
+    title: t('{{ table.table_name }}.fields.{{ column.column_name }}'),
+    dataIndex: '{{ column.column_name }}',
+    key: '{{ column.column_name }}',
+    {{~ if column.is_sort == 1 ~}}
+    sorter: true,
+    {{~ end ~}}
+  },
+  {{~ end ~}}
+  {{~ end ~}}
+  {
+    title: t('{{ table.table_name }}.table.operation'),
+    key: 'operation',
+    width: 200,
+    fixed: 'right'
+  }
+]
+
+// 子表列定义
+const subColumns = [
+  {{~ for column in table.sub_columns ~}}
+  {{~ if column.is_list == 1 ~}}
+  {
+    title: t('{{ table.sub_table_name }}.fields.{{ column.column_name }}'),
+    dataIndex: '{{ column.column_name }}',
+    key: '{{ column.column_name }}',
+    {{~ if column.is_sort == 1 ~}}
+    sorter: true,
+    {{~ end ~}}
+  },
+  {{~ end ~}}
+  {{~ end ~}}
+  {
+    title: t('{{ table.sub_table_name }}.table.operation'),
+    key: 'operation',
+    width: 200,
+    fixed: 'right'
+  }
+]
+
+// 上传参数
+const upload = reactive({
+  url: import.meta.env.VITE_APP_BASE_API + '/common/upload',
+  headers: {
+    Authorization: 'Bearer ' + getToken()
+  }
+})
+
+/** 查询主表列表 */
+const getList = async () => {
+  loading.value = true
+  try {
+    const res = await list{{ table.class_name }}(queryParams)
+    dataList.value = res.rows
+    total.value = res.total
+  } finally {
+    loading.value = false
+  }
+}
+
+/** 查询子表列表 */
+const getSubList = async () => {
+  if (!selectedRecord.value) return
+  subLoading.value = true
+  try {
+    subQueryParams.{{ table.sub_table_fk_name }} = selectedRecord.value.{{ table.sub_table_fk_name }}
+    const res = await list{{ table.sub_class_name }}(subQueryParams)
+    subDataList.value = res.rows
+    subTotal.value = res.total
+  } finally {
+    subLoading.value = false
+  }
+}
+
+/** 搜索按钮操作 */
+const handleQuery = () => {
+  queryParams.pageNum = 1
+  getList()
+}
+
+/** 重置按钮操作 */
+const resetQuery = () => {
+  queryParams.pageNum = 1
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_query == 1 ~}}
+  queryParams.{{ column.column_name }} = undefined
+  {{~ end ~}}
+  {{~ end ~}}
+  handleQuery()
+}
+
+/** 多选框选中数据 */
+const onSelectChange = (keys: number[], selectedRows: any[]) => {
+  selectedRowKeys.value = keys
+  selectedRecord.value = selectedRows[0]
+  if (selectedRecord.value) {
+    getSubList()
+  } else {
+    subDataList.value = []
+  }
+}
+
+/** 新增按钮操作 */
+const handleAdd = () => {
+  title.value = t('{{ table.table_name }}.form.add')
+  open.value = true
+  Object.keys(form).forEach(key => {
+    form[key] = undefined
+  })
+}
+
+/** 修改按钮操作 */
+const handleUpdate = async (record: any) => {
+  title.value = t('{{ table.table_name }}.form.edit')
+  open.value = true
+  const res = await get{{ table.class_name }}(record.{{ table.primary_key }})
+  Object.keys(form).forEach(key => {
+    form[key] = res.data[key]
+  })
+}
+
+/** 提交按钮 */
+const submitForm = async () => {
+  submitLoading.value = true
+  try {
+    if (form.{{ table.primary_key }}) {
+      await update{{ table.class_name }}(form)
+    } else {
+      await add{{ table.class_name }}(form)
+    }
+    message.success(t('{{ table.table_name }}.table.success'))
+    open.value = false
+    getList()
+  } finally {
+    submitLoading.value = false
+  }
+}
+
+/** 删除按钮操作 */
+const handleDelete = async (record: any) => {
+  try {
+    await del{{ table.class_name }}(record.{{ table.primary_key }})
+    message.success(t('{{ table.table_name }}.table.success'))
+    getList()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+/** 批量删除按钮操作 */
+const handleBatchDelete = async () => {
+  try {
+    await del{{ table.class_name }}(selectedRowKeys.value.join(','))
+    message.success(t('{{ table.table_name }}.table.success'))
+    selectedRowKeys.value = []
+    getList()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+/** 导出按钮操作 */
+const handleExport = async () => {
+  try {
+    await export{{ table.class_name }}(queryParams)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+/** 导入按钮操作 */
+const handleImport = () => {
+  // TODO: 实现导入功能
+}
+
+/** 新增子表按钮操作 */
+const handleAddSub = () => {
+  if (!selectedRecord.value) {
+    message.warning(t('{{ table.table_name }}.validation.required'))
+    return
+  }
+  subTitle.value = t('{{ table.sub_table_name }}.form.add')
+  subOpen.value = true
+  Object.keys(subForm).forEach(key => {
+    subForm[key] = undefined
+  })
+  subForm.{{ table.sub_table_fk_name }} = selectedRecord.value.{{ table.sub_table_fk_name }}
+}
+
+/** 修改子表按钮操作 */
+const handleUpdateSub = async (record: any) => {
+  subTitle.value = t('{{ table.sub_table_name }}.form.edit')
+  subOpen.value = true
+  const res = await get{{ table.sub_class_name }}(record.{{ table.sub_primary_key }})
+  Object.keys(subForm).forEach(key => {
+    subForm[key] = res.data[key]
+  })
+}
+
+/** 提交子表按钮 */
+const submitSubForm = async () => {
+  subSubmitLoading.value = true
+  try {
+    if (subForm.{{ table.sub_primary_key }}) {
+      await update{{ table.sub_class_name }}(subForm)
+    } else {
+      await add{{ table.sub_class_name }}(subForm)
+    }
+    message.success(t('{{ table.sub_table_name }}.table.success'))
+    subOpen.value = false
+    getSubList()
+  } finally {
+    subSubmitLoading.value = false
+  }
+}
+
+/** 删除子表按钮操作 */
+const handleDeleteSub = async (record: any) => {
+  try {
+    await del{{ table.sub_class_name }}(record.{{ table.sub_primary_key }})
+    message.success(t('{{ table.sub_table_name }}.table.success'))
+    getSubList()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+/** 取消按钮 */
+const cancel = () => {
+  open.value = false
+  reset()
+}
+
+/** 取消子表按钮 */
+const cancelSub = () => {
+  subOpen.value = false
+  resetSub()
+}
+
+/** 表单重置 */
+const reset = () => {
+  Object.keys(form).forEach(key => {
+    form[key] = undefined
+  })
+}
+
+/** 子表表单重置 */
+const resetSub = () => {
+  Object.keys(subForm).forEach(key => {
+    subForm[key] = undefined
+  })
+}
+
+/** 表格变化 */
+const handleTableChange = (pag: any) => {
+  queryParams.pageNum = pag.current
+  queryParams.pageSize = pag.pageSize
+  getList()
+}
+
+/** 子表表格变化 */
+const handleSubTableChange = (pag: any) => {
+  subQueryParams.pageNum = pag.current
+  subQueryParams.pageSize = pag.pageSize
+  getSubList()
+}
+
+/** 上传前检查 */
+const beforeUpload = (file: File) => {
+  const isLt2M = file.size / 1024 / 1024 < 2
+  if (!isLt2M) {
+    message.error('文件大小不能超过 2MB!')
+  }
+  return isLt2M
+}
+
+/** 上传变化 */
+const handleUploadChange = (info: any) => {
+  if (info.file.status === 'done') {
+    message.success(t('{{ table.table_name }}.table.success'))
+  } else if (info.file.status === 'error') {
+    message.error(t('{{ table.table_name }}.table.error'))
+  }
+}
+
+onMounted(() => {
+  getList()
+})
+</script>
+
+<style lang="less" scoped>
+.app-container {
+  padding: 20px;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+.ml-4 {
+  margin-left: 16px;
+}
+</style> 

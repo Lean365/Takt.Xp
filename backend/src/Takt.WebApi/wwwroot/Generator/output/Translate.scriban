@@ -1,0 +1,119 @@
+﻿-- 翻译SQL
+INSERT INTO Takt_core_translation (module_name, lang_code, trans_key, trans_value, status, order_num, create_by, create_time, update_by, update_time)
+VALUES 
+-- 简体中文
+('{{module_name}}', 'zh-CN', '{{module_name}}.{{className}}', '{{table_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{for column in columns}}
+('{{module_name}}', 'zh-CN', '{{module_name}}.{{className}}.{{column.column_name}}', '{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_type == 'string' && column.is_required == 1}}
+('{{module_name}}', 'zh-CN', '{{module_name}}.{{className}}.{{column.column_name}}.placeholder', '请输入{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+('{{module_name}}', 'zh-CN', '{{module_name}}.{{className}}.{{column.column_name}}.validation.required', '{{column.column_comment}}不能为空', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_length > 0}}
+('{{module_name}}', 'zh-CN', '{{module_name}}.{{className}}.{{column.column_name}}.validation.length', '{{column.column_comment}}长度不能超过{{column.csharp_length}}个字符', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{end}}
+{{end}}
+{{end}},
+
+-- 英文
+('{{module_name}}', 'en-US', '{{module_name}}.{{className}}', '{{table_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{for column in columns}}
+('{{module_name}}', 'en-US', '{{module_name}}.{{className}}.{{column.column_name}}', '{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_type == 'string' && column.is_required == 1}}
+('{{module_name}}', 'en-US', '{{module_name}}.{{className}}.{{column.column_name}}.placeholder', 'Please enter {{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+('{{module_name}}', 'en-US', '{{module_name}}.{{className}}.{{column.column_name}}.validation.required', '{{column.column_comment}} is required', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_length > 0}}
+('{{module_name}}', 'en-US', '{{module_name}}.{{className}}.{{column.column_name}}.validation.length', '{{column.column_comment}} length cannot exceed {{column.csharp_length}} characters', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{end}}
+{{end}}
+{{end}},
+
+-- 日语
+('{{module_name}}', 'ja-JP', '{{module_name}}.{{className}}', '{{table_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{for column in columns}}
+('{{module_name}}', 'ja-JP', '{{module_name}}.{{className}}.{{column.column_name}}', '{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_type == 'string' && column.is_required == 1}}
+('{{module_name}}', 'ja-JP', '{{module_name}}.{{className}}.{{column.column_name}}.placeholder', '{{column.column_comment}}を入力してください', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+('{{module_name}}', 'ja-JP', '{{module_name}}.{{className}}.{{column.column_name}}.validation.required', '{{column.column_comment}}は必須です', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_length > 0}}
+('{{module_name}}', 'ja-JP', '{{module_name}}.{{className}}.{{column.column_name}}.validation.length', '{{column.column_comment}}の長さは{{column.csharp_length}}文字を超えることはできません', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{end}}
+{{end}}
+{{end}},
+
+-- 韩语
+('{{module_name}}', 'ko-KR', '{{module_name}}.{{className}}', '{{table_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{for column in columns}}
+('{{module_name}}', 'ko-KR', '{{module_name}}.{{className}}.{{column.column_name}}', '{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_type == 'string' && column.is_required == 1}}
+('{{module_name}}', 'ko-KR', '{{module_name}}.{{className}}.{{column.column_name}}.placeholder', '{{column.column_comment}}을(를) 입력하세요', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+('{{module_name}}', 'ko-KR', '{{module_name}}.{{className}}.{{column.column_name}}.validation.required', '{{column.column_comment}}은(는) 필수입니다', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_length > 0}}
+('{{module_name}}', 'ko-KR', '{{module_name}}.{{className}}.{{column.column_name}}.validation.length', '{{column.column_comment}} 길이는 {{column.csharp_length}}자를 초과할 수 없습니다', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{end}}
+{{end}}
+{{end}},
+
+-- 繁体中文
+('{{module_name}}', 'zh-TW', '{{module_name}}.{{className}}', '{{table_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{for column in columns}}
+('{{module_name}}', 'zh-TW', '{{module_name}}.{{className}}.{{column.column_name}}', '{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_type == 'string' && column.is_required == 1}}
+('{{module_name}}', 'zh-TW', '{{module_name}}.{{className}}.{{column.column_name}}.placeholder', '請輸入{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+('{{module_name}}', 'zh-TW', '{{module_name}}.{{className}}.{{column.column_name}}.validation.required', '{{column.column_comment}}不能為空', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_length > 0}}
+('{{module_name}}', 'zh-TW', '{{module_name}}.{{className}}.{{column.column_name}}.validation.length', '{{column.column_comment}}長度不能超過{{column.csharp_length}}個字符', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{end}}
+{{end}}
+{{end}},
+
+-- 阿拉伯语
+('{{module_name}}', 'ar-SA', '{{module_name}}.{{className}}', '{{table_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{for column in columns}}
+('{{module_name}}', 'ar-SA', '{{module_name}}.{{className}}.{{column.column_name}}', '{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_type == 'string' && column.is_required == 1}}
+('{{module_name}}', 'ar-SA', '{{module_name}}.{{className}}.{{column.column_name}}.placeholder', 'الرجاء إدخال {{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+('{{module_name}}', 'ar-SA', '{{module_name}}.{{className}}.{{column.column_name}}.validation.required', '{{column.column_comment}} مطلوب', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_length > 0}}
+('{{module_name}}', 'ar-SA', '{{module_name}}.{{className}}.{{column.column_name}}.validation.length', 'لا يمكن أن يتجاوز طول {{column.column_comment}} {{column.csharp_length}} حرفًا', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{end}}
+{{end}}
+{{end}},
+
+-- 法语
+('{{module_name}}', 'fr-FR', '{{module_name}}.{{className}}', '{{table_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{for column in columns}}
+('{{module_name}}', 'fr-FR', '{{module_name}}.{{className}}.{{column.column_name}}', '{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_type == 'string' && column.is_required == 1}}
+('{{module_name}}', 'fr-FR', '{{module_name}}.{{className}}.{{column.column_name}}.placeholder', 'Veuillez saisir {{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+('{{module_name}}', 'fr-FR', '{{module_name}}.{{className}}.{{column.column_name}}.validation.required', '{{column.column_comment}} est requis', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_length > 0}}
+('{{module_name}}', 'fr-FR', '{{module_name}}.{{className}}.{{column.column_name}}.validation.length', 'La longueur de {{column.column_comment}} ne peut pas dépasser {{column.csharp_length}} caractères', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{end}}
+{{end}}
+{{end}},
+
+-- 西班牙语
+('{{module_name}}', 'es-ES', '{{module_name}}.{{className}}', '{{table_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{for column in columns}}
+('{{module_name}}', 'es-ES', '{{module_name}}.{{className}}.{{column.column_name}}', '{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_type == 'string' && column.is_required == 1}}
+('{{module_name}}', 'es-ES', '{{module_name}}.{{className}}.{{column.column_name}}.placeholder', 'Por favor ingrese {{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+('{{module_name}}', 'es-ES', '{{module_name}}.{{className}}.{{column.column_name}}.validation.required', '{{column.column_comment}} es requerido', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_length > 0}}
+('{{module_name}}', 'es-ES', '{{module_name}}.{{className}}.{{column.column_name}}.validation.length', 'La longitud de {{column.column_comment}} no puede exceder {{column.csharp_length}} caracteres', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{end}}
+{{end}}
+{{end}},
+
+-- 俄语
+('{{module_name}}', 'ru-RU', '{{module_name}}.{{className}}', '{{table_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{for column in columns}}
+('{{module_name}}', 'ru-RU', '{{module_name}}.{{className}}.{{column.column_name}}', '{{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_type == 'string' && column.is_required == 1}}
+('{{module_name}}', 'ru-RU', '{{module_name}}.{{className}}.{{column.column_name}}.placeholder', 'Пожалуйста, введите {{column.column_comment}}', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+('{{module_name}}', 'ru-RU', '{{module_name}}.{{className}}.{{column.column_name}}.validation.required', '{{column.column_comment}} обязательно', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{if column.csharp_length > 0}}
+('{{module_name}}', 'ru-RU', '{{module_name}}.{{className}}.{{column.column_name}}.validation.length', 'Длина {{column.column_comment}} не может превышать {{column.csharp_length}} символов', 0, 0, 'admin', GETDATE(), 'admin', GETDATE()),
+{{end}}
+{{end}}
+{{end}}; 

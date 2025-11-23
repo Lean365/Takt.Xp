@@ -1,0 +1,39 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : {{ table.name }}.cs
+// 创建者 : {{ table.author }}
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述   : {{ table.comment }}
+//===================================================================
+
+using SqlSugar;
+
+namespace Takt.Domain.Entities;
+
+/// <summary>
+/// {{ table.comment }}
+/// </summary>
+[SugarTable("{{ table.table_name | string.downcase | string.replace " " "_" }}", "{{ table.comment }}")]
+public class {{ table.name }} : TaktBaseEntity
+{
+    {{~ for column in table.columns ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    [SugarColumn(
+        ColumnName = "{{ column.column_name }}", 
+        ColumnDescription = "{{ column.column_comment }}", 
+        ColumnDataType = "{{ column.data_type }}", 
+        IsNullable = {{ if column.is_pk == 1 }}false{{ else }}{{ column.is_required == 0 }}{{ end }}{{ if column.is_pk == 1 }},
+        IsPrimaryKey = true{{ end }}{{ if column.is_increment == 1 }},
+        IsIdentity = true{{ end }}{{ if column.column_length != null && column.column_length != 0 }},
+        Length = {{ column.column_length }}{{ end }}{{ if column.decimal_digits > 0 }},
+        DecimalDigits = {{ column.decimal_digits }}{{ end }}{{ if column.default_value }},
+        DefaultValue = "{{ column.default_value }}"{{ end }})]
+    public {{ column.data_type }} {{ column.column_name }} { get; set; }
+    {{~ end ~}}
+} 
+

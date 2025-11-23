@@ -1,0 +1,47 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : {{ table.entity_namespace }}
+// 文件名 : {{ table.entity_class_name }}.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}实体
+//===================================================================
+
+using SqlSugar;
+
+namespace {{ table.entity_namespace }};
+
+/// <summary>
+/// {{ table.comment }}实体
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+[SugarTable("{{ table.table_name }}")]
+public class {{ table.entity_class_name }}:TaktBaseEntity
+{
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public {{ table.entity_class_name }}()
+    {
+        {{~ for column in table.columns ~}}
+        {{~ if column.csharp_type == "string" ~}}
+        {{~ if column.is_required == 0 ~}}
+        {{ pascal_case column.column_name }} = "";
+        {{~ end ~}}
+        {{~ end ~}}
+        {{~ end ~}}
+    }
+
+    {{~ for column in table.columns ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    [SugarColumn(ColumnName = "{{ column.column_name }}", ColumnDescription = "{{ column.column_comment }}", {{~ if column.csharp_type == "string" ~}}Length = {{ column.length }}, ColumnDataType = "nvarchar"{{~ else if column.csharp_type == "decimal" ~}}Length = {{ column.length }}, DecimalDigits = {{ column.decimal_places }}, ColumnDataType = "decimal"{{~ else ~}}ColumnDataType = "{{ column.db_type }}"{{~ end ~}}, IsNullable = {{~ if column.is_required == 1 ~}}false{{~ else ~}}true{{~ end ~}}{{~ if column.is_primary_key == 1 ~}}, IsPrimaryKey = true{{~ end ~}}{{~ if column.is_identity == 1 ~}}, IsIdentity = true{{~ end ~}}{{~ if column.default_value != "" ~}}, DefaultValue = "{{ column.default_value }}"{{~ end ~}})]
+    public {{ column.csharp_type }}{{~ if column.is_required == 0 ~}}{{~ if column.csharp_type == "string" ~}} ?{{~ end ~}}{{~ end ~}}{{~ ' ' ~}}  {{ column.property_name }} { get; set; }
+    {{~ end ~}}
+}

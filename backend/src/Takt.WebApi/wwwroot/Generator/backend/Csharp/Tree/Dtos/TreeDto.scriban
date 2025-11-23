@@ -1,0 +1,55 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : {{ table.name }}TreeDto.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}树形DTO
+//===================================================================
+
+using System.ComponentModel.DataAnnotations;
+
+namespace Takt.Application.Dtos.{{ table.module_name }};
+
+/// <summary>
+/// {{ table.comment }}树形DTO
+/// </summary>
+public class {{ pascal_case table.table_name }}TreeDto
+{
+    /// <summary>
+    /// 主键ID
+    /// </summary>
+    public long Id { get; set; }
+
+    /// <summary>
+    /// 父级ID
+    /// </summary>
+    public long? ParentId { get; set; }
+
+    /// <summary>
+    /// 名称
+    /// </summary>
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 排序
+    /// </summary>
+    public int OrderNum { get; set; }
+
+    /// <summary>
+    /// 子节点
+    /// </summary>
+    public List<{{ pascal_case table.table_name }}TreeDto>? Children { get; set; }
+
+    {{~ for column in table.columns ~}}
+    {{~ if column.column_name != "id" and column.column_name != "parent_id" and column.column_name != "name" and column.column_name != "order_num" ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    public {{ to_csharp_type column.data_type }}{{~ if column.is_nullable ~}}?{{~ end ~}} {{ pascal_case column.column_name }} { get; set; }{{~ if column.is_nullable ~}} = null;{{~ else if column.data_type == "string" ~}} = string.Empty;{{~ end ~}}
+    {{~ end ~}}
+    {{~ end ~}}
+} 
+

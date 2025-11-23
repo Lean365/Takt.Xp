@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Sms.CodeSentSuccessfully" xml:space="preserve">
+    <value>Verification code sent successfully</value>
+  </data>
+  <data name="Sms.SendFailed" xml:space="preserve">
+    <value>Failed to send verification code</value>
+  </data>
+  <data name="Sms.SendLimitExceeded" xml:space="preserve">
+    <value>Send frequency limit exceeded, please try again later</value>
+  </data>
+  <data name="Sms.InvalidCode" xml:space="preserve">
+    <value>Invalid or expired verification code</value>
+  </data>
+  <data name="Sms.LoginFailed" xml:space="preserve">
+    <value>SMS login failed</value>
+  </data>
+  <data name="QrCode.GenerateFailed" xml:space="preserve">
+    <value>Failed to generate QR code</value>
+  </data>
+  <data name="QrCode.Expired" xml:space="preserve">
+    <value>QR code has expired</value>
+  </data>
+  <data name="QrCode.InvalidStatus" xml:space="preserve">
+    <value>Invalid QR code status</value>
+  </data>
+  <data name="QrCode.UserMismatch" xml:space="preserve">
+    <value>User mismatch</value>
+  </data>
+  <data name="QrCode.ConfirmSuccess" xml:space="preserve">
+    <value>QR code login confirmed successfully</value>
+  </data>
+  <data name="QrCode.ConfirmFailed" xml:space="preserve">
+    <value>QR code login confirmation failed</value>
+  </data>
+  <data name="QrCode.Waiting" xml:space="preserve">
+    <value>Waiting for scan</value>
+  </data>
+  <data name="QrCode.Scanned" xml:space="preserve">
+    <value>Scanned</value>
+  </data>
+  <data name="QrCode.Confirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+  <data name="QrCode.Rejected" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="QrCode.Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="QrCode.Unknown" xml:space="preserve">
+    <value>Unknown status</value>
+  </data>
+  <data name="Captcha.ValidationFailed" xml:space="preserve">
+    <value>Graphical captcha validation failed</value>
+  </data>
+</root> 

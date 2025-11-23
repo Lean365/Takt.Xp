@@ -1,0 +1,135 @@
+﻿//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : type.d.ts
+// 创建者 : CodeGenerator
+// 创建时间: {{ datetime }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}类型定义
+//===================================================================
+
+/**
+ * {{ table.comment }}实体
+ */
+export interface {{ pascal_case table.table_name }} {
+  {{~ for column in table.columns ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}查询参数
+ */
+export interface {{ pascal_case table.table_name }}Query {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_query ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}?: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+  /**
+   * 页码
+   */
+  pageIndex?: number;
+  /**
+   * 每页条数
+   */
+  pageSize?: number;
+}
+
+/**
+ * {{ table.comment }}创建参数
+ */
+export interface {{ pascal_case table.table_name }}Create {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_create ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}更新参数
+ */
+export interface {{ pascal_case table.table_name }}Update {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_update ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+{{~ if table.is_tree ~}}
+/**
+ * {{ table.comment }}树形结构
+ */
+export interface {{ pascal_case table.table_name }}Tree extends {{ pascal_case table.table_name }} {
+  /**
+   * 子节点
+   */
+  children?: {{ pascal_case table.table_name }}Tree[];
+}
+{{~ end ~}}
+
+{{~ if table.is_master_detail ~}}
+/**
+ * {{ table.comment }}从表实体
+ */
+export interface {{ pascal_case table.table_name }}Detail {
+  {{~ for column in table.detail_columns ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}从表创建参数
+ */
+export interface {{ pascal_case table.table_name }}DetailCreate {
+  {{~ for column in table.detail_columns ~}}
+  {{~ if column.is_create ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}从表更新参数
+ */
+export interface {{ pascal_case table.table_name }}DetailUpdate {
+  {{~ for column in table.detail_columns ~}}
+  {{~ if column.is_update ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}主从表详情
+ */
+export interface {{ pascal_case table.table_name }}Detail extends {{ pascal_case table.table_name }} {
+  /**
+   * 从表列表
+   */
+  details: {{ pascal_case table.table_name }}Detail[];
+}
+{{~ end ~}} 
+

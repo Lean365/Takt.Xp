@@ -1,0 +1,455 @@
+{
+  "ar-SA": {
+    "{{ table.table_name }}": {
+      "title": "{{ table.table_comment }}",
+      "search": {
+        "title": "بحث {{ table.table_comment }}",
+        "reset": "إعادة تعيين",
+        "submit": "بحث"
+      },
+      "table": {
+        "title": "قائمة {{ table.table_comment }}",
+        "operation": "عملية",
+        "add": "إضافة",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "detail": "تفاصيل",
+        "export": "تصدير",
+        "import": "استيراد",
+        "batchDelete": "حذف متعدد",
+        "confirmDelete": "هل أنت متأكد من حذف {{ table.table_comment }} المحدد؟",
+        "confirmBatchDelete": "هل أنت متأكد من حذف {{ table.table_comment }} المحددة؟",
+        "success": "تمت العملية بنجاح",
+        "error": "فشلت العملية"
+      },
+      "form": {
+        "add": "إضافة {{ table.table_comment }}",
+        "edit": "تعديل {{ table.table_comment }}",
+        "detail": "تفاصيل {{ table.table_comment }}",
+        "submit": "إرسال",
+        "cancel": "إلغاء",
+        "save": "حفظ",
+        "close": "إغلاق"
+      },
+      "fields": {
+        {{~ for column in table.columns ~}}
+        "{{ column.column_name }}": "{{ column.column_comment }}",
+        {{~ end ~}}
+      },
+      "validation": {
+        "required": "الرجاء إدخال {{ table.table_comment }}",
+        "maxLength": "لا يمكن أن يتجاوز الطول {0} حرفًا",
+        "minLength": "لا يمكن أن يكون الطول أقل من {0} حرفًا",
+        "pattern": "تنسيق غير صالح",
+        "email": "الرجاء إدخال عنوان بريد إلكتروني صالح",
+        "url": "الرجاء إدخال عنوان URL صالح",
+        "number": "الرجاء إدخال رقم",
+        "integer": "الرجاء إدخال رقم صحيح",
+        "float": "الرجاء إدخال رقم عشري",
+        "date": "الرجاء إدخال تاريخ صالح",
+        "time": "الرجاء إدخال وقت صالح",
+        "datetime": "الرجاء إدخال تاريخ ووقت صالحين"
+      }
+    }
+  },
+  "en-US": {
+    "{{ table.table_name }}": {
+      "title": "{{ table.table_comment }}",
+      "search": {
+        "title": "Please enter {{ table.table_comment }}",
+        "submit": "Search",
+        "reset": "Reset"
+      },
+      "table": {
+        "title": "{{ table.table_comment }} List",
+        "operation": "Operation",
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "detail": "Detail",
+        "export": "Export",
+        "import": "Import",
+        "batchDelete": "Batch Delete",
+        "confirmDelete": "Are you sure to delete the {{ table.table_comment }} with ID \"{0}\"?",
+        "success": "Operation successful",
+        "error": "Operation failed"
+      },
+      "form": {
+        "add": "Add {{ table.table_comment }}",
+        "edit": "Edit {{ table.table_comment }}",
+        "detail": "{{ table.table_comment }} Detail",
+        "submit": "Submit",
+        "cancel": "Cancel",
+        "save": "Save",
+        "close": "Close"
+      },
+      "fields": {
+        {{~ for column in table.columns ~}}
+        "{{ column.column_name }}": "{{ column.column_comment }}",
+        {{~ end ~}}
+      },
+      "validation": {
+        "required": "{{ table.table_comment }} cannot be empty"
+      }
+    }
+  },
+  "fr-FR": {
+    "{{ table.table_name }}": {
+      "title": "{{ table.table_comment }}",
+      "search": {
+        "title": "Rechercher {{ table.table_comment }}",
+        "reset": "Réinitialiser",
+        "submit": "Rechercher"
+      },
+      "table": {
+        "title": "Liste {{ table.table_comment }}",
+        "operation": "Opération",
+        "add": "Ajouter",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "detail": "Détail",
+        "export": "Exporter",
+        "import": "Importer",
+        "batchDelete": "Supprimer en masse",
+        "confirmDelete": "Êtes-vous sûr de vouloir supprimer le {{ table.table_comment }} sélectionné ?",
+        "confirmBatchDelete": "Êtes-vous sûr de vouloir supprimer les {{ table.table_comment }} sélectionnés ?",
+        "success": "Opération réussie",
+        "error": "Échec de l'opération"
+      },
+      "form": {
+        "add": "Ajouter {{ table.table_comment }}",
+        "edit": "Modifier {{ table.table_comment }}",
+        "detail": "Détail {{ table.table_comment }}",
+        "submit": "Soumettre",
+        "cancel": "Annuler",
+        "save": "Enregistrer",
+        "close": "Fermer"
+      },
+      "fields": {
+        {{~ for column in table.columns ~}}
+        "{{ column.column_name }}": "{{ column.column_comment }}",
+        {{~ end ~}}
+      },
+      "validation": {
+        "required": "Veuillez saisir {{ table.table_comment }}",
+        "maxLength": "La longueur ne peut pas dépasser {0} caractères",
+        "minLength": "La longueur ne peut pas être inférieure à {0} caractères",
+        "pattern": "Format invalide",
+        "email": "Veuillez saisir une adresse e-mail valide",
+        "url": "Veuillez saisir une URL valide",
+        "number": "Veuillez saisir un nombre",
+        "integer": "Veuillez saisir un entier",
+        "float": "Veuillez saisir un nombre décimal",
+        "date": "Veuillez saisir une date valide",
+        "time": "Veuillez saisir une heure valide",
+        "datetime": "Veuillez saisir une date et heure valides"
+      }
+    }
+  },
+  "ja-JP": {
+    "{{ table.table_name }}": {
+      "title": "{{ table.table_comment }}",
+      "search": {
+        "title": "{{ table.table_comment }}検索",
+        "reset": "リセット",
+        "submit": "検索"
+      },
+      "table": {
+        "title": "{{ table.table_comment }}リスト",
+        "operation": "操作",
+        "add": "追加",
+        "edit": "編集",
+        "delete": "削除",
+        "detail": "詳細",
+        "export": "エクスポート",
+        "import": "インポート",
+        "batchDelete": "一括削除",
+        "confirmDelete": "選択した{{ table.table_comment }}を削除してもよろしいですか？",
+        "confirmBatchDelete": "選択した{{ table.table_comment }}を削除してもよろしいですか？",
+        "success": "操作成功",
+        "error": "操作失敗"
+      },
+      "form": {
+        "add": "{{ table.table_comment }}追加",
+        "edit": "{{ table.table_comment }}編集",
+        "detail": "{{ table.table_comment }}詳細",
+        "submit": "送信",
+        "cancel": "キャンセル",
+        "save": "保存",
+        "close": "閉じる"
+      },
+      "fields": {
+        {{~ for column in table.columns ~}}
+        "{{ column.column_name }}": "{{ column.column_comment }}",
+        {{~ end ~}}
+      },
+      "validation": {
+        "required": "{{ table.table_comment }}を入力してください",
+        "maxLength": "長さは{0}文字を超えることはできません",
+        "minLength": "長さは{0}文字以上である必要があります",
+        "pattern": "無効な形式です",
+        "email": "有効なメールアドレスを入力してください",
+        "url": "有効なURLを入力してください",
+        "number": "数字を入力してください",
+        "integer": "整数を入力してください",
+        "float": "小数を入力してください",
+        "date": "有効な日付を入力してください",
+        "time": "有効な時間を入力してください",
+        "datetime": "有効な日時を入力してください"
+      }
+    }
+  },
+  "ko-KR": {
+    "{{ table.table_name }}": {
+      "title": "{{ table.table_comment }}",
+      "search": {
+        "title": "{{ table.table_comment }} 검색",
+        "reset": "초기화",
+        "submit": "검색"
+      },
+      "table": {
+        "title": "{{ table.table_comment }} 목록",
+        "operation": "작업",
+        "add": "추가",
+        "edit": "수정",
+        "delete": "삭제",
+        "detail": "상세",
+        "export": "내보내기",
+        "import": "가져오기",
+        "batchDelete": "일괄 삭제",
+        "confirmDelete": "선택한 {{ table.table_comment }}을(를) 삭제하시겠습니까?",
+        "confirmBatchDelete": "선택한 {{ table.table_comment }}을(를) 삭제하시겠습니까?",
+        "success": "작업 성공",
+        "error": "작업 실패"
+      },
+      "form": {
+        "add": "{{ table.table_comment }} 추가",
+        "edit": "{{ table.table_comment }} 수정",
+        "detail": "{{ table.table_comment }} 상세",
+        "submit": "제출",
+        "cancel": "취소",
+        "save": "저장",
+        "close": "닫기"
+      },
+      "fields": {
+        {{~ for column in table.columns ~}}
+        "{{ column.column_name }}": "{{ column.column_comment }}",
+        {{~ end ~}}
+      },
+      "validation": {
+        "required": "{{ table.table_comment }}을(를) 입력하세요",
+        "maxLength": "길이는 {0}자를 초과할 수 없습니다",
+        "minLength": "길이는 {0}자 이상이어야 합니다",
+        "pattern": "잘못된 형식입니다",
+        "email": "유효한 이메일 주소를 입력하세요",
+        "url": "유효한 URL을 입력하세요",
+        "number": "숫자를 입력하세요",
+        "integer": "정수를 입력하세요",
+        "float": "소수를 입력하세요",
+        "date": "유효한 날짜를 입력하세요",
+        "time": "유효한 시간을 입력하세요",
+        "datetime": "유효한 날짜와 시간을 입력하세요"
+      }
+    }
+  },
+  "ru-RU": {
+    "{{ table.table_name }}": {
+      "title": "{{ table.table_comment }}",
+      "search": {
+        "title": "Поиск {{ table.table_comment }}",
+        "reset": "Сбросить",
+        "submit": "Поиск"
+      },
+      "table": {
+        "title": "Список {{ table.table_comment }}",
+        "operation": "Операция",
+        "add": "Добавить",
+        "edit": "Редактировать",
+        "delete": "Удалить",
+        "detail": "Детали",
+        "export": "Экспорт",
+        "import": "Импорт",
+        "batchDelete": "Массовое удаление",
+        "confirmDelete": "Вы уверены, что хотите удалить выбранный {{ table.table_comment }}?",
+        "confirmBatchDelete": "Вы уверены, что хотите удалить выбранные {{ table.table_comment }}?",
+        "success": "Операция успешна",
+        "error": "Ошибка операции"
+      },
+      "form": {
+        "add": "Добавить {{ table.table_comment }}",
+        "edit": "Редактировать {{ table.table_comment }}",
+        "detail": "Детали {{ table.table_comment }}",
+        "submit": "Отправить",
+        "cancel": "Отмена",
+        "save": "Сохранить",
+        "close": "Закрыть"
+      },
+      "fields": {
+        {{~ for column in table.columns ~}}
+        "{{ column.column_name }}": "{{ column.column_comment }}",
+        {{~ end ~}}
+      },
+      "validation": {
+        "required": "Пожалуйста, введите {{ table.table_comment }}",
+        "maxLength": "Длина не может превышать {0} символов",
+        "minLength": "Длина не может быть меньше {0} символов",
+        "pattern": "Неверный формат",
+        "email": "Пожалуйста, введите действительный адрес электронной почты",
+        "url": "Пожалуйста, введите действительный URL",
+        "number": "Пожалуйста, введите число",
+        "integer": "Пожалуйста, введите целое число",
+        "float": "Пожалуйста, введите число с плавающей точкой",
+        "date": "Пожалуйста, введите действительную дату",
+        "time": "Пожалуйста, введите действительное время",
+        "datetime": "Пожалуйста, введите действительную дату и время"
+      }
+    }
+  },
+  "es-ES": {
+    "{{ table.table_name }}": {
+      "title": "{{ table.table_comment }}",
+      "search": {
+        "title": "Buscar {{ table.table_comment }}",
+        "reset": "Restablecer",
+        "submit": "Buscar"
+      },
+      "table": {
+        "title": "Lista de {{ table.table_comment }}",
+        "operation": "Operación",
+        "add": "Agregar",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "detail": "Detalle",
+        "export": "Exportar",
+        "import": "Importar",
+        "batchDelete": "Eliminar en lote",
+        "confirmDelete": "¿Está seguro de que desea eliminar el {{ table.table_comment }} seleccionado?",
+        "confirmBatchDelete": "¿Está seguro de que desea eliminar los {{ table.table_comment }} seleccionados?",
+        "success": "Operación exitosa",
+        "error": "Error en la operación"
+      },
+      "form": {
+        "add": "Agregar {{ table.table_comment }}",
+        "edit": "Editar {{ table.table_comment }}",
+        "detail": "Detalle de {{ table.table_comment }}",
+        "submit": "Enviar",
+        "cancel": "Cancelar",
+        "save": "Guardar",
+        "close": "Cerrar"
+      },
+      "fields": {
+        {{~ for column in table.columns ~}}
+        "{{ column.column_name }}": "{{ column.column_comment }}",
+        {{~ end ~}}
+      },
+      "validation": {
+        "required": "Por favor ingrese {{ table.table_comment }}",
+        "maxLength": "La longitud no puede exceder {0} caracteres",
+        "minLength": "La longitud no puede ser menor a {0} caracteres",
+        "pattern": "Formato inválido",
+        "email": "Por favor ingrese una dirección de correo electrónico válida",
+        "url": "Por favor ingrese una URL válida",
+        "number": "Por favor ingrese un número",
+        "integer": "Por favor ingrese un número entero",
+        "float": "Por favor ingrese un número decimal",
+        "date": "Por favor ingrese una fecha válida",
+        "time": "Por favor ingrese una hora válida",
+        "datetime": "Por favor ingrese una fecha y hora válidas"
+      }
+    }
+  },
+  "zh-CN": {
+    "{{ table.table_name }}": {
+      "title": "{{ table.table_comment }}",
+      "search": {
+        "title": "请输入{{ table.table_comment }}",
+        "submit": "搜索",
+        "reset": "重置"
+      },
+      "table": {
+        "title": "{{ table.table_comment }}列表",
+        "operation": "操作",
+        "add": "新增",
+        "edit": "修改",
+        "delete": "删除",
+        "batchDelete": "批量删除",
+        "export": "导出",
+        "import": "导入",
+        "detail": "详情",
+        "confirmDelete": "是否确认删除{{ table.table_comment }}编号为\"{0}\"的数据项?",
+        "success": "操作成功",
+        "error": "操作失败"
+      },
+      "form": {
+        "add": "新增{{ table.table_comment }}",
+        "edit": "修改{{ table.table_comment }}",
+        "detail": "{{ table.table_comment }}详情",
+        "submit": "提交",
+        "cancel": "取消",
+        "save": "保存",
+        "close": "关闭"
+      },
+      "fields": {
+        {{~ for column in table.columns ~}}
+        "{{ column.column_name }}": "{{ column.column_comment }}",
+        {{~ end ~}}
+      },
+      "validation": {
+        "required": "{{ table.table_comment }}不能为空"
+      }
+    }
+  },
+  "zh-TW": {
+    "{{ table.table_name }}": {
+      "title": "{{ table.table_comment }}",
+      "search": {
+        "title": "搜尋{{ table.table_comment }}",
+        "reset": "重置",
+        "submit": "查詢"
+      },
+      "table": {
+        "title": "{{ table.table_comment }}列表",
+        "operation": "操作",
+        "add": "新增",
+        "edit": "編輯",
+        "delete": "刪除",
+        "detail": "詳情",
+        "export": "匯出",
+        "import": "匯入",
+        "batchDelete": "批量刪除",
+        "confirmDelete": "確認刪除選中的{{ table.table_comment }}嗎？",
+        "confirmBatchDelete": "確認刪除選中的{{ table.table_comment }}嗎？",
+        "success": "操作成功",
+        "error": "操作失敗"
+      },
+      "form": {
+        "add": "新增{{ table.table_comment }}",
+        "edit": "編輯{{ table.table_comment }}",
+        "detail": "{{ table.table_comment }}詳情",
+        "submit": "提交",
+        "cancel": "取消",
+        "save": "保存",
+        "close": "關閉"
+      },
+      "fields": {
+        {{~ for column in table.columns ~}}
+        "{{ column.column_name }}": "{{ column.column_comment }}",
+        {{~ end ~}}
+      },
+      "validation": {
+        "required": "請輸入{{ table.table_comment }}",
+        "maxLength": "長度不能超過{0}個字符",
+        "minLength": "長度不能少於{0}個字符",
+        "pattern": "格式不正確",
+        "email": "請輸入正確的郵箱地址",
+        "url": "請輸入正確的URL地址",
+        "number": "請輸入數字",
+        "integer": "請輸入整數",
+        "float": "請輸入浮點數",
+        "date": "請輸入正確的日期",
+        "time": "請輸入正確的時間",
+        "datetime": "請輸入正確的日期時間"
+      }
+    }
+  }
+} 

@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "VERSION=${VERSION}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Generate changelog
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version-file: './frontend/Takt.Antd/package.json'
+          skip-version-file: true
+          skip-commit: true
+          skip-v: true
+          output-file: 'CHANGELOG.md'
+          release-count: 0
+          preset: 'angular'
+
+      - name: Check changelog content
+        run: |
+          if [ ! -f CHANGELOG.md ] || [ ! -s CHANGELOG.md ]; then
+            echo "⚠️ CHANGELOG.md 为空或不存在，使用默认内容"
+            cat > CHANGELOG.md << EOF
+          # Changelog
+
+          ## [${{ steps.get_version.outputs.VERSION }}]
+
+          Release ${{ steps.get_version.outputs.VERSION }}
+
+          ---
+
+          *此版本由 [GitHub Actions](https://github.com/features/actions) 自动发布*
+          EOF
+          fi
+          cat CHANGELOG.md
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ steps.get_version.outputs.VERSION }}
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

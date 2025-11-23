@@ -1,0 +1,167 @@
+﻿//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : MasterDetailType.d.ts
+// 创建者 : CodeGenerator
+// 创建时间: {{ datetime }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}主子表类型定义
+//===================================================================
+
+/**
+ * {{ table.comment }}主表实体
+ */
+export interface {{ pascal_case table.table_name }} {
+  {{~ for column in table.columns ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}主表查询参数
+ */
+export interface {{ pascal_case table.table_name }}Query {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_query ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}?: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+  /**
+   * 页码
+   */
+  pageIndex?: number;
+  /**
+   * 每页条数
+   */
+  pageSize?: number;
+}
+
+/**
+ * {{ table.comment }}主表创建参数
+ */
+export interface {{ pascal_case table.table_name }}Create {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_create ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}主表更新参数
+ */
+export interface {{ pascal_case table.table_name }}Update {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_update ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}子表实体
+ */
+export interface {{ pascal_case table.table_name }}Detail {
+  {{~ for column in table.detail_columns ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}子表查询参数
+ */
+export interface {{ pascal_case table.table_name }}DetailQuery {
+  {{~ for column in table.detail_columns ~}}
+  {{~ if column.is_query ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}?: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+  /**
+   * 主表ID
+   */
+  masterId?: number;
+  /**
+   * 页码
+   */
+  pageIndex?: number;
+  /**
+   * 每页条数
+   */
+  pageSize?: number;
+}
+
+/**
+ * {{ table.comment }}子表创建参数
+ */
+export interface {{ pascal_case table.table_name }}DetailCreate {
+  {{~ for column in table.detail_columns ~}}
+  {{~ if column.is_create ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}子表更新参数
+ */
+export interface {{ pascal_case table.table_name }}DetailUpdate {
+  {{~ for column in table.detail_columns ~}}
+  {{~ if column.is_update ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}主子表详情
+ */
+export interface {{ pascal_case table.table_name }}Detail extends {{ pascal_case table.table_name }} {
+  /**
+   * 子表列表
+   */
+  details: {{ pascal_case table.table_name }}Detail[];
+}
+
+/**
+ * {{ table.comment }}主子表创建参数
+ */
+export interface {{ pascal_case table.table_name }}DetailCreate extends {{ pascal_case table.table_name }}Create {
+  /**
+   * 子表列表
+   */
+  details: {{ pascal_case table.table_name }}DetailCreate[];
+}
+
+/**
+ * {{ table.comment }}主子表更新参数
+ */
+export interface {{ pascal_case table.table_name }}DetailUpdate extends {{ pascal_case table.table_name }}Update {
+  /**
+   * 子表列表
+   */
+  details: {{ pascal_case table.table_name }}DetailUpdate[];
+} 
+

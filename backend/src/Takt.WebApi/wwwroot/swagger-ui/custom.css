@@ -1,0 +1,131 @@
+/* Swagger UI 自定义样式 */
+.swagger-ui {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* 头部样式 */
+.swagger-ui .topbar {
+    background-color: #1890ff;
+    padding: 10px 0;
+}
+
+.swagger-ui .topbar .download-url-wrapper .select-label {
+    color: white;
+}
+
+/* 操作面板样式 */
+.swagger-ui .opblock {
+    margin: 0 0 15px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.swagger-ui .opblock .opblock-summary {
+    padding: 10px;
+}
+
+.swagger-ui .opblock .opblock-summary-method {
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+/* GET 方法 */
+.swagger-ui .opblock.opblock-get {
+    border-color: #61affe;
+    background: rgba(97,175,254,.1);
+}
+
+/* POST 方法 */
+.swagger-ui .opblock.opblock-post {
+    border-color: #49cc90;
+    background: rgba(73,204,144,.1);
+}
+
+/* PUT 方法 */
+.swagger-ui .opblock.opblock-put {
+    border-color: #fca130;
+    background: rgba(252,161,48,.1);
+}
+
+/* DELETE 方法 */
+.swagger-ui .opblock.opblock-delete {
+    border-color: #f93e3e;
+    background: rgba(249,62,62,.1);
+}
+
+/* 参数表格样式 */
+.swagger-ui table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.swagger-ui table thead tr th {
+    border-bottom: 2px solid #eee;
+    padding: 10px;
+    text-align: left;
+}
+
+.swagger-ui table tbody tr td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 代码示例样式 */
+.swagger-ui .highlight-code {
+    background: #f5f5f5;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+/* 响应示例样式 */
+.swagger-ui .responses-wrapper {
+    background: #fff;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+/* 标签样式 */
+.swagger-ui .opblock-tag {
+    font-size: 24px;
+    margin: 20px 0 10px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* 描述文本样式 */
+.swagger-ui .markdown p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
+}
+
+/* 必填项标记样式 */
+.swagger-ui .required {
+    color: #f5222d;
+}
+
+/* 认证按钮样式 */
+.swagger-ui .auth-wrapper .authorize {
+    border-color: #1890ff;
+    color: #1890ff;
+}
+
+.swagger-ui .auth-wrapper .authorize svg {
+    fill: #1890ff;
+}
+
+/* 响应状态码样式 */
+.swagger-ui .response-col_status {
+    font-weight: bold;
+}
+
+.swagger-ui .response-col_status .response-undocumented {
+    font-style: italic;
+    color: #999;
+}
+
+/* 折叠面板样式 */
+.swagger-ui .expand-operation {
+    border: none;
+    background: none;
+} 

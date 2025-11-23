@@ -1,0 +1,60 @@
+﻿//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : treeapi.ts
+// 创建者 : CodeGenerator
+// 创建时间: {{ datetime }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}树形结构API
+//===================================================================
+
+import request from '@/utils/request'
+import type { TaktApiResponse } from '@/types/common'
+import type {
+  {{ pascal_case table.table_name }},
+  {{ pascal_case table.table_name }}Tree
+} from '@/types/{{ table.module_name }}/{{ table.name }}'
+
+/**
+ * 获取{{ table.comment }}树形结构
+ */
+export function getTree(params?: { parentId?: number }) {
+  return request<TaktApiResponse<{{ pascal_case table.table_name }}Tree[]>>({
+    url: '/api/{{ table.module_name }}/{{ table.name }}/tree',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 获取{{ table.comment }}树形结构（包含所有子节点）
+ */
+export function getTreeWithChildren(params?: { parentId?: number }) {
+  return request<TaktApiResponse<{{ pascal_case table.table_name }}Tree[]>>({
+    url: '/api/{{ table.module_name }}/{{ table.name }}/tree/children',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 获取{{ table.comment }}树形结构（包含所有父节点）
+ */
+export function getTreeWithParents(params?: { id: number }) {
+  return request<TaktApiResponse<{{ pascal_case table.table_name }}Tree[]>>({
+    url: '/api/{{ table.module_name }}/{{ table.name }}/tree/parents',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 移动{{ table.comment }}节点
+ */
+export function moveNode(data: { id: number; parentId: number }) {
+  return request<TaktApiResponse<void>>({
+    url: '/api/{{ table.module_name }}/{{ table.name }}/tree/move',
+    method: 'put',
+    data
+  })
+} 
+

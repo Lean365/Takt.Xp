@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7566B941-450E-4DA2-ABF6-31BADB9825B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Takt.Application", "src\Takt.Application\Takt.Application.csproj", "{16BD9696-EA41-4CB7-A0F5-ECA5BBD96173}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Takt.Shared", "src\Takt.Shared\Takt.Shared.csproj", "{5C3DAF7C-CD35-46C1-8FDA-777F06EC4C7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Takt.Domain", "src\Takt.Domain\Takt.Domain.csproj", "{FBC5DE98-B3C2-4201-9AEF-A3FAAF7048E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Takt.Infrastructure", "src\Takt.Infrastructure\Takt.Infrastructure.csproj", "{70F2D6F7-475F-4A9C-9DA5-229DC155178B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Takt.WebApi", "src\Takt.WebApi\Takt.WebApi.csproj", "{28E16BFA-4E05-406B-B57B-E82ADBE6851C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16BD9696-EA41-4CB7-A0F5-ECA5BBD96173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16BD9696-EA41-4CB7-A0F5-ECA5BBD96173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16BD9696-EA41-4CB7-A0F5-ECA5BBD96173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16BD9696-EA41-4CB7-A0F5-ECA5BBD96173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3DAF7C-CD35-46C1-8FDA-777F06EC4C7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3DAF7C-CD35-46C1-8FDA-777F06EC4C7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3DAF7C-CD35-46C1-8FDA-777F06EC4C7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3DAF7C-CD35-46C1-8FDA-777F06EC4C7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBC5DE98-B3C2-4201-9AEF-A3FAAF7048E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC5DE98-B3C2-4201-9AEF-A3FAAF7048E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC5DE98-B3C2-4201-9AEF-A3FAAF7048E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC5DE98-B3C2-4201-9AEF-A3FAAF7048E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70F2D6F7-475F-4A9C-9DA5-229DC155178B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F2D6F7-475F-4A9C-9DA5-229DC155178B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70F2D6F7-475F-4A9C-9DA5-229DC155178B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70F2D6F7-475F-4A9C-9DA5-229DC155178B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28E16BFA-4E05-406B-B57B-E82ADBE6851C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28E16BFA-4E05-406B-B57B-E82ADBE6851C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28E16BFA-4E05-406B-B57B-E82ADBE6851C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28E16BFA-4E05-406B-B57B-E82ADBE6851C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{16BD9696-EA41-4CB7-A0F5-ECA5BBD96173} = {7566B941-450E-4DA2-ABF6-31BADB9825B7}
+		{5C3DAF7C-CD35-46C1-8FDA-777F06EC4C7B} = {7566B941-450E-4DA2-ABF6-31BADB9825B7}
+		{FBC5DE98-B3C2-4201-9AEF-A3FAAF7048E0} = {7566B941-450E-4DA2-ABF6-31BADB9825B7}
+		{70F2D6F7-475F-4A9C-9DA5-229DC155178B} = {7566B941-450E-4DA2-ABF6-31BADB9825B7}
+		{28E16BFA-4E05-406B-B57B-E82ADBE6851C} = {7566B941-450E-4DA2-ABF6-31BADB9825B7}
+	EndGlobalSection
+EndGlobal

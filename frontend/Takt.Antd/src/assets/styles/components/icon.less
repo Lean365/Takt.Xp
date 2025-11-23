@@ -1,0 +1,356 @@
+﻿// ===================================================================
+// 项目名称: Lean.Takt
+// 文件名称: icon.less 
+// 创建日期: 2024-03-20
+// 描述: 图标颜色样式定义，实现图标的随机颜色效果
+// ===================================================================
+
+// 引入主题变量
+@import '../variables.less';
+
+// === 图标颜色混入 ===
+// 定义图标基础颜色样式
+.icon-color(@color) {
+  color: @color;
+  
+  &:hover {
+    color: lighten(@color, 10%);
+  }
+  
+  &:active {
+    color: darken(@color, 10%);
+  }
+}
+
+// === 基础操作类图标 ===
+// 包含新增、编辑、删除等基础操作图标
+.Takt-icon-add { .icon-color(@btn-add-color); }            // 新增图标
+.Takt-icon-edit { .icon-color(@btn-edit-color); }          // 编辑图标
+.Takt-icon-delete { .icon-color(@btn-delete-color); }      // 删除图标
+.Takt-icon-batch-delete { .icon-color(@btn-batch-delete-color); } // 批量删除图标
+.Takt-icon-view { .icon-color(@btn-view-color); }          // 查看图标
+.Takt-icon-clear { .icon-color(@btn-clear-color); }        // 清空图标
+.Takt-icon-save { .icon-color(@btn-save-color); }          // 保存图标
+.Takt-icon-cancel { .icon-color(@btn-cancel-color); }      // 取消图标
+.Takt-icon-reset { .icon-color(@btn-reset-color); }        // 重置图标
+
+// === 数据操作类图标 ===
+// 包含导入、导出、预览等数据操作图标
+.Takt-icon-import { .icon-color(@btn-import-color); }      // 导入图标
+.Takt-icon-export { .icon-color(@btn-export-color); }      // 导出图标
+.Takt-icon-template { .icon-color(@btn-template-color); }  // 模板图标
+.Takt-icon-preview { .icon-color(@btn-preview-color); }    // 预览图标
+.Takt-icon-download { .icon-color(@btn-download-color); }  // 下载图标
+.Takt-icon-upload { .icon-color(@btn-upload-color); }      // 上传图标
+.Takt-icon-print { .icon-color(@btn-print-color); }        // 打印图标
+.Takt-icon-share { .icon-color(@btn-share-color); }        // 分享图标
+.Takt-icon-copy { .icon-color(@btn-copy-color); }          // 复制图标
+.Takt-icon-paste { .icon-color(@btn-paste-color); }        // 粘贴图标
+
+// === 状态操作类图标 ===
+// 包含启用、禁用、锁定等状态操作图标
+.Takt-icon-enable { .icon-color(@btn-enable-color); }      // 启用图标
+.Takt-icon-disable { .icon-color(@btn-disable-color); }    // 禁用图标
+.Takt-icon-lock { .icon-color(@btn-lock-color); }          // 锁定图标
+.Takt-icon-unlock { .icon-color(@btn-unlock-color); }      // 解锁图标
+.Takt-icon-approve { .icon-color(@btn-approve-color); }    // 批准图标
+.Takt-icon-reject { .icon-color(@btn-reject-color); }      // 拒绝图标
+.Takt-icon-submit { .icon-color(@btn-submit-color); }      // 提交图标
+.Takt-icon-review { .icon-color(@btn-review-color); }      // 审核图标
+.Takt-icon-audit { .icon-color(@btn-audit-color); }        // 审计图标
+.Takt-icon-revoke { .icon-color(@btn-revoke-color); }      // 撤销图标
+.Takt-icon-stop { .icon-color(@btn-stop-color); }          // 停止图标
+.Takt-icon-run { .icon-color(@btn-run-color); }            // 运行图标
+.Takt-icon-forced { .icon-color(@btn-forced-color); }      // 强制图标
+
+// === 系统功能类图标 ===
+// 包含生成、刷新、日志等系统功能图标
+.Takt-icon-generate { .icon-color(@btn-generate-color); }  // 生成图标
+.Takt-icon-refresh { .icon-color(@btn-refresh-color); }    // 刷新图标
+.Takt-icon-sync { .icon-color(@btn-sync-color); }          // 同步图标
+.Takt-icon-initialize { .icon-color(@btn-initialize-color); } // 初始化图标
+.Takt-icon-info { .icon-color(@btn-info-color); }          // 信息图标
+.Takt-icon-log { .icon-color(@btn-log-color); }            // 日志图标
+.Takt-icon-chat { .icon-color(@btn-chat-color); }          // 聊天图标
+.Takt-icon-search { .icon-color(@btn-search-color); }      // 搜索图标
+.Takt-icon-filter { .icon-color(@btn-filter-color); }      // 筛选图标
+.Takt-icon-sort { .icon-color(@btn-sort-color); }          // 排序图标
+.Takt-icon-config { .icon-color(@btn-config-color); }      // 配置图标
+.Takt-icon-column-setting { .icon-color(@btn-column-setting-color); } // 列设置图标
+
+// === 系统管理类图标 ===
+// 包含备份、还原、清理等系统管理图标
+.Takt-icon-backup { .icon-color(@btn-backup-color); }      // 备份图标
+.Takt-icon-restore-sys { .icon-color(@btn-restore-sys-color); } // 系统还原图标
+.Takt-icon-clean { .icon-color(@btn-clean-color); }        // 清理图标
+.Takt-icon-optimize { .icon-color(@btn-optimize-color); }  // 优化图标
+.Takt-icon-monitor { .icon-color(@btn-monitor-color); }    // 监控图标
+.Takt-icon-diagnose { .icon-color(@btn-diagnose-color); }  // 诊断图标
+.Takt-icon-maintain { .icon-color(@btn-maintain-color); }  // 维护图标
+
+// === 视图控制类图标 ===
+// 包含全屏、视图切换等视图控制图标
+.Takt-icon-fullscreen { .icon-color(@btn-fullscreen-color); }        // 全屏图标
+.Takt-icon-exit-fullscreen { .icon-color(@btn-exit-fullscreen-color); } // 退出全屏图标
+.Takt-icon-view-switch { .icon-color(@btn-view-switch-color); }      // 视图切换图标
+.Takt-icon-view-grid { .icon-color(@btn-view-grid-color); }          // 网格视图图标
+.Takt-icon-view-list { .icon-color(@btn-view-list-color); }          // 列表视图图标
+.Takt-icon-view-card { .icon-color(@btn-view-card-color); }          // 卡片视图图标
+
+// === 权限管理类图标 ===
+// 包含权限、角色、用户等权限管理图标
+.Takt-icon-auth { .icon-color(@btn-auth-color); }          // 权限图标
+.Takt-icon-role { .icon-color(@btn-role-color); }          // 角色图标
+.Takt-icon-user { .icon-color(@btn-user-color); }          // 用户图标
+.Takt-icon-group-manage { .icon-color(@btn-group-manage-color); } // 群组管理图标
+.Takt-icon-dept { .icon-color(@btn-dept-color); }          // 部门图标
+.Takt-icon-menu { .icon-color(@btn-menu-color); }          // 菜单图标
+.Takt-icon-permission { .icon-color(@btn-permission-color); } // 权限图标
+
+// === 工作流程类图标 ===
+// 包含流程转办、委托等工作流图标
+.Takt-icon-transfer { .icon-color(@btn-transfer-color); }         // 转办图标
+.Takt-icon-delegate { .icon-color(@btn-delegate-color); }         // 委托图标
+.Takt-icon-notify { .icon-color(@btn-notify-color); }            // 通知图标
+.Takt-icon-urge { .icon-color(@btn-urge-color); }               // 催办图标
+.Takt-icon-sign { .icon-color(@btn-sign-color); }               // 签名图标
+.Takt-icon-countersign { .icon-color(@btn-countersign-color); }  // 会签图标
+
+// === 通用功能图标 ===
+// 包含设置、收藏、阅读状态等通用功能图标
+.Takt-icon-setting { .icon-color(@btn-setting-color); }          // 设置图标
+.Takt-icon-favorite { .icon-color(@btn-favorite-color); }        // 收藏图标
+.Takt-icon-read { .icon-color(@btn-read-color); }               // 已读图标
+.Takt-icon-unread { .icon-color(@btn-unread-color); }           // 未读图标
+.Takt-icon-clone { .icon-color(@btn-clone-color); }             // 克隆图标
+.Takt-icon-send { .icon-color(@btn-send-color); }               // 发送图标
+.Takt-icon-history { .icon-color(@btn-history-color); }         // 历史图标
+.Takt-icon-status { .icon-color(@btn-status-color); }           // 状态图标
+
+// === 移动端专用图标 ===
+// 包含扫描、定位、拍照等移动端功能图标
+.Takt-icon-scan { .icon-color(@btn-scan-color); }          // 扫描图标
+.Takt-icon-location { .icon-color(@btn-location-color); }  // 定位图标
+.Takt-icon-call { .icon-color(@btn-call-color); }         // 呼叫图标
+.Takt-icon-photo { .icon-color(@btn-photo-color); }       // 拍照图标
+.Takt-icon-voice { .icon-color(@btn-voice-color); }       // 语音图标
+.Takt-icon-face-id { .icon-color(@btn-face-id-color); }   // 人脸识别图标
+.Takt-icon-finger-print { .icon-color(@btn-finger-print-color); } // 指纹图标
+
+// === 社交协作类图标 ===
+// 包含关注、收藏、点赞等社交功能图标
+.Takt-icon-follow { .icon-color(@btn-follow-color); }      // 关注图标
+.Takt-icon-collect { .icon-color(@btn-collect-color); }    // 收藏图标
+.Takt-icon-like { .icon-color(@btn-like-color); }         // 点赞图标
+.Takt-icon-forward { .icon-color(@btn-forward-color); }    // 转发图标
+.Takt-icon-at { .icon-color(@btn-at-color); }             // @图标
+.Takt-icon-group { .icon-color(@btn-group-color); }       // 群组图标
+.Takt-icon-team { .icon-color(@btn-team-color); }         // 团队图标
+
+// === 安全认证类图标 ===
+// 包含验证码、绑定、授权等安全功能图标
+.Takt-icon-verify-code { .icon-color(@btn-verify-code-color); }   // 验证码图标
+.Takt-icon-bind { .icon-color(@btn-bind-color); }                 // 绑定图标
+.Takt-icon-unbind { .icon-color(@btn-unbind-color); }            // 解绑图标
+.Takt-icon-authorize { .icon-color(@btn-authorize-color); }       // 授权图标
+.Takt-icon-deauthorize { .icon-color(@btn-deauthorize-color); }  // 取消授权图标
+
+// === 高级功能类图标 ===
+// 包含版本、历史、归档等高级功能图标
+.Takt-icon-version { .icon-color(@btn-version-color); }    // 版本图标
+.Takt-icon-history { .icon-color(@btn-history-color); }    // 历史图标
+.Takt-icon-restore { .icon-color(@btn-restore-color); }    // 还原图标
+.Takt-icon-archive { .icon-color(@btn-archive-color); }    // 归档图标
+.Takt-icon-unarchive { .icon-color(@btn-unarchive-color); } // 取消归档图标
+.Takt-icon-merge { .icon-color(@btn-merge-color); }        // 合并图标
+.Takt-icon-split { .icon-color(@btn-split-color); }        // 拆分图标
+
+// === 批量操作类图标 ===
+// 包含批量编辑、更新、导入等批量操作图标
+.Takt-icon-batch-edit { .icon-color(@btn-batch-edit-color); }     // 批量编辑图标
+.Takt-icon-batch-update { .icon-color(@btn-batch-update-color); } // 批量更新图标
+.Takt-icon-batch-import { .icon-color(@btn-batch-import-color); } // 批量导入图标
+.Takt-icon-batch-export { .icon-color(@btn-batch-export-color); } // 批量导出图标
+.Takt-icon-batch-print { .icon-color(@btn-batch-print-color); }   // 批量打印图标
+
+// === 数据分析类图标 ===
+// 包含分析、图表、报表等数据分析图标
+.Takt-icon-analyze { .icon-color(@btn-analyze-color); }    // 分析图标
+.Takt-icon-chart { .icon-color(@btn-chart-color); }       // 图表图标
+.Takt-icon-report { .icon-color(@btn-report-color); }     // 报表图标
+.Takt-icon-dashboard { .icon-color(@btn-dashboard-color); } // 仪表盘图标
+.Takt-icon-statistics { .icon-color(@btn-statistics-color); } // 统计图标
+.Takt-icon-forecast { .icon-color(@btn-forecast-color); }  // 预测图标
+.Takt-icon-compare { .icon-color(@btn-compare-color); }    // 对比图标
+
+// === 随机颜色图标类 ===
+// 为图标提供随机颜色效果，基于CSS变量
+.Takt-icon-random {
+  // 使用CSS变量实现随机颜色
+  --icon-hue: var(--icon-hue-value, 0deg);
+  --icon-saturation: var(--icon-saturation-value, 70%);
+  --icon-lightness: var(--icon-lightness-value, 50%);
+  
+  color: hsl(var(--icon-hue), var(--icon-saturation), var(--icon-lightness));
+  
+  &:hover {
+    color: hsl(var(--icon-hue), var(--icon-saturation), calc(var(--icon-lightness) + 10%));
+  }
+  
+  &:active {
+    color: hsl(var(--icon-hue), var(--icon-saturation), calc(var(--icon-lightness) - 10%));
+  }
+}
+
+// === 主题色图标类 ===
+// 基于主题色的图标颜色
+.Takt-icon-primary { .icon-color(@primary-color); }        // 主色调图标
+.Takt-icon-success { .icon-color(@success-color); }        // 成功色图标
+.Takt-icon-warning { .icon-color(@warning-color); }        // 警告色图标
+.Takt-icon-error { .icon-color(@error-color); }            // 错误色图标
+.Takt-icon-info { .icon-color(@info-color); }              // 信息色图标
+
+// === 渐变图标类 ===
+// 为图标提供渐变颜色效果
+.Takt-icon-gradient-primary {
+  background: linear-gradient(45deg, @primary-color, lighten(@primary-color, 20%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.Takt-icon-gradient-success {
+  background: linear-gradient(45deg, @success-color, lighten(@success-color, 20%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.Takt-icon-gradient-warning {
+  background: linear-gradient(45deg, @warning-color, lighten(@warning-color, 20%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.Takt-icon-gradient-error {
+  background: linear-gradient(45deg, @error-color, lighten(@error-color, 20%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// === 动画图标类 ===
+// 为图标提供动画效果
+.Takt-icon-pulse {
+  animation: icon-pulse 2s infinite;
+}
+
+.Takt-icon-spin {
+  animation: icon-spin 1s linear infinite;
+}
+
+.Takt-icon-bounce {
+  animation: icon-bounce 1s infinite;
+}
+
+.Takt-icon-shake {
+  animation: icon-shake 0.5s ease-in-out infinite;
+}
+
+// === 图标动画关键帧 ===
+@keyframes icon-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes icon-bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+@keyframes icon-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(2px);
+  }
+}
+
+// === 响应式图标类 ===
+// 根据屏幕尺寸调整图标大小
+.Takt-icon-responsive {
+  font-size: 1rem;
+  
+  @media (max-width: @screen-sm) {
+    font-size: 0.875rem;
+  }
+  
+  @media (max-width: @screen-xs) {
+    font-size: 0.75rem;
+  }
+}
+
+// === 图标尺寸类 ===
+// 预定义的图标尺寸
+.Takt-icon-xs { font-size: 0.75rem; }
+.Takt-icon-sm { font-size: 0.875rem; }
+.Takt-icon-md { font-size: 1rem; }
+.Takt-icon-lg { font-size: 1.25rem; }
+.Takt-icon-xl { font-size: 1.5rem; }
+.Takt-icon-xxl { font-size: 2rem; }
+
+// === 图标状态类 ===
+// 图标的不同状态样式
+.Takt-icon-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.Takt-icon-loading {
+  opacity: 0.7;
+  animation: icon-spin 1s linear infinite;
+}
+
+.Takt-icon-selected {
+  color: @primary-color;
+  font-weight: bold;
+}
+
+.Takt-icon-highlight {
+  color: @warning-color;
+  animation: icon-pulse 1s infinite;
+} 

@@ -1,0 +1,53 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : {{ className }}.cs
+// 创建者 : {{ author }}
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table_comment }}
+//===================================================================
+
+using SqlSugar;
+using Takt.Domain.Entities.Identity;
+
+namespace {{ base_namespace }}.Domain.Entities.{{ module_name }};
+
+/// <summary>
+/// {{ table_comment }}
+/// </summary>
+[SugarTable("{{ table_name }}", "{{ table_comment }}")]
+public class {{ className }} : TaktBaseEntity
+{
+    #region 属性
+    {{~ for column in table.columns ~}}
+    {{~ if column.column_name != "id" and column.column_name != "create_time" and column.column_name != "update_time" ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    [SugarColumn(ColumnName = "{{ column.column_name }}", ColumnDescription = "{{ column.column_comment }}", 
+        {{~ if column.is_primary_key ~}}IsPrimaryKey = true, {{~ end ~}}
+        {{~ if column.is_identity ~}}IsIdentity = true, {{~ end ~}}
+        {{~ if column.data_type == "nvarchar" or column.data_type == "varchar" ~}}
+        Length = {{ column.length }}, 
+        ColumnDataType = "{{ column.data_type }}", 
+        {{~ end ~}}
+        {{~ if column.data_type == "decimal" or column.data_type == "double" or column.data_type == "float" ~}}
+        Precision = {{ column.precision }},
+        Scale = {{ column.scale }},
+        {{~ end ~}}
+        IsNullable = {{ column.is_nullable | to_lower }}, 
+        DefaultValue = "{{ column.default_value }}")]
+    public {{ column.csharp_type }}{{~ if column.is_nullable ~}}?{{~ end ~}} {{ column.property_name }} { get; set; }{{~ if column.is_nullable ~}} = null;{{~ else if column.csharp_type == "string" ~}} = string.Empty;{{~ end ~}}
+    {{~ end ~}}
+    {{~ end ~}}
+    #endregion
+
+    /// <summary>
+    /// 子节点列表
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    public List<{{ className }}> Children { get; set; } = new();
+} 
+

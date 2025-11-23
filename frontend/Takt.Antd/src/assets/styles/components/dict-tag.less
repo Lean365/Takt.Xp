@@ -1,0 +1,362 @@
+﻿@import '../variables.less';
+
+.Takt-dict-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: @dict-tag-min-width;
+  padding: @dict-tag-padding;
+  font-size: @dict-tag-font-size;
+  line-height: @dict-tag-line-height;
+  white-space: nowrap;
+  border-radius: @dict-tag-border-radius;
+  transition: @dict-tag-transition;
+
+  // 基础样式
+  &-default {
+    color: @dict-tag-default-color;
+    background: @dict-tag-default-bg;
+    border-color: @dict-tag-default-border;
+  }
+
+  &-primary {
+    color: @dict-tag-primary-color;
+    background: @dict-tag-primary-bg;
+    border-color: @dict-tag-primary-border;
+  }
+
+  &-success {
+    color: @dict-tag-success-color;
+    background: @dict-tag-success-bg;
+    border-color: @dict-tag-success-border;
+  }
+
+  &-info {
+    color: @dict-tag-info-color;
+    background: @dict-tag-info-bg;
+    border-color: @dict-tag-info-border;
+  }
+
+  &-warning {
+    color: @dict-tag-warning-color;
+    background: @dict-tag-warning-bg;
+    border-color: @dict-tag-warning-border;
+  }
+
+  &-error {
+    color: @dict-tag-error-color;
+    background: @dict-tag-error-bg;
+    border-color: @dict-tag-error-border;
+  }
+
+  &-disabled {
+    color: @dict-tag-disabled-color;
+    background: @dict-tag-disabled-bg;
+    border-color: @dict-tag-disabled-border;
+  }
+
+  // 流程状态样式
+  &-process-draft {
+    color: #666666;
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+  }
+
+  &-process-pending {
+    color: #fa8c16;
+    background: #fff7e6;
+    border-color: #ffd591;
+  }
+
+  &-process-running {
+    color: #1890ff;
+    background: #e6f7ff;
+    border-color: #91d5ff;
+  }
+
+  &-process-completed {
+    color: #52c41a;
+    background: #f6ffed;
+    border-color: #b7eb8f;
+  }
+
+  &-process-rejected {
+    color: #ff4d4f;
+    background: #fff2f0;
+    border-color: #ffccc7;
+  }
+
+  &-process-canceled {
+    color: #d9d9d9;
+    background: #fafafa;
+    border-color: #f0f0f0;
+  }
+
+  &-process-suspended {
+    color: #faad14;
+    background: #fffbe6;
+    border-color: #ffe58f;
+  }
+
+  &-process-terminated {
+    color: #ff4d4f;
+    background: #fff2f0;
+    border-color: #ffccc7;
+  }
+
+  &-process-expired {
+    color: #cf1322;
+    background: #fff1f0;
+    border-color: #ffa39e;
+  }
+
+  &-process-archived {
+    color: #8c8c8c;
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+  }
+
+  // 邮件状态样式
+  &-mail-unread {
+    color: #1890ff;
+    background: #e6f7ff;
+    border-color: #91d5ff;
+  }
+
+  &-mail-read {
+    color: #8c8c8c;
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+  }
+
+  &-mail-replied {
+    color: #52c41a;
+    background: #f6ffed;
+    border-color: #b7eb8f;
+  }
+
+  &-mail-forwarded {
+    color: #722ed1;
+    background: #f9f0ff;
+    border-color: #d3adf7;
+  }
+
+  &-mail-starred {
+    color: #faad14;
+    background: #fffbe6;
+    border-color: #ffe58f;
+  }
+
+  &-mail-spam {
+    color: #ff4d4f;
+    background: #fff2f0;
+    border-color: #ffccc7;
+  }
+
+  &-mail-deleted {
+    color: #595959;
+    background: #fafafa;
+    border-color: #d9d9d9;
+  }
+
+  &-mail-draft {
+    color: #666666;
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+  }
+
+  &-mail-sent {
+    color: #52c41a;
+    background: #f6ffed;
+    border-color: #b7eb8f;
+  }
+
+  &-mail-failed {
+    color: #ff4d4f;
+    background: #fff2f0;
+    border-color: #ffccc7;
+  }
+
+  // 通知状态样式
+  &-notify-unread {
+    color: #1890ff;
+    background: #e6f7ff;
+    border-color: #91d5ff;
+  }
+
+  &-notify-read {
+    color: #8c8c8c;
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+  }
+
+  &-notify-urgent {
+    color: #f5222d;
+    background: #fff1f0;
+    border-color: #ffa39e;
+  }
+
+  &-notify-important {
+    color: #fa8c16;
+    background: #fff7e6;
+    border-color: #ffd591;
+  }
+
+  &-notify-normal {
+    color: #52c41a;
+    background: #f6ffed;
+    border-color: #b7eb8f;
+  }
+
+  &-notify-system {
+    color: #722ed1;
+    background: #f9f0ff;
+    border-color: #d3adf7;
+  }
+
+  &-notify-business {
+    color: #1890ff;
+    background: #e6f7ff;
+    border-color: #91d5ff;
+  }
+
+  &-notify-expired {
+    color: #d9d9d9;
+    background: #fafafa;
+    border-color: #f0f0f0;
+  }
+
+  &-notify-processing {
+    color: #faad14;
+    background: #fffbe6;
+    border-color: #ffe58f;
+  }
+
+  &-notify-done {
+    color: #52c41a;
+    background: #f6ffed;
+    border-color: #b7eb8f;
+  }
+
+  // 审批状态样式
+  &-audit-pending {
+    color: #fa8c16;
+    background: #fff7e6;
+    border-color: #ffd591;
+  }
+
+  &-audit-approved {
+    color: #52c41a;
+    background: #f6ffed;
+    border-color: #b7eb8f;
+  }
+
+  &-audit-rejected {
+    color: #ff4d4f;
+    background: #fff2f0;
+    border-color: #ffccc7;
+  }
+
+  &-audit-reviewing {
+    color: #1890ff;
+    background: #e6f7ff;
+    border-color: #91d5ff;
+  }
+
+  &-audit-withdrawn {
+    color: #8c8c8c;
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+  }
+
+  &-audit-transferred {
+    color: #722ed1;
+    background: #f9f0ff;
+    border-color: #d3adf7;
+  }
+
+  &-audit-countersign {
+    color: #13c2c2;
+    background: #e6fffb;
+    border-color: #87e8de;
+  }
+
+  &-audit-returned {
+    color: #faad14;
+    background: #fffbe6;
+    border-color: #ffe58f;
+  }
+
+  &-audit-suspended {
+    color: #fa8c16;
+    background: #fff7e6;
+    border-color: #ffd591;
+  }
+
+  &-audit-terminated {
+    color: #ff4d4f;
+    background: #fff2f0;
+    border-color: #ffccc7;
+  }
+
+  // 定时任务状态样式
+  &-task-normal {
+    color: #52c41a;
+    background: #f6ffed;
+    border-color: #b7eb8f;
+  }
+
+  &-task-paused {
+    color: #faad14;
+    background: #fffbe6;
+    border-color: #ffe58f;
+  }
+
+  &-task-running {
+    color: #1890ff;
+    background: #e6f7ff;
+    border-color: #91d5ff;
+  }
+
+  &-task-error {
+    color: #ff4d4f;
+    background: #fff2f0;
+    border-color: #ffccc7;
+  }
+
+  &-task-blocked {
+    color: #fa8c16;
+    background: #fff7e6;
+    border-color: #ffd591;
+  }
+
+  &-task-expired {
+    color: #cf1322;
+    background: #fff1f0;
+    border-color: #ffa39e;
+  }
+
+  &-task-timeout {
+    color: #ff7a45;
+    background: #fff2e8;
+    border-color: #ffbb96;
+  }
+
+  &-task-waiting {
+    color: #722ed1;
+    background: #f9f0ff;
+    border-color: #d3adf7;
+  }
+
+  &-task-disabled {
+    color: #8c8c8c;
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+  }
+
+  &-task-deleted {
+    color: #595959;
+    background: #fafafa;
+    border-color: #d9d9d9;
+  }
+} 

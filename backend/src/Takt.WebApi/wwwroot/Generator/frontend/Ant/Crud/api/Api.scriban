@@ -1,0 +1,71 @@
+﻿//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : api.ts
+// 创建者 : CodeGenerator
+// 创建时间: {{ datetime }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}基础API
+//===================================================================
+
+import request from '@/utils/request'
+import type { TaktApiResponse, TaktPagedResult } from '@/types/common'
+import type {
+  {{ pascal_case table.table_name }},
+  {{ pascal_case table.table_name }}Query,
+  {{ pascal_case table.table_name }}Create,
+  {{ pascal_case table.table_name }}Update
+} from '@/types/{{ table.module_name }}/{{ table.name }}'
+
+/**
+ * 获取{{ table.comment }}分页列表
+ */
+export function getPagedList(params: {{ pascal_case table.table_name }}Query) {
+  return request<TaktApiResponse<TaktPagedResult<{{ pascal_case table.table_name }}>>>({
+    url: '/api/{{ table.module_name }}/{{ table.name }}',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 获取{{ table.comment }}详情
+ */
+export function getDetail(id: number) {
+  return request<TaktApiResponse<{{ pascal_case table.table_name }}>>({
+    url: `/api/{{ table.module_name }}/{{ table.name }}/${id}`,
+    method: 'get'
+  })
+}
+
+/**
+ * 创建{{ table.comment }}
+ */
+export function create(data: {{ pascal_case table.table_name }}Create) {
+  return request<TaktApiResponse<void>>({
+    url: '/api/{{ table.module_name }}/{{ table.name }}',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 更新{{ table.comment }}
+ */
+export function update(data: {{ pascal_case table.table_name }}Update) {
+  return request<TaktApiResponse<void>>({
+    url: '/api/{{ table.module_name }}/{{ table.name }}',
+    method: 'put',
+    data
+  })
+}
+
+/**
+ * 删除{{ table.comment }}
+ */
+export function remove(id: number) {
+  return request<TaktApiResponse<void>>({
+    url: `/api/{{ table.module_name }}/{{ table.name }}/${id}`,
+    method: 'delete'
+  })
+} 
+

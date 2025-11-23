@@ -1,0 +1,23 @@
+﻿-- 菜单SQL
+INSERT INTO Takt_identity_menu (menu_name, trans_key, icon, parent_id, order_num, path, component, query_params, is_external, is_cache, menu_type, visible, perms, status, create_by, create_time, update_by, update_time, remark)
+VALUES 
+('{{table_comment}}管理', 'menu.{{module_name}}.{{table_name}}', 'FileTextOutlined', {{table_parentmenuid}}, 1, '{{table_name}}', '{{module_name}}/{{table_name}}/index', null, 0, 0, 1, 0, '{{module_name}}:{{table_name}}:list', 0, 'admin', GETDATE(), 'admin', GETDATE(), '{{table_comment}}管理菜单');
+
+-- 按钮父菜单ID
+SELECT @parentId := LAST_INSERT_ID();
+
+-- 按钮 SQL
+INSERT INTO Takt_identity_menu (menu_name, trans_key, parent_id, order_num, path, component, query_params, is_external, is_cache, menu_type, visible, perms, status, create_by, create_time, update_by, update_time, remark)
+VALUES 
+('{{table_comment}}查询', 'button.query', @parentId, 1, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:query', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}新增', 'button.create', @parentId, 2, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:create', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}修改', 'button.update', @parentId, 3, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:update', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}删除', 'button.delete', @parentId, 4, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:delete', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}详情', 'button.detail', @parentId, 5, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:detail', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}预览', 'button.preview', @parentId, 6, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:preview', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}打印', 'button.print', @parentId, 7, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:print', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}导入', 'button.import', @parentId, 8, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:import', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}导出', 'button.export', @parentId, 9, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:export', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}模板', 'button.template', @parentId, 10, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:template', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}审核', 'button.audit', @parentId, 11, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:audit', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''),
+('{{table_comment}}撤销', 'button.revoke', @parentId, 12, '#', '', null, 0, 0, 2, 0, '{{module_name}}:{{table_name}}:revoke', 0, 'admin', GETDATE(), 'admin', GETDATE(), ''); 

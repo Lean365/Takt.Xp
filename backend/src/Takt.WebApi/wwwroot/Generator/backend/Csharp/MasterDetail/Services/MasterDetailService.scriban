@@ -1,0 +1,206 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : {{ pascal_case table.table_name }}Service.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}服务实现类
+//===================================================================
+
+using Takt.Domain.Entities.{{ table.module_name }};
+using Takt.Domain.Repositories.{{ table.module_name }};
+using Takt.Domain.Dtos.{{ table.module_name }};
+using Takt.Domain.Interfaces.{{ table.module_name }};
+using Takt.Infrastructure.Exceptions;
+using Microsoft.Extensions.Logging;
+
+namespace Takt.Application.Services.{{ table.module_name }};
+
+/// <summary>
+/// {{ table.comment }}服务实现类
+/// </summary>
+public class {{ pascal_case table.table_name }}Service : I{{ pascal_case table.table_name }}Service
+{
+    private readonly I{{ pascal_case table.table_name }}Repository _repository;
+    private readonly ILogger<{{ pascal_case table.table_name }}Service> _logger;
+
+    public {{ pascal_case table.table_name }}Service(
+        I{{ pascal_case table.table_name }}Repository repository,
+        ILogger<{{ pascal_case table.table_name }}Service> logger)
+    {
+        _repository = repository;
+        _logger = logger;
+    }
+
+    /// <summary>
+    /// 获取分页列表
+    /// </summary>
+    /// <param name="input">查询参数</param>
+    /// <returns>分页结果</returns>
+    public async Task<PagedResultDto<{{ pascal_case table.table_name }}Dto>> GetListAsync({{ pascal_case table.table_name }}QueryDto input)
+    {
+        try
+        {
+            _logger.Info("开始获取{{ table.comment }}分页列表");
+            var result = await _repository.GetListAsync(input);
+            _logger.Info("获取{{ table.comment }}分页列表成功");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error( "获取{{ table.comment }}分页列表失败");
+            throw new BusinessException("获取{{ table.comment }}分页列表失败", ex);
+        }
+    }
+
+    /// <summary>
+    /// 获取详情
+    /// </summary>
+    /// <param name="id">主键ID</param>
+    /// <returns>详情信息</returns>
+    public async Task<{{ pascal_case table.table_name }}Dto> GetByIdAsync(long id)
+    {
+        try
+        {
+            _logger.Info("开始获取{{ table.comment }}详情，ID：{Id}", id);
+            var result = await _repository.GetByIdAsync(id);
+            _logger.Info("获取{{ table.comment }}详情成功，ID：{Id}", id);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error( "获取{{ table.comment }}详情失败，ID：{Id}", id);
+            throw new BusinessException("获取{{ table.comment }}详情失败", ex);
+        }
+    }
+
+    /// <summary>
+    /// 创建主从表数据
+    /// </summary>
+    /// <param name="input">创建参数</param>
+    /// <returns>创建结果</returns>
+    public async Task<{{ pascal_case table.table_name }}Dto> CreateAsync({{ pascal_case table.table_name }}CreateDto input)
+    {
+        try
+        {
+            _logger.Info("开始创建{{ table.comment }}");
+            var result = await _repository.CreateAsync(input);
+            _logger.Info("创建{{ table.comment }}成功");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error( "创建{{ table.comment }}失败");
+            throw new BusinessException("创建{{ table.comment }}失败", ex);
+        }
+    }
+
+    /// <summary>
+    /// 更新主从表数据
+    /// </summary>
+    /// <param name="input">更新参数</param>
+    /// <returns>更新结果</returns>
+    public async Task<{{ pascal_case table.table_name }}Dto> UpdateAsync({{ pascal_case table.table_name }}UpdateDto input)
+    {
+        try
+        {
+            _logger.Info("开始更新{{ table.comment }}，ID：{Id}", input.Id);
+            var result = await _repository.UpdateAsync(input);
+            _logger.Info("更新{{ table.comment }}成功，ID：{Id}", input.Id);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error( "更新{{ table.comment }}失败，ID：{Id}", input.Id);
+            throw new BusinessException("更新{{ table.comment }}失败", ex);
+        }
+    }
+
+    /// <summary>
+    /// 删除主从表数据
+    /// </summary>
+    /// <param name="ids">主键ID数组</param>
+    /// <returns>删除结果</returns>
+    public async Task<bool> DeleteAsync(long[] ids)
+    {
+        try
+        {
+            _logger.Info("开始删除{{ table.comment }}，IDs：{Ids}", string.Join(",", ids));
+            var result = await _repository.DeleteAsync(ids);
+            _logger.Info("删除{{ table.comment }}成功，IDs：{Ids}", string.Join(",", ids));
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error( "删除{{ table.comment }}失败，IDs：{Ids}", string.Join(",", ids));
+            throw new BusinessException("删除{{ table.comment }}失败", ex);
+        }
+    }
+
+    /// <summary>
+    /// 获取从表列表
+    /// </summary>
+    /// <param name="masterId">主表ID</param>
+    /// <returns>从表列表</returns>
+    public async Task<List<{{ pascal_case table.table_name }}DetailDto>> GetDetailsAsync(long masterId)
+    {
+        try
+        {
+            _logger.Info("开始获取{{ table.comment }}从表列表，主表ID：{MasterId}", masterId);
+            var result = await _repository.GetDetailsAsync(masterId);
+            _logger.Info("获取{{ table.comment }}从表列表成功，主表ID：{MasterId}", masterId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error( "获取{{ table.comment }}从表列表失败，主表ID：{MasterId}", masterId);
+            throw new BusinessException("获取{{ table.comment }}从表列表失败", ex);
+        }
+    }
+
+    /// <summary>
+    /// 更新从表数据
+    /// </summary>
+    /// <param name="masterId">主表ID</param>
+    /// <param name="details">从表数据列表</param>
+    /// <returns>更新结果</returns>
+    public async Task<bool> UpdateDetailsAsync(long masterId, List<{{ pascal_case table.table_name }}DetailDto> details)
+    {
+        try
+        {
+            _logger.Info("开始更新{{ table.comment }}从表数据，主表ID：{MasterId}", masterId);
+            var result = await _repository.UpdateDetailsAsync(masterId, details);
+            _logger.Info("更新{{ table.comment }}从表数据成功，主表ID：{MasterId}", masterId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error( "更新{{ table.comment }}从表数据失败，主表ID：{MasterId}", masterId);
+            throw new BusinessException("更新{{ table.comment }}从表数据失败", ex);
+        }
+    }
+
+    /// <summary>
+    /// 删除从表数据
+    /// </summary>
+    /// <param name="masterId">主表ID</param>
+    /// <returns>删除结果</returns>
+    public async Task<bool> DeleteDetailsAsync(long masterId)
+    {
+        try
+        {
+            _logger.Info("开始删除{{ table.comment }}从表数据，主表ID：{MasterId}", masterId);
+            var result = await _repository.DeleteDetailsAsync(masterId);
+            _logger.Info("删除{{ table.comment }}从表数据成功，主表ID：{MasterId}", masterId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error( "删除{{ table.comment }}从表数据失败，主表ID：{MasterId}", masterId);
+            throw new BusinessException("删除{{ table.comment }}从表数据失败", ex);
+        }
+    }
+}
+

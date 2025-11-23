@@ -1,0 +1,151 @@
+﻿#nullable enable
+
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Mapster;
+using Takt.Application.Dtos.{{ table.module_name }};
+using Takt.Application.Services.{{ table.module_name }};
+using Takt.Domain.IServices.Extensions;
+using Takt.Infrastructure.Security.Attributes;
+
+namespace Takt.WebApi.Controllers.{{ table.module_name }};
+
+/// <summary>
+/// {{ table.comment }}控制器
+/// </summary>
+[Route("api/[controller]", Name = "{{ table.comment }}")]
+[ApiController]
+[ApiModule("{{ table.module_name }}", "{{ table.module_comment }}")]
+public class {{ pascal_case table.table_name }}Controller : TaktBaseController
+{
+    private readonly I{{ pascal_case table.table_name }}Service _service;
+
+    public {{ pascal_case table.table_name }}Controller(
+        I{{ pascal_case table.table_name }}Service service,
+        ITaktLocalizationService localization)
+        : base(localization)
+    {
+        _service = service;
+    }
+
+    [HttpGet("list")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:list")]
+    public async Task<IActionResult> GetListAsync([FromQuery] {{ pascal_case table.table_name }}QueryDto query)
+    {
+        var result = await _service.GetListAsync(query);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.List.Success"));
+    }
+
+    [HttpGet("{id}")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:query")]
+    public async Task<IActionResult> GetByIdAsync(long id)
+    {
+        var result = await _service.GetByIdAsync(id);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Get.Success"));
+    }
+
+    [HttpPost]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:create")]
+    public async Task<IActionResult> CreateAsync([FromBody] {{ pascal_case table.table_name }}CreateDto input)
+    {
+        var result = await _service.CreateAsync(input);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Create.Success"));
+    }
+
+    [HttpPut]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:update")]
+    public async Task<IActionResult> UpdateAsync([FromBody] {{ pascal_case table.table_name }}UpdateDto input)
+    {
+        var result = await _service.UpdateAsync(input);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Update.Success"));
+    }
+
+    [HttpDelete("batch")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:delete")]
+    public async Task<IActionResult> DeleteAsync([FromBody] long[] ids)
+    {
+        var result = await _service.DeleteAsync(ids);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Delete.Success"));
+    }
+
+    [HttpGet("detail/list/{masterId}")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:query")]
+    public async Task<IActionResult> GetDetailListAsync(long masterId)
+    {
+        var result = await _service.GetDetailListAsync(masterId);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Detail.List.Success"));
+    }
+
+    [HttpGet("detail/{id}")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:query")]
+    public async Task<IActionResult> GetDetailByIdAsync(long id)
+    {
+        var result = await _service.GetDetailByIdAsync(id);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Detail.Get.Success"));
+    }
+
+    [HttpPost("detail")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:create")]
+    public async Task<IActionResult> CreateDetailAsync([FromBody] {{ pascal_case table.table_name }}DetailCreateDto input)
+    {
+        var result = await _service.CreateDetailAsync(input);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Detail.Create.Success"));
+    }
+
+    [HttpPut("detail")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:update")]
+    public async Task<IActionResult> UpdateDetailAsync([FromBody] {{ pascal_case table.table_name }}DetailUpdateDto input)
+    {
+        var result = await _service.UpdateDetailAsync(input);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Detail.Update.Success"));
+    }
+
+    [HttpDelete("detail/batch")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:delete")]
+    public async Task<IActionResult> DeleteDetailAsync([FromBody] long[] ids)
+    {
+        var result = await _service.DeleteDetailAsync(ids);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Detail.Delete.Success"));
+    }
+
+    [HttpPost("import")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:import")]
+    public async Task<IActionResult> ImportAsync(IFormFile file)
+    {
+        using var stream = file.OpenReadStream();
+        var result = await _service.ImportAsync(stream, "{{ pascal_case table.table_name }}");
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Import.Success"));
+    }
+
+    [HttpGet("export")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:export")]
+    public async Task<IActionResult> ExportAsync([FromQuery] {{ pascal_case table.table_name }}QueryDto query)
+    {
+        var result = await _service.ExportAsync(query, "{{ pascal_case table.table_name }}");
+        return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "{{ table.comment }}数据.xlsx");
+    }
+
+    [HttpGet("template")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:import")]
+    public async Task<IActionResult> GetTemplateAsync()
+    {
+        var result = await _service.GetTemplateAsync("{{ pascal_case table.table_name }}");
+        return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "{{ table.comment }}导入模板.xlsx");
+    }
+
+    [HttpPut("{id}/status")]
+    [TaktPerm("{{ table.module_name }}:{{ snake_case table.table_name }}:update")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateStatusAsync([FromBody] {{ pascal_case table.table_name }}StatusDto input)
+    {
+        var result = await _service.UpdateStatusAsync(input);
+        return Success(result, _localization.L("{{ pascal_case table.table_name }}.Status.Success"));
+    }
+}

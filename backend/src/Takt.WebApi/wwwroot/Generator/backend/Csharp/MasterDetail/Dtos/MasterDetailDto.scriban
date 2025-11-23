@@ -1,0 +1,56 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : {{ table.name }}MasterDetailDto.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}主子表DTO
+//===================================================================
+
+using System.ComponentModel.DataAnnotations;
+
+namespace Takt.Application.Dtos.{{ table.module_name }};
+
+/// <summary>
+/// {{ table.comment }}主子表DTO
+/// </summary>
+public class {{ pascal_case table.table_name }}MasterDetailDto
+{
+    /// <summary>
+    /// 主表信息
+    /// </summary>
+    public {{ pascal_case table.table_name }}Dto Master { get; set; } = new();
+
+    /// <summary>
+    /// 子表信息列表
+    /// </summary>
+    public List<{{ pascal_case table.table_name }}DetailDto> Details { get; set; } = new();
+}
+
+/// <summary>
+/// {{ table.comment }}子表DTO
+/// </summary>
+public class {{ pascal_case table.table_name }}DetailDto
+{
+    /// <summary>
+    /// 主键ID
+    /// </summary>
+    public long Id { get; set; }
+
+    /// <summary>
+    /// 主表ID
+    /// </summary>
+    public long MasterId { get; set; }
+
+    {{~ for column in table.columns ~}}
+    {{~ if column.column_name != "id" and column.column_name != "master_id" ~}}
+    /// <summary>
+    /// {{ column.column_comment }}
+    /// </summary>
+    public {{ to_csharp_type column.data_type }}{{~ if column.is_nullable ~}}?{{~ end ~}} {{ pascal_case column.column_name }} { get; set; }{{~ if column.is_nullable ~}} = null;{{~ else if column.data_type == "string" ~}} = string.Empty;{{~ end ~}}
+    {{~ end ~}}
+    {{~ end ~}}
+} 
+

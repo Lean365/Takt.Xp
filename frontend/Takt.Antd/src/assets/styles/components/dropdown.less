@@ -1,0 +1,59 @@
+﻿// ===================================================================
+// 项目名称: Lean.Takt
+// 文件名称: dropdown.less
+// 创建日期: 2024-03-20
+// 描述: 下拉菜单全局样式定义
+// ===================================================================
+
+@import '../variables.less';
+
+// 下拉菜单项样式混入
+.dropdown-item-color(@color) {
+  color: @color;
+  border-color: @color;
+  background: transparent;
+
+  .anticon {
+    color: @color;
+  }
+
+  &:hover {
+    color: @white;
+    background: @color;
+    border-color: @color;
+
+    .anticon {
+      color: @white;
+    }
+  }
+}
+
+// 基础下拉菜单样式
+.ant-dropdown .ant-dropdown-menu {
+  min-width: 120px;
+  padding: 4px;
+  border-radius: @border-radius-base !important;
+  overflow: hidden;
+
+  .ant-dropdown-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 12px;
+    margin: 4px 8px;
+    border-radius: @border-radius-base;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+
+    .anticon {
+      margin-right: 8px;
+    }
+
+    &.Takt-dropdown-import {
+      .dropdown-item-color(@btn-import-color);
+    }
+
+    &.Takt-dropdown-template {
+      .dropdown-item-color(@btn-template-color);
+    }
+  }
+} 

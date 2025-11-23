@@ -1,0 +1,43 @@
+/*
+ * @Author: TaktXp Team
+ * @Date: 2024-12-01
+ * @Description: LogicFlow 流程设计器样式（基于 OpenAuth.Net CreatedFlow，适配 Ant Design Vue）
+ * Copyright (c) 2024 by TaktXp Team, All Rights Reserved.
+ */
+$primary-color: #1890ff;
+
+.container {
+    border: 2px solid #e4e7ed;
+    height: 100%;
+    
+    -moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+.select-area {
+    border-right: 1px solid #e4e7ed;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.content {
+    background: #fafafa;
+    height: 100%;
+    border: 2px dashed rgba(170,170,170,0.7);
+    position: relative;
+}
+
+.attr-area {
+    border-left: 1px solid #e4e7ed;
+}
+
+.logicflow-container {
+    width: 100%;
+    height: 100%;
+}
+

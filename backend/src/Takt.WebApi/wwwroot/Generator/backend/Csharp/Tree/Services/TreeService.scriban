@@ -1,0 +1,317 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : {{ pascal_case table.table_name }}Service.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}服务实现类
+//===================================================================
+
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Mapster;
+using SqlSugar;
+using Takt.Common.Models;
+using Takt.Common.Extensions;
+using Takt.Common.Exceptions;
+using Takt.Common.Utils;
+using Takt.Domain.Entities.{{ table.module_name }};
+using Takt.Application.Dtos.{{ table.module_name }};
+using Takt.Infrastructure.Data.Repositories;
+using Takt.Domain.Repositories.{{ table.module_name }};
+using Takt.Domain.Dtos.{{ table.module_name }};
+using Takt.Domain.Interfaces.{{ table.module_name }};
+using Takt.Infrastructure.Exceptions;
+using Microsoft.Extensions.Logging;
+
+namespace Takt.Application.Services.{{ table.module_name }};
+
+/// <summary>
+/// {{ table.comment }}服务实现类
+/// </summary>
+/// <remarks>
+/// 创建者: Lean365
+/// 创建时间: {{ date }}
+/// </remarks>
+public class {{ pascal_case table.table_name }}Service : I{{ pascal_case table.table_name }}Service
+{
+    private readonly I{{ pascal_case table.table_name }}Repository _repository;
+    private readonly ILogger<{{ pascal_case table.table_name }}Service> _logger;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public {{ pascal_case table.table_name }}Service(
+        I{{ pascal_case table.table_name }}Repository repository,
+        ILogger<{{ pascal_case table.table_name }}Service> logger)
+    {
+        _repository = repository;
+        _logger = logger;
+    }
+
+    /// <summary>
+    /// 获取树形列表
+    /// </summary>
+    /// <param name="query">查询参数</param>
+    /// <returns>树形列表</returns>
+    public async Task<List<{{ pascal_case table.table_name }}TreeDto>> GetTreeListAsync({{ pascal_case table.table_name }}QueryDto query)
+    {
+        var exp = Expressionable.Create<{{ pascal_case table.table_name }}>();
+
+        // 构建查询条件
+        {{~ for column in table.columns ~}}
+        {{~ if column.is_query ~}}
+        if (query.{{ pascal_case column.column_name }} != null)
+        {
+            {{~ if column.query_type == "LIKE" ~}}
+            exp.And(x => x.{{ pascal_case column.column_name }}.Contains(query.{{ pascal_case column.column_name }}));
+            {{~ else ~}}
+            exp.And(x => x.{{ pascal_case column.column_name }} == query.{{ pascal_case column.column_name }});
+            {{~ end ~}}
+        }
+        {{~ end ~}}
+        {{~ end ~}}
+
+        var list = await _repository.GetListAsync(exp.ToExpression());
+        var treeList = list.Adapt<List<{{ pascal_case table.table_name }}TreeDto>>();
+        return treeList.BuildTree();
+    }
+
+    /// <summary>
+    /// 获取详情
+    /// </summary>
+    /// <param name="id">主键ID</param>
+    /// <returns>详情信息</returns>
+    public async Task<{{ pascal_case table.table_name }}Dto> GetByIdAsync(long id)
+    {
+        var entity = await _repository.GetByIdAsync(id);
+        if (entity == null)
+            throw new TaktException($"未找到ID为{id}的{{ table.comment }}");
+
+        return entity.Adapt<{{ pascal_case table.table_name }}Dto>();
+    }
+
+    /// <summary>
+    /// 创建数据
+    /// </summary>
+    /// <param name="input">创建参数</param>
+    /// <returns>创建结果</returns>
+    public async Task<TaktResult> CreateAsync({{ pascal_case table.table_name }}CreateDto input)
+    {
+        // 数据验证
+        {{~ for column in table.columns ~}}
+        {{~ if column.is_unique ~}}
+        await TaktValidateUtils.ValidateFieldExistsAsync(_repository, "{{ pascal_case column.column_name }}", input.{{ pascal_case column.column_name }});
+        {{~ end ~}}
+        {{~ end ~}}
+
+        var entity = input.Adapt<{{ pascal_case table.table_name }}>();
+        var result = await _repository.CreateAsync(entity);
+        return result ? TaktResult.Success("新增成功") : TaktResult.Error("新增失败");
+    }
+
+    /// <summary>
+    /// 更新数据
+    /// </summary>
+    /// <param name="input">更新参数</param>
+    /// <returns>更新结果</returns>
+    public async Task<TaktResult> UpdateAsync({{ pascal_case table.table_name }}UpdateDto input)
+    {
+        var entity = await _repository.GetByIdAsync(input.Id);
+        if (entity == null)
+            throw new TaktException($"未找到ID为{input.Id}的{{ table.comment }}");
+
+        // 数据验证
+        {{~ for column in table.columns ~}}
+        {{~ if column.is_unique ~}}
+        await TaktValidateUtils.ValidateFieldExistsAsync(_repository, "{{ pascal_case column.column_name }}", input.{{ pascal_case column.column_name }}, input.Id);
+        {{~ end ~}}
+        {{~ end ~}}
+
+        input.Adapt(entity);
+        var result = await _repository.UpdateAsync(entity);
+        return result ? TaktResult.Success("更新成功") : TaktResult.Error("更新失败");
+    }
+
+    /// <summary>
+    /// 删除数据
+    /// </summary>
+    /// <param name="ids">主键ID数组</param>
+    /// <returns>删除结果</returns>
+    public async Task<TaktResult> DeleteAsync(long[] ids)
+    {
+        var result = await _repository.DeleteAsync(ids);
+        return result ? TaktResult.Success("删除成功") : TaktResult.Error("删除失败");
+    }
+
+    #region 扩展操作
+
+    /// <summary>
+    /// 获取子节点
+    /// </summary>
+    /// <param name="parentId">父节点ID</param>
+    /// <returns>子节点列表</returns>
+    public async Task<List<{{ pascal_case table.table_name }}Dto>> GetChildrenAsync(long parentId)
+    {
+        var list = await _repository.GetListAsync(x => x.ParentId == parentId);
+        return list.Adapt<List<{{ pascal_case table.table_name }}Dto>>();
+    }
+
+    /// <summary>
+    /// 获取所有子节点ID
+    /// </summary>
+    /// <param name="parentId">父节点ID</param>
+    /// <returns>子节点ID列表</returns>
+    public async Task<List<long>> GetAllChildrenIdsAsync(long parentId)
+    {
+        var list = await _repository.GetListAsync(x => x.ParentId == parentId);
+        var ids = list.Select(x => x.Id).ToList();
+        foreach (var id in ids.ToList())
+        {
+            var childrenIds = await GetAllChildrenIdsAsync(id);
+            ids.AddRange(childrenIds);
+        }
+        return ids;
+    }
+
+    /// <summary>
+    /// 获取所有父节点ID
+    /// </summary>
+    /// <param name="id">节点ID</param>
+    /// <returns>父节点ID列表</returns>
+    public async Task<List<long>> GetAllParentIdsAsync(long id)
+    {
+        var entity = await _repository.GetByIdAsync(id);
+        if (entity == null)
+            return new List<long>();
+
+        var ids = new List<long>();
+        while (entity.ParentId > 0)
+        {
+            ids.Add(entity.ParentId);
+            entity = await _repository.GetByIdAsync(entity.ParentId);
+        }
+        return ids;
+    }
+
+    /// <summary>
+    /// 移动节点
+    /// </summary>
+    /// <param name="input">移动参数</param>
+    /// <returns>移动结果</returns>
+    public async Task<TaktResult> MoveAsync({{ pascal_case table.table_name }}MoveDto input)
+    {
+        var entity = await _repository.GetByIdAsync(input.Id);
+        if (entity == null)
+            throw new TaktException($"未找到ID为{input.Id}的{{ table.comment }}");
+
+        entity.ParentId = input.ParentId;
+        var result = await _repository.UpdateAsync(entity);
+        return result ? TaktResult.Success("移动成功") : TaktResult.Error("移动失败");
+    }
+
+    /// <summary>
+    /// 导入数据
+    /// </summary>
+    /// <param name="fileStream">Excel文件流</param>
+    /// <param name="sheetName">工作表名称</param>
+    /// <returns>返回导入结果(success:成功数量,fail:失败数量)</returns>
+    public async Task<(int success, int fail)> ImportAsync(Stream fileStream, string sheetName = "{{EntityName}}")
+    {
+        try
+        {
+            var data = TaktExcelHelper.ImportFromExcel<{{ pascal_case table.table_name }}ImportDto>(fileStream, sheetName);
+            if (data == null || !data.Any())
+                return (0, 0);
+
+            var success = 0;
+            var fail = 0;
+
+            foreach (var item in data)
+            {
+                try
+                {
+                    // 数据验证
+                    {{~ for column in table.columns ~}}
+                    {{~ if column.is_unique ~}}
+                    await TaktValidateUtils.ValidateFieldExistsAsync(_repository, "{{ pascal_case column.column_name }}", item.{{ pascal_case column.column_name }});
+                    {{~ end ~}}
+                    {{~ end ~}}
+
+                    var entity = item.Adapt<{{ pascal_case table.table_name }}>();
+                    if (await _repository.CreateAsync(entity))
+                        success++;
+                    else
+                        fail++;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error( "导入{{ table.comment }}数据失败，数据：{Data}", item);
+                    fail++;
+                }
+            }
+
+            return (success, fail);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error( "导入{{ table.comment }}数据失败");
+            throw new TaktException($"导入失败：{ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 导出数据
+    /// </summary>
+    /// <param name="query">查询条件</param>
+    /// <param name="sheetName">工作表名称</param>
+    /// <returns>Excel文件字节数组</returns>
+    public async Task<(string fileName, byte[] content)> ExportAsync({{ pascal_case table.table_name }}QueryDto query, string sheetName = "{{EntityName}}")
+    {
+        var list = await GetTreeListAsync(query);
+        if (!list.Any())
+            return Array.Empty<byte>();
+
+        var data = list.Adapt<List<{{ pascal_case table.table_name }}ExportDto>>();
+        return TaktExcelHelper.ExportToExcel(data, sheetName);
+    }
+
+    /// <summary>
+    /// 获取导入模板
+    /// </summary>
+    /// <param name="sheetName">工作表名称</param>
+    /// <returns>Excel模板文件字节数组</returns>
+    public async Task<(string fileName, byte[] content)> GetTemplateAsync(string sheetName = "{{EntityName}}")
+    {
+        var list = new List<{{ pascal_case table.table_name }}ImportDto>
+        {
+            new {{ pascal_case table.table_name }}ImportDto()
+        };
+        return TaktExcelHelper.ExportToExcel(list, sheetName);
+    }
+
+    /// <summary>
+    /// 更新状态
+    /// </summary>
+    /// <param name="input">状态更新参数</param>
+    /// <returns>更新结果</returns>
+    public async Task<TaktResult> UpdateStatusAsync({{ pascal_case table.table_name }}StatusDto input)
+    {
+        var entity = await _repository.GetByIdAsync(input.Id);
+        if (entity == null)
+            throw new TaktException($"未找到ID为{input.Id}的{{ table.comment }}");
+
+        entity.Status = input.Status;
+        var result = await _repository.UpdateAsync(entity);
+        return result ? TaktResult.Success("状态更新成功") : TaktResult.Error("状态更新失败");
+    }
+
+    #endregion
+} 
+

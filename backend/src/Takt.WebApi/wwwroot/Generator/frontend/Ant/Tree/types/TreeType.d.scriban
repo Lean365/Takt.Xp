@@ -1,0 +1,155 @@
+﻿//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : TreeType.d.ts
+// 创建者 : CodeGenerator
+// 创建时间: {{ datetime }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}树形类型定义
+//===================================================================
+
+/**
+ * {{ table.comment }}实体
+ */
+export interface {{ pascal_case table.table_name }} {
+  {{~ for column in table.columns ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}查询参数
+ */
+export interface {{ pascal_case table.table_name }}Query {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_query ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}?: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+  /**
+   * 父级ID
+   */
+  parentId?: number;
+  /**
+   * 页码
+   */
+  pageIndex?: number;
+  /**
+   * 每页条数
+   */
+  pageSize?: number;
+}
+
+/**
+ * {{ table.comment }}创建参数
+ */
+export interface {{ pascal_case table.table_name }}Create {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_create ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}更新参数
+ */
+export interface {{ pascal_case table.table_name }}Update {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_update ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+}
+
+/**
+ * {{ table.comment }}树形结构
+ */
+export interface {{ pascal_case table.table_name }}Tree extends {{ pascal_case table.table_name }} {
+  /**
+   * 子节点
+   */
+  children?: {{ pascal_case table.table_name }}Tree[];
+  /**
+   * 父级ID
+   */
+  parentId?: number;
+  /**
+   * 层级
+   */
+  level?: number;
+  /**
+   * 是否叶子节点
+   */
+  isLeaf?: boolean;
+  /**
+   * 是否展开
+   */
+  expanded?: boolean;
+  /**
+   * 是否选中
+   */
+  selected?: boolean;
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean;
+}
+
+/**
+ * {{ table.comment }}树形查询参数
+ */
+export interface {{ pascal_case table.table_name }}TreeQuery {
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_query ~}}
+  /**
+   * {{ column.comment }}
+   */
+  {{ column.name }}?: {{ column.type }};
+  {{~ end ~}}
+  {{~ end ~}}
+  /**
+   * 父级ID
+   */
+  parentId?: number;
+  /**
+   * 是否包含子节点
+   */
+  includeChildren?: boolean;
+  /**
+   * 是否包含父节点
+   */
+  includeParents?: boolean;
+}
+
+/**
+ * {{ table.comment }}树形创建参数
+ */
+export interface {{ pascal_case table.table_name }}TreeCreate extends {{ pascal_case table.table_name }}Create {
+  /**
+   * 父级ID
+   */
+  parentId?: number;
+}
+
+/**
+ * {{ table.comment }}树形更新参数
+ */
+export interface {{ pascal_case table.table_name }}TreeUpdate extends {{ pascal_case table.table_name }}Update {
+  /**
+   * 父级ID
+   */
+  parentId?: number;
+} 
+

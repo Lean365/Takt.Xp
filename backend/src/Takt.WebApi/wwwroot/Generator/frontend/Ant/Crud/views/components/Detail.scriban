@@ -1,0 +1,449 @@
+﻿//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : detail.vue
+// 创建者 : CodeGenerator
+// 创建时间: {{ datetime }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}详情页面
+//===================================================================
+
+<template>
+  <div class="app-container">
+    <el-card class="detail-wrapper">
+      <template #header>
+        <div class="card-header">
+          <span class="title">{{ table.comment }}详情</span>
+          <div class="actions">
+            <el-button @click="goBack">
+              <el-icon><Back /></el-icon>返回
+            </el-button>
+            <el-button type="primary" @click="handleEdit">
+              <el-icon><Edit /></el-icon>编辑
+            </el-button>
+          </div>
+        </div>
+      </template>
+
+      <el-descriptions :column="2" border>
+        {{~ for column in table.columns ~}}
+        {{~ if column.is_detail ~}}
+        <el-descriptions-item label="{{ column.comment }}">
+          {{~ if column.type == 'boolean' ~}}
+          <el-tag :type="detailData.{{ column.name }} ? 'success' : 'danger'">
+            {{ detailData.{{ column.name }} ? '是' : '否' }}
+          </el-tag>
+          {{~ else if column.type == 'enum' ~}}
+          {{~ for option in column.options ~}}
+          <el-tag v-if="detailData.{{ column.name }} === {{ option.value }}" :type="'{{ option.type }}'">
+            {{ option.label }}
+          </el-tag>
+          {{~ end ~}}
+          {{~ else ~}}
+          {{ detailData.{{ column.name }} }}
+          {{~ end ~}}
+        </el-descriptions-item>
+        {{~ end ~}}
+        {{~ end ~}}
+      </el-descriptions>
+
+      {{~ if table.is_tree ~}}
+      <!-- 树形结构 -->
+      <div class="tree-wrapper">
+        <div class="tree-header">
+          <span class="title">子级列表</span>
+          <el-button type="primary" @click="handleAddChild">
+            <el-icon><Plus /></el-icon>新增子级
+          </el-button>
+        </div>
+        <el-table
+          v-loading="treeLoading"
+          :data="treeData"
+          row-key="id"
+          border
+          default-expand-all
+          :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+        >
+          {{~ for column in table.columns ~}}
+          {{~ if column.is_table ~}}
+          <el-table-column
+            prop="{{ column.name }}"
+            label="{{ column.comment }}"
+            {{~ if column.type == 'boolean' ~}}
+            width="80"
+            {{~ else if column.type == 'date' || column.type == 'datetime' ~}}
+            width="160"
+            {{~ else if column.type == 'number' ~}}
+            width="120"
+            {{~ else if column.type == 'string' && column.length > 100 ~}}
+            width="200"
+            {{~ end ~}}
+          >
+            {{~ if column.type == 'boolean' ~}}
+            <template #default="{ row }">
+              <el-tag :type="row.{{ column.name }} ? 'success' : 'danger'">
+                {{ row.{{ column.name }} ? '是' : '否' }}
+              </el-tag>
+            </template>
+            {{~ else if column.type == 'enum' ~}}
+            <template #default="{ row }">
+              {{~ for option in column.options ~}}
+              <el-tag v-if="row.{{ column.name }} === {{ option.value }}" :type="'{{ option.type }}'">
+                {{ option.label }}
+              </el-tag>
+              {{~ end ~}}
+            </template>
+            {{~ end ~}}
+          </el-table-column>
+          {{~ end ~}}
+          {{~ end ~}}
+          <el-table-column label="操作" width="200" fixed="right">
+            <template #default="{ row }">
+              <el-button type="primary" link @click="handleEditChild(row)">
+                <el-icon><Edit /></el-icon>编辑
+              </el-button>
+              <el-button type="danger" link @click="handleDeleteChild(row)">
+                <el-icon><Delete /></el-icon>删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      {{~ end ~}}
+
+      {{~ if table.is_master_detail ~}}
+      <!-- 主从结构 -->
+      <div class="detail-wrapper">
+        <div class="detail-header">
+          <span class="title">明细列表</span>
+          <el-button type="primary" @click="handleAddDetail">
+            <el-icon><Plus /></el-icon>新增明细
+          </el-button>
+        </div>
+        <el-table
+          v-loading="detailLoading"
+          :data="detailList"
+          border
+        >
+          {{~ for column in table.detail_columns ~}}
+          {{~ if column.is_table ~}}
+          <el-table-column
+            prop="{{ column.name }}"
+            label="{{ column.comment }}"
+            {{~ if column.type == 'boolean' ~}}
+            width="80"
+            {{~ else if column.type == 'date' || column.type == 'datetime' ~}}
+            width="160"
+            {{~ else if column.type == 'number' ~}}
+            width="120"
+            {{~ else if column.type == 'string' && column.length > 100 ~}}
+            width="200"
+            {{~ end ~}}
+          >
+            {{~ if column.type == 'boolean' ~}}
+            <template #default="{ row }">
+              <el-tag :type="row.{{ column.name }} ? 'success' : 'danger'">
+                {{ row.{{ column.name }} ? '是' : '否' }}
+              </el-tag>
+            </template>
+            {{~ else if column.type == 'enum' ~}}
+            <template #default="{ row }">
+              {{~ for option in column.options ~}}
+              <el-tag v-if="row.{{ column.name }} === {{ option.value }}" :type="'{{ option.type }}'">
+                {{ option.label }}
+              </el-tag>
+              {{~ end ~}}
+            </template>
+            {{~ end ~}}
+          </el-table-column>
+          {{~ end ~}}
+          {{~ end ~}}
+          <el-table-column label="操作" width="200" fixed="right">
+            <template #default="{ row }">
+              <el-button type="primary" link @click="handleEditDetail(row)">
+                <el-icon><Edit /></el-icon>编辑
+              </el-button>
+              <el-button type="danger" link @click="handleDeleteDetail(row)">
+                <el-icon><Delete /></el-icon>删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      {{~ end ~}}
+    </el-card>
+
+    <!-- 表单对话框 -->
+    <el-dialog
+      :title="dialogTitle"
+      v-model="dialogVisible"
+      width="600px"
+      append-to-body
+      destroy-on-close
+    >
+      <Form
+        ref="formRef"
+        v-model="formData"
+        :type="dialogType"
+        @submit="handleSubmit"
+      />
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="handleSubmit">确 定</el-button>
+        </div>
+      </template>
+    </el-dialog>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, reactive, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Back, Edit, Plus, Delete } from '@element-plus/icons-vue'
+import Form from './components/Form.vue'
+import {
+  getById,
+  update,
+  {{~ if table.is_tree ~}}
+  getTree,
+  create,
+  remove,
+  {{~ end ~}}
+  {{~ if table.is_master_detail ~}}
+  getDetailList,
+  createDetail,
+  updateDetail,
+  removeDetail,
+  {{~ end ~}}
+} from '@/api/{{ table.module_name }}/{{ table.name }}'
+import type {
+  {{ pascal_case table.table_name }},
+  {{ pascal_case table.table_name }}Update,
+  {{~ if table.is_tree ~}}
+  {{ pascal_case table.table_name }}Create,
+  {{~ end ~}}
+  {{~ if table.is_master_detail ~}}
+  {{ pascal_case table.table_name }}Detail,
+  {{ pascal_case table.table_name }}DetailCreate,
+  {{ pascal_case table.table_name }}DetailUpdate,
+  {{~ end ~}}
+} from '@/types/{{ table.module_name }}/{{ table.name }}'
+
+const route = useRoute()
+const router = useRouter()
+
+// 详情数据
+const loading = ref(false)
+const detailData = ref<{{ pascal_case table.table_name }}>({})
+
+{{~ if table.is_tree ~}}
+// 树形数据
+const treeLoading = ref(false)
+const treeData = ref<{{ pascal_case table.table_name }}[]>([])
+{{~ end ~}}
+
+{{~ if table.is_master_detail ~}}
+// 明细数据
+const detailLoading = ref(false)
+const detailList = ref<{{ pascal_case table.table_name }}Detail[]>([])
+{{~ end ~}}
+
+// 对话框
+const dialogVisible = ref(false)
+const dialogType = ref<'create' | 'update'>('create')
+const dialogTitle = ref('')
+const formRef = ref()
+const formData = ref<{{ pascal_case table.table_name }}>({})
+
+// 获取详情
+const getDetail = async () => {
+  const recordId = route.params.recordId as string
+  const res = await getById(recordId)
+  detailData.value = res.data
+}
+
+{{~ if table.is_tree ~}}
+// 获取树形数据
+const getTreeData = async () => {
+  treeLoading.value = true
+  try {
+    const res = await getTree(route.params.id as string)
+    treeData.value = res.data
+  } finally {
+    treeLoading.value = false
+  }
+}
+
+// 新增子级
+const handleAddChild = () => {
+  dialogType.value = 'create'
+  dialogTitle.value = '新增子级'
+  formData.value = {
+    parentId: route.params.id as string
+  }
+  dialogVisible.value = true
+}
+
+// 编辑子级
+const handleEditChild = (row: {{ pascal_case table.table_name }}) => {
+  dialogType.value = 'update'
+  dialogTitle.value = '编辑子级'
+  formData.value = { ...row }
+  dialogVisible.value = true
+}
+
+// 删除子级
+const handleDeleteChild = (row: {{ pascal_case table.table_name }}) => {
+  ElMessageBox.confirm('确认要删除该子级吗？', '提示', {
+    type: 'warning'
+  }).then(async () => {
+    await remove(row.id)
+    ElMessage.success('删除成功')
+    getTreeData()
+  })
+}
+{{~ end ~}}
+
+{{~ if table.is_master_detail ~}}
+// 获取明细列表
+const getDetailListData = async () => {
+  detailLoading.value = true
+  try {
+    const res = await getDetailList(route.params.id as string)
+    detailList.value = res.data
+  } finally {
+    detailLoading.value = false
+  }
+}
+
+// 新增明细
+const handleAddDetail = () => {
+  dialogType.value = 'create'
+  dialogTitle.value = '新增明细'
+  formData.value = {
+    masterId: route.params.id as string
+  }
+  dialogVisible.value = true
+}
+
+// 编辑明细
+const handleEditDetail = (row: {{ pascal_case table.table_name }}Detail) => {
+  dialogType.value = 'update'
+  dialogTitle.value = '编辑明细'
+  formData.value = { ...row }
+  dialogVisible.value = true
+}
+
+// 删除明细
+const handleDeleteDetail = (row: {{ pascal_case table.table_name }}Detail) => {
+  ElMessageBox.confirm('确认要删除该明细吗？', '提示', {
+    type: 'warning'
+  }).then(async () => {
+    await removeDetail(row.id)
+    ElMessage.success('删除成功')
+    getDetailListData()
+  })
+}
+{{~ end ~}}
+
+// 编辑
+const handleEdit = () => {
+  dialogType.value = 'update'
+  dialogTitle.value = '编辑{{ table.comment }}'
+  formData.value = { ...detailData.value }
+  dialogVisible.value = true
+}
+
+// 提交
+const handleSubmit = async (data: {{ pascal_case table.table_name }}Update) => {
+  try {
+    if (dialogType.value === 'create') {
+      {{~ if table.is_tree ~}}
+      await create(data as {{ pascal_case table.table_name }}Create)
+      {{~ else if table.is_master_detail ~}}
+      await createDetail(data as {{ pascal_case table.table_name }}DetailCreate)
+      {{~ end ~}}
+      ElMessage.success('新增成功')
+    } else {
+      {{~ if table.is_master_detail ~}}
+      await updateDetail(data as {{ pascal_case table.table_name }}DetailUpdate)
+      {{~ else ~}}
+      await update(data as {{ pascal_case table.table_name }}Update)
+      {{~ end ~}}
+      ElMessage.success('编辑成功')
+    }
+    dialogVisible.value = false
+    {{~ if table.is_tree ~}}
+    getTreeData()
+    {{~ else if table.is_master_detail ~}}
+    getDetailListData()
+    {{~ else ~}}
+    getDetail()
+    {{~ end ~}}
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// 返回
+const goBack = () => {
+  router.back()
+}
+
+onMounted(() => {
+  getDetail()
+  {{~ if table.is_tree ~}}
+  getTreeData()
+  {{~ end ~}}
+  {{~ if table.is_master_detail ~}}
+  getDetailListData()
+  {{~ end ~}}
+})
+</script>
+
+<style scoped>
+.app-container {
+  padding: 20px;
+}
+
+.detail-wrapper {
+  margin-bottom: 20px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.tree-wrapper,
+.detail-wrapper {
+  margin-top: 20px;
+}
+
+.tree-header,
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+</style> 
+

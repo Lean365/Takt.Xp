@@ -1,0 +1,163 @@
+﻿//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : Form.vue
+// 创建者 : CodeGenerator
+// 创建时间: {{ datetime }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}表单组件
+//===================================================================
+
+<template>
+  <el-form
+    ref="formRef"
+    :model="formData"
+    :rules="rules"
+    label-width="120px"
+    class="form-container"
+  >
+    {{~ for column in table.columns ~}}
+    {{~ if column.is_form ~}}
+    <el-form-item
+      label="{{ column.comment }}"
+      prop="{{ column.name }}"
+    >
+      {{~ if column.type == 'string' && column.length > 500 ~}}
+      <el-input
+        v-model="formData.{{ column.name }}"
+        type="textarea"
+        :rows="4"
+        placeholder="请输入{{ column.comment }}"
+      />
+      {{~ else if column.type == 'string' && column.length <= 500 ~}}
+      <el-input
+        v-model="formData.{{ column.name }}"
+        placeholder="请输入{{ column.comment }}"
+      />
+      {{~ else if column.type == 'number' ~}}
+      <el-input-number
+        v-model="formData.{{ column.name }}"
+        :precision="{{ column.precision }}"
+        :step="{{ column.step }}"
+        :min="{{ column.min }}"
+        :max="{{ column.max }}"
+        placeholder="请输入{{ column.comment }}"
+      />
+      {{~ else if column.type == 'boolean' ~}}
+      <el-switch
+        v-model="formData.{{ column.name }}"
+        :active-text="'是'"
+        :inactive-text="'否'"
+      />
+      {{~ else if column.type == 'date' ~}}
+      <el-date-picker
+        v-model="formData.{{ column.name }}"
+        type="date"
+        placeholder="请选择{{ column.comment }}"
+        value-format="YYYY-MM-DD"
+      />
+      {{~ else if column.type == 'datetime' ~}}
+      <el-date-picker
+        v-model="formData.{{ column.name }}"
+        type="datetime"
+        placeholder="请选择{{ column.comment }}"
+        value-format="YYYY-MM-DD HH:mm:ss"
+      />
+      {{~ else if column.type == 'enum' ~}}
+      <el-select
+        v-model="formData.{{ column.name }}"
+        placeholder="请选择{{ column.comment }}"
+      >
+        <el-option
+          v-for="item in {{ column.name }}Options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>
+      {{~ end ~}}
+    </el-form-item>
+    {{~ end ~}}
+    {{~ end ~}}
+    <el-form-item>
+      <el-button type="primary" @click="submitForm">提交</el-button>
+      <el-button @click="resetForm">重置</el-button>
+    </el-form-item>
+  </el-form>
+</template>
+
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
+import type { FormInstance, FormRules } from 'element-plus'
+import type {
+  {{ pascal_case table.table_name }},
+  {{ pascal_case table.table_name }}Create,
+  {{ pascal_case table.table_name }}Update
+} from '@/types/{{ table.module_name }}/{{ table.name }}'
+
+const props = defineProps<{
+  modelValue?: {{ pascal_case table.table_name }}
+  type: 'create' | 'update'
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: {{ pascal_case table.table_name }}): void
+  (e: 'submit', value: {{ pascal_case table.table_name }}Create | {{ pascal_case table.table_name }}Update): void
+}>()
+
+const formRef = ref<FormInstance>()
+const formData = reactive<{{ pascal_case table.table_name }}>({
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_form ~}}
+  {{ column.name }}: {{ column.default_value }},
+  {{~ end ~}}
+  {{~ end ~}}
+})
+
+const rules = reactive<FormRules>({
+  {{~ for column in table.columns ~}}
+  {{~ if column.is_form && column.is_required ~}}
+  {{ column.name }}: [
+    { required: true, message: '请输入{{ column.comment }}', trigger: 'blur' }
+  ],
+  {{~ end ~}}
+  {{~ end ~}}
+})
+
+{{~ for column in table.columns ~}}
+{{~ if column.type == 'enum' ~}}
+const {{ column.name }}Options = [
+  {{~ for option in column.options ~}}
+  { label: '{{ option.label }}', value: {{ option.value }} },
+  {{~ end ~}}
+]
+{{~ end ~}}
+{{~ end ~}}
+
+const submitForm = async () => {
+  if (!formRef.value) return
+  await formRef.value.validate((valid) => {
+    if (valid) {
+      emit('submit', formData)
+    }
+  })
+}
+
+const resetForm = () => {
+  if (!formRef.value) return
+  formRef.value.resetFields()
+}
+
+defineExpose({
+  formRef,
+  formData,
+  submitForm,
+  resetForm
+})
+</script>
+
+<style scoped>
+.form-container {
+  padding: 20px;
+}
+</style> 
+

@@ -1,0 +1,93 @@
+﻿#nullable enable
+
+//===================================================================
+// 项目名 : Takt.Xp
+// 文件名 : I{{ pascal_case table.table_name }}Service.cs
+// 创建者 : Lean365
+// 创建时间: {{ date }}
+// 版本号 : V0.0.1
+// 描述    : {{ table.comment }}服务接口
+//===================================================================
+
+using Takt.Application.Dtos.{{ table.module_name }};
+
+namespace Takt.Application.Services.{{ table.module_name }};
+
+/// <summary>
+/// {{ table.comment }}服务接口
+/// </summary>
+public interface I{{ pascal_case table.table_name }}Service
+{
+    #region 基础操作
+
+    /// <summary>
+    /// 获取{{ table.comment }}树形列表
+    /// </summary>
+    /// <returns>树形列表</returns>
+    Task<List<{{ pascal_case table.table_name }}TreeDto>> GetTreeListAsync();
+
+    /// <summary>
+    /// 获取{{ table.comment }}详情
+    /// </summary>
+    /// <param name="id">主键ID</param>
+    /// <returns>详情信息</returns>
+    Task<{{ pascal_case table.table_name }}Dto?> GetByIdAsync(long id);
+
+    /// <summary>
+    /// 创建{{ table.comment }}
+    /// </summary>
+    /// <param name="input">创建参数</param>
+    /// <returns>创建结果</returns>
+    Task<TaktResult> CreateAsync({{ pascal_case table.table_name }}CreateDto input);
+
+    /// <summary>
+    /// 更新{{ table.comment }}
+    /// </summary>
+    /// <param name="input">更新参数</param>
+    /// <returns>更新结果</returns>
+    Task<TaktResult> UpdateAsync({{ pascal_case table.table_name }}UpdateDto input);
+
+    /// <summary>
+    /// 删除{{ table.comment }}
+    /// </summary>
+    /// <param name="ids">主键数组</param>
+    /// <returns>删除结果</returns>
+    Task<TaktResult> DeleteAsync(long[] ids);
+
+    #endregion
+
+    #region 扩展操作
+
+    /// <summary>
+    /// 获取{{ table.comment }}子节点列表
+    /// </summary>
+    /// <param name="parentId">父节点ID</param>
+    /// <returns>子节点列表</returns>
+    Task<List<{{ pascal_case table.table_name }}TreeDto>> GetChildrenAsync(long parentId);
+
+    /// <summary>
+    /// 获取{{ table.comment }}父节点列表
+    /// </summary>
+    /// <param name="id">节点ID</param>
+    /// <returns>父节点列表</returns>
+    Task<List<{{ pascal_case table.table_name }}TreeDto>> GetParentsAsync(long id);
+
+    /// <summary>
+    /// 移动{{ table.comment }}节点
+    /// </summary>
+    /// <param name="id">节点ID</param>
+    /// <param name="parentId">目标父节点ID</param>
+    /// <returns>移动结果</returns>
+    Task<TaktResult> MoveAsync(long id, long parentId);
+
+    /// <summary>
+    /// 排序{{ table.comment }}节点
+    /// </summary>
+    /// <param name="id">节点ID</param>
+    /// <param name="orderNum">排序号</param>
+    /// <returns>排序结果</returns>
+    Task<TaktResult> SortAsync(long id, int orderNum);
+
+    #endregion
+} 
+

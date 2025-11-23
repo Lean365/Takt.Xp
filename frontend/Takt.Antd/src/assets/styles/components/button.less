@@ -1,0 +1,272 @@
+﻿// ===================================================================
+// 项目名称: Lean.Takt
+// 文件名称: button.less 
+// 创建日期: 2024-03-20
+// 描述: 按钮颜色样式定义，继承Ant Design Vue 4.x的其他样式
+// ===================================================================
+
+// 引入主题变量
+@import '../variables.less';
+
+// === 按钮颜色混入 ===
+// 定义按钮基础颜色样式，其他样式继承自Ant Design Vue
+.button-color(@color) {
+  &.ant-btn {
+    color: @color;
+    border-color: @color;
+    background-color: transparent;
+    
+    &:not(:disabled):hover {
+      color: @white;
+      background: @color;
+      border-color: @color;
+    }
+    
+    &:not(:disabled):active {
+      color: @white;
+      background: darken(@color, 10%);
+      border-color: darken(@color, 10%);
+    }
+  }
+}
+
+// === 基础操作类按钮 ===
+// 包含新增、编辑、删除等基础操作按钮
+.Takt-btn-add { .button-color(@btn-add-color); }            // 新增按钮
+.Takt-btn-edit { .button-color(@btn-edit-color); }          // 编辑按钮
+.Takt-btn-delete { .button-color(@btn-delete-color); }      // 删除按钮
+.Takt-btn-batch-delete { .button-color(@btn-batch-delete-color); } // 批量删除按钮
+.Takt-btn-view { .button-color(@btn-view-color); }          // 查看按钮
+.Takt-btn-clear { .button-color(@btn-clear-color); }        // 清空按钮
+.Takt-btn-save { .button-color(@btn-save-color); }          // 保存按钮
+.Takt-btn-cancel { .button-color(@btn-cancel-color); }      // 取消按钮
+.Takt-btn-reset { .button-color(@btn-reset-color); }        // 重置按钮
+
+// === 数据操作类按钮 ===
+// 包含导入、导出、预览等数据操作按钮
+.Takt-btn-import { .button-color(@btn-import-color); }      // 导入按钮
+.Takt-btn-export { .button-color(@btn-export-color); }      // 导出按钮
+.Takt-btn-template { .button-color(@btn-template-color); }  // 模板按钮
+.Takt-btn-preview { .button-color(@btn-preview-color); }    // 预览按钮
+.Takt-btn-download { .button-color(@btn-download-color); }  // 下载按钮
+.Takt-btn-upload { .button-color(@btn-upload-color); }      // 上传按钮
+.Takt-btn-print { .button-color(@btn-print-color); }        // 打印按钮
+.Takt-btn-share { .button-color(@btn-share-color); }        // 分享按钮
+.Takt-btn-copy { .button-color(@btn-copy-color); }          // 复制按钮
+.Takt-btn-paste { .button-color(@btn-paste-color); }        // 粘贴按钮
+
+// === 状态操作类按钮 ===
+// 包含启用、禁用、锁定等状态操作按钮
+.Takt-btn-enable { .button-color(@btn-enable-color); }      // 启用按钮
+.Takt-btn-disable { .button-color(@btn-disable-color); }    // 禁用按钮
+.Takt-btn-lock { .button-color(@btn-lock-color); }          // 锁定按钮
+.Takt-btn-unlock { .button-color(@btn-unlock-color); }      // 解锁按钮
+.Takt-btn-approve { .button-color(@btn-approve-color); }    // 批准按钮
+.Takt-btn-reject { .button-color(@btn-reject-color); }      // 拒绝按钮
+.Takt-btn-submit { .button-color(@btn-submit-color); }      // 提交按钮
+.Takt-btn-start { .button-color(@btn-start-color); }        // 启动按钮
+.Takt-btn-suspend { .button-color(@btn-suspend-color); }    // 暂停按钮
+.Takt-btn-pause { .button-color(@btn-pause-color); }        // 暂停按钮
+.Takt-btn-resume { .button-color(@btn-resume-color); }      // 恢复按钮
+.Takt-btn-terminate { .button-color(@btn-terminate-color); } // 终止按钮
+.Takt-btn-review { .button-color(@btn-review-color); }      // 审核按钮
+.Takt-btn-audit { .button-color(@btn-audit-color); }        // 审计按钮
+.Takt-btn-validate { .button-color(@btn-validate-color); }  // 验证按钮
+.Takt-btn-revoke { .button-color(@btn-revoke-color); }      // 撤销按钮
+.Takt-btn-withdraw { .button-color(@btn-withdraw-color); }  // 撤回按钮
+.Takt-btn-publish { .button-color(@btn-publish-color); }    // 发布按钮
+.Takt-btn-stop { .button-color(@btn-stop-color); }          // 停止按钮
+.Takt-btn-run { .button-color(@btn-run-color); }            // 运行按钮
+.Takt-btn-forced { .button-color(@btn-forced-color); }      // 强制按钮
+
+// === 系统功能类按钮 ===
+// 包含生成、刷新、日志等系统功能按钮
+.Takt-btn-generate { .button-color(@btn-generate-color); }  // 生成按钮
+.Takt-btn-refresh { .button-color(@btn-refresh-color); }    // 刷新按钮
+.Takt-btn-sync { .button-color(@btn-sync-color); }          // 同步按钮
+.Takt-btn-initialize { .button-color(@btn-initialize-color); } // 初始化按钮
+.Takt-btn-info { .button-color(@btn-info-color); }          // 信息按钮
+.Takt-btn-log { .button-color(@btn-log-color); }            // 日志按钮
+.Takt-btn-chat { .button-color(@btn-chat-color); }          // 聊天按钮
+.Takt-btn-search { .button-color(@btn-search-color); }      // 搜索按钮
+.Takt-btn-filter { .button-color(@btn-filter-color); }      // 筛选按钮
+.Takt-btn-sort { .button-color(@btn-sort-color); }          // 排序按钮
+.Takt-btn-config { .button-color(@btn-config-color); }      // 配置按钮
+.Takt-btn-column-setting { .button-color(@btn-column-setting-color); } // 列设置按钮
+
+// === 系统管理类按钮 ===
+// 包含备份、还原、清理等系统管理按钮
+.Takt-btn-backup { .button-color(@btn-backup-color); }      // 备份按钮
+.Takt-btn-restore-sys { .button-color(@btn-restore-sys-color); } // 系统还原按钮
+.Takt-btn-clean { .button-color(@btn-clean-color); }        // 清理按钮
+.Takt-btn-optimize { .button-color(@btn-optimize-color); }  // 优化按钮
+.Takt-btn-monitor { .button-color(@btn-monitor-color); }    // 监控按钮
+.Takt-btn-diagnose { .button-color(@btn-diagnose-color); }  // 诊断按钮
+.Takt-btn-maintain { .button-color(@btn-maintain-color); }  // 维护按钮
+
+// === 视图控制类按钮 ===
+// 包含全屏、视图切换等视图控制按钮
+.Takt-btn-fullscreen { .button-color(@btn-fullscreen-color); }        // 全屏按钮
+.Takt-btn-exit-fullscreen { .button-color(@btn-exit-fullscreen-color); } // 退出全屏按钮
+.Takt-btn-view-switch { .button-color(@btn-view-switch-color); }      // 视图切换按钮
+.Takt-btn-view-grid { .button-color(@btn-view-grid-color); }          // 网格视图按钮
+.Takt-btn-view-list { .button-color(@btn-view-list-color); }          // 列表视图按钮
+.Takt-btn-view-card { .button-color(@btn-view-card-color); }          // 卡片视图按钮
+
+// === 权限管理类按钮 ===
+// 包含权限、角色、用户等权限管理按钮
+.Takt-btn-auth { .button-color(@btn-auth-color); }          // 权限按钮
+.Takt-btn-role { .button-color(@btn-role-color); }          // 角色按钮
+.Takt-btn-user { .button-color(@btn-user-color); }          // 用户按钮
+.Takt-btn-group-manage { .button-color(@btn-group-manage-color); } // 群组管理按钮
+.Takt-btn-dept { .button-color(@btn-dept-color); }          // 部门按钮
+.Takt-btn-menu { .button-color(@btn-menu-color); }          // 菜单按钮
+.Takt-btn-permission { .button-color(@btn-permission-color); } // 权限按钮
+
+// === 工作流程类按钮 ===
+// 包含流程转办、委托等工作流按钮
+.Takt-btn-transfer { .button-color(@btn-transfer-color); }         // 转办按钮
+.Takt-btn-delegate { .button-color(@btn-delegate-color); }         // 委托按钮
+.Takt-btn-notify { .button-color(@btn-notify-color); }            // 通知按钮
+.Takt-btn-urge { .button-color(@btn-urge-color); }               // 催办按钮
+.Takt-btn-sign { .button-color(@btn-sign-color); }               // 签名按钮
+
+// === 通用功能按钮 ===
+// 包含设置、收藏、阅读状态等通用功能按钮
+.Takt-btn-setting { .button-color(@btn-setting-color); }          // 设置按钮
+.Takt-btn-favorite { .button-color(@btn-favorite-color); }        // 收藏按钮
+.Takt-btn-read { .button-color(@btn-read-color); }               // 已读按钮
+.Takt-btn-unread { .button-color(@btn-unread-color); }           // 未读按钮
+.Takt-btn-clone { .button-color(@btn-clone-color); }             // 克隆按钮
+.Takt-btn-send { .button-color(@btn-send-color); }               // 发送按钮
+.Takt-btn-history { .button-color(@btn-history-color); }         // 历史按钮
+.Takt-btn-status { .button-color(@btn-status-color); }           // 状态按钮
+.Takt-btn-countersign { .button-color(@btn-countersign-color); }  // 会签按钮
+
+// === 移动端专用按钮 ===
+// 包含扫描、定位、拍照等移动端功能按钮
+.Takt-btn-scan { .button-color(@btn-scan-color); }          // 扫描按钮
+.Takt-btn-location { .button-color(@btn-location-color); }  // 定位按钮
+.Takt-btn-call { .button-color(@btn-call-color); }         // 呼叫按钮
+.Takt-btn-photo { .button-color(@btn-photo-color); }       // 拍照按钮
+.Takt-btn-voice { .button-color(@btn-voice-color); }       // 语音按钮
+.Takt-btn-face-id { .button-color(@btn-face-id-color); }   // 人脸识别按钮
+.Takt-btn-finger-print { .button-color(@btn-finger-print-color); } // 指纹按钮
+
+// === 社交协作类按钮 ===
+// 包含关注、收藏、点赞等社交功能按钮
+.Takt-btn-follow { .button-color(@btn-follow-color); }      // 关注按钮
+.Takt-btn-collect { .button-color(@btn-collect-color); }    // 收藏按钮
+.Takt-btn-like { .button-color(@btn-like-color); }         // 点赞按钮
+.Takt-btn-forward { .button-color(@btn-forward-color); }    // 转发按钮
+.Takt-btn-at { .button-color(@btn-at-color); }             // @按钮
+.Takt-btn-group { .button-color(@btn-group-color); }       // 群组按钮
+.Takt-btn-team { .button-color(@btn-team-color); }         // 团队按钮
+
+// === 安全认证类按钮 ===
+// 包含验证码、绑定、授权等安全功能按钮
+.Takt-btn-verify-code { .button-color(@btn-verify-code-color); }   // 验证码按钮
+.Takt-btn-bind { .button-color(@btn-bind-color); }                 // 绑定按钮
+.Takt-btn-unbind { .button-color(@btn-unbind-color); }            // 解绑按钮
+.Takt-btn-authorize { .button-color(@btn-authorize-color); }       // 授权按钮
+.Takt-btn-deauthorize { .button-color(@btn-deauthorize-color); }  // 取消授权按钮
+
+// === 高级功能类按钮 ===
+// 包含版本、历史、归档等高级功能按钮
+.Takt-btn-version { .button-color(@btn-version-color); }    // 版本按钮
+.Takt-btn-history { .button-color(@btn-history-color); }    // 历史按钮
+.Takt-btn-restore { .button-color(@btn-restore-color); }    // 还原按钮
+.Takt-btn-archive { .button-color(@btn-archive-color); }    // 归档按钮
+.Takt-btn-unarchive { .button-color(@btn-unarchive-color); } // 取消归档按钮
+.Takt-btn-merge { .button-color(@btn-merge-color); }        // 合并按钮
+.Takt-btn-split { .button-color(@btn-split-color); }        // 拆分按钮
+
+// === 批量操作类按钮 ===
+// 包含批量编辑、更新、导入等批量操作按钮
+.Takt-btn-batch-edit { .button-color(@btn-batch-edit-color); }     // 批量编辑按钮
+.Takt-btn-batch-update { .button-color(@btn-batch-update-color); } // 批量更新按钮
+.Takt-btn-batch-import { .button-color(@btn-batch-import-color); } // 批量导入按钮
+.Takt-btn-batch-export { .button-color(@btn-batch-export-color); } // 批量导出按钮
+.Takt-btn-batch-print { .button-color(@btn-batch-print-color); }   // 批量打印按钮
+
+// === 数据分析类按钮 ===
+// 包含分析、图表、报表等数据分析按钮
+.Takt-btn-analyze { .button-color(@btn-analyze-color); }    // 分析按钮
+.Takt-btn-chart { .button-color(@btn-chart-color); }       // 图表按钮
+.Takt-btn-report { .button-color(@btn-report-color); }     // 报表按钮
+.Takt-btn-dashboard { .button-color(@btn-dashboard-color); } // 仪表盘按钮
+.Takt-btn-statistics { .button-color(@btn-statistics-color); } // 统计按钮
+.Takt-btn-forecast { .button-color(@btn-forecast-color); }  // 预测按钮
+.Takt-btn-compare { .button-color(@btn-compare-color); }    // 对比按钮
+
+// === 会计相关按钮 ===
+.Takt-btn-accrual { .button-color(@btn-accrual-color); }        // 计提按钮
+.Takt-btn-book { .button-color(@btn-book-color); }              // 记账按钮
+.Takt-btn-billing { .button-color(@btn-billing-color); }        // 计费按钮
+.Takt-btn-carryforward { .button-color(@btn-carryforward-color); } // 结转按钮
+.Takt-btn-closing { .button-color(@btn-closing-color); }        // 结账按钮
+.Takt-btn-depreciation { .button-color(@btn-depreciation-color); } // 折旧按钮
+.Takt-btn-payment { .button-color(@btn-payment-color); }        // 支付按钮
+.Takt-btn-period { .button-color(@btn-period-color); }          // 账期按钮
+.Takt-btn-reconcile { .button-color(@btn-reconcile-color); }    // 对账按钮
+.Takt-btn-reimburse { .button-color(@btn-reimburse-color); }    // 报销按钮
+.Takt-btn-reversal { .button-color(@btn-reversal-color); }      // 冲销按钮
+
+// === 认证相关按钮 ===
+.Takt-btn-addsign { .button-color(@btn-addsign-color); }        // 加签按钮
+.Takt-btn-allocate { .button-color(@btn-allocate-color); }      // 分配按钮
+.Takt-btn-changepwd { .button-color(@btn-changepwd-color); }    // 修改密码按钮
+.Takt-btn-resetpwd { .button-color(@btn-resetpwd-color); }      // 重置密码按钮
+
+// === 代码生成相关按钮 ===
+.Takt-btn-columns { .button-color(@btn-columns-color); }        // 列管理按钮
+.Takt-btn-databases { .button-color(@btn-databases-color); }    // 数据库按钮
+.Takt-btn-tables { .button-color(@btn-tables-color); }          // 表管理按钮
+
+// === 社交互动按钮 ===
+.Takt-btn-comment { .button-color(@btn-comment-color); }        // 评论按钮
+.Takt-btn-uncomment { .button-color(@btn-uncomment-color); }    // 取消评论按钮
+.Takt-btn-flagging { .button-color(@btn-flagging-color); }      // 举报按钮
+.Takt-btn-unflagging { .button-color(@btn-unflagging-color); }  // 取消举报按钮
+.Takt-btn-unfavorite { .button-color(@btn-unfavorite-color); }  // 取消收藏按钮
+.Takt-btn-unlike { .button-color(@btn-unlike-color); }          // 取消点赞按钮
+.Takt-btn-unshare { .button-color(@btn-unshare-color); }        // 取消分享按钮
+.Takt-btn-unfollow { .button-color(@btn-unfollow-color); }      // 取消关注按钮
+
+// === 工作流按钮 ===
+.Takt-btn-subsign { .button-color(@btn-subsign-color); }        // 减签按钮
+.Takt-btn-design { .button-color(@btn-design-color); }          // 设计按钮
+.Takt-btn-engine { .button-color(@btn-engine-color); }          // 引擎按钮
+.Takt-btn-progress { .button-color(@btn-progress-color); }      // 进度按钮
+
+// === 表单按钮 ===
+.Takt-btn-data { .button-color(@btn-data-color); }              // 数据按钮
+.Takt-btn-datasource { .button-color(@btn-datasource-color); }  // 数据源按钮
+.Takt-btn-field { .button-color(@btn-field-color); }            // 字段按钮
+.Takt-btn-theme { .button-color(@btn-theme-color); }            // 主题按钮
+
+// === 文件操作按钮 ===
+.Takt-btn-destroy { .button-color(@btn-destroy-color); }        // 销毁按钮
+
+// === 系统操作按钮 ===
+.Takt-btn-empty { .button-color(@btn-empty-color); }            // 清空按钮
+.Takt-btn-restart { .button-color(@btn-restart-color); }        // 重启按钮
+.Takt-btn-truncate { .button-color(@btn-truncate-color); }      // 截断按钮
+
+// === 其他按钮 ===
+.Takt-btn-calculate { .button-color(@btn-calculate-color); }    // 计算按钮
+.Takt-btn-circulate { .button-color(@btn-circulate-color); }    // 流通按钮
+.Takt-btn-confirm { .button-color(@btn-confirm-color); }        // 确认按钮
+.Takt-btn-draft { .button-color(@btn-draft-color); }            // 草稿按钮
+.Takt-btn-deletedraft { .button-color(@btn-deletedraft-color); } // 删除草稿按钮
+.Takt-btn-detail { .button-color(@btn-detail-color); }          // 详情按钮
+.Takt-btn-list { .button-color(@btn-list-color); }              // 列表按钮
+.Takt-btn-manage { .button-color(@btn-manage-color); }          // 管理按钮
+.Takt-btn-reply { .button-color(@btn-reply-color); }            // 回复按钮
+.Takt-btn-return { .button-color(@btn-return-color); }          // 退回按钮
+
+// === 基础操作按钮 ===
+.Takt-btn-create { .button-color(@btn-create-color); }          // 创建按钮
+.Takt-btn-query { .button-color(@btn-query-color); }            // 查询按钮
+.Takt-btn-update { .button-color(@btn-update-color); }          // 更新按钮 
+
